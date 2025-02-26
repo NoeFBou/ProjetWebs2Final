@@ -1,59 +1,111 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
-const cors = require('cors');
-app.use(cors());
 
+app.use(cors());
 app.use(express.json());
 
-app.get('/api', (req, res) => {
-    res.send({ message: 'Hello depuis Express !' });
+const uri = "mongodb+srv://nono:test@clusterwebs2.lhw4z.mongodb.net/ClusterWebs2?retryWrites=true&w=majority";
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+    .then(() => console.log("Connecté à MongoDB via Mongoose"))
+    .catch(err => console.error("Erreur de connexion :", err));
+
+const assignmentSchema = new mongoose.Schema({
+    id: { type: Number, unique: true },
+    stock_industry: String,
+    stock_sector: String,
+    stock_market_cap: String,
+    department: String,
+    address: String
+});
+
+
+// Création du modèle
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+
+app.get('/api/assignments', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const assignments = await Assignment.find().skip(skip).limit(limit);
+        res.json(assignments);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erreur lors de la récupération des assignments" });
+    }
+});
+
+// Route pour récupérer un assignment par son ID
+app.get('/api/assignments/:id', async (req, res) => {
+    try {
+        const assignment = await Assignment.findOne({ id: req.params.id });
+        if (!assignment) {
+            return res.status(404).json({ message: "Assignment non trouvé" });
+        }
+        res.json(assignment);
+    } catch (error) {
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+
+// Route pour ajouter un nouvel assignment
+app.post('/api/assignments', async (req, res) => {
+    console.log("e")
+
+    try {
+        req.body.id = Date.now();
+        const newAssignment = new Assignment(req.body);
+        await newAssignment.save();
+        res.status(201).json(newAssignment);
+        console.log(res.json)
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erreur lors de l'ajout de l'assignment" });
+    }
+});
+
+// Route pour modifier un assignment existant
+app.put('/api/assignments/:id', async (req, res) => {
+    console.log("e")
+    try {
+        const updatedAssignment = await Assignment.findOneAndUpdate(
+            { id: req.params.id },
+            req.body,
+            { new: true }
+        );
+        if (!updatedAssignment) {
+            return res.status(404).json({ message: "Assignment non trouvé" });
+        }
+        res.json(updatedAssignment);
+        console.log(res.json)
+    } catch (error) {
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+
+// Route pour supprimer un assignment
+app.delete('/api/assignments/:id', async (req, res) => {
+    try {
+        const deleted = await Assignment.findOneAndDelete({ id: req.params.id });
+        if (!deleted) {
+            return res.status(404).json({ message: "Assignment non trouvé" });
+        }
+        res.json({ message: "Assignment supprimé avec succès" });
+    } catch (error) {
+        res.status(500).json({ error: "Erreur serveur" });
+    }
 });
 
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port ${PORT}`);
 });
-
-let assignments = require('./data.json');
-
-//route pour récupérer tous les assignments
-app.get('/api/assignments', (req, res) => {
-    res.send(assignments);
-});
-
-//route pour récupérer un seul assignment
-app.get('/api/assignments/:id', (req, res) => {
-    let id = req.params.id;
-    let assignment = assignments.find(assignment => assignment.id === id);
-    res.send(assignment);
-});
-
-//route pour ajouter un assignment
-app.post('/api/assignments', (req, res) => {
-    let assignment = req.body;
-    assignment.id = assignments.length + 1;
-    assignments.push(assignment);
-    res.send(assignment);
-});
-
-//route pour modifier un assignment
-app.put('/api/assignments/:id', (req, res) => {
-    let id = req.params.id;
-    let assignment = assignments.find(assignment => assignment.id === id);
-    assignment.nom = req.body.nom;
-    assignment.dateDeRendu = req.body.dateDeRendu;
-    res.send(assignment);
-});
-
-//route pour supprimer un assignment
-app.delete('/api/assignments/:id', (req, res) => {
-    let id = req.params.id;
-    assignments = assignments.filter(assignment => assignment.id !== id);
-    res.send(assignments);
-});
-
-
-
-const multer = require('multer');
-const upload = multer();
-app.use(upload.none());

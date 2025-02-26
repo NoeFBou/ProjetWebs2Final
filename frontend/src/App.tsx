@@ -1,15 +1,15 @@
 import './App.css'
-import {Box, HStack, Text} from "@chakra-ui/react";
+import {Box, Button, Input, SimpleGrid, Text, VStack} from "@chakra-ui/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import dynamic from "next/dynamic";
-import {useEffect, useState} from "react";
-//import Slider from "react-slick";
+import React, {useEffect, useState} from "react";
+import Slider from "react-slick";
 
 
+/*
 const Slider = dynamic(() => import("react-slick").then((m) => m.default), {
     ssr: false
-});
+});*/
 
 type SlideProps = {
     stock_name?: string,
@@ -18,15 +18,17 @@ type SlideProps = {
     stock_market_cap?: string,
     department?: string,
     address?: string,
-    id?: number
+    id?: number,
+    onDelete?: () => void;
+
 };
 
 
-const Slide = ({stock_name, stock_industry, stock_sector, stock_market_cap, department, address, key}: SlideProps) => {
+const Slide = ({stock_name, stock_industry, stock_sector, stock_market_cap, department, address, onDelete}: SlideProps) => {
     return (
-        <HStack
+        <VStack
             w="１００％"
-            h="200px"
+            h="300px"
             bg="#ef430e"
             border="cyan.700"
             alignContent="center"
@@ -34,61 +36,136 @@ const Slide = ({stock_name, stock_industry, stock_sector, stock_market_cap, depa
             mx="4"
         >
             <Text color="white" fontWeight="bold">
-                {stock_name}
+                Stock Name : {stock_name}
             </Text>
             {stock_industry && (
                 <Text color="white" fontWeight="bold">
-                    {stock_industry}
+                    Stock Industry : {stock_industry}
                 </Text>
             )}
             {stock_sector && (
                 <Text color="white" fontWeight="bold">
-                    {stock_sector}
+                    Stock Sector : {stock_sector}
                 </Text>
             )}
             {stock_market_cap && (
                 <Text color="white" fontWeight="bold">
-                    {stock_market_cap}
+                    Stock Market Cap : {stock_market_cap}
                 </Text>
             )}
             {department && (
                 <Text color="white" fontWeight="bold">
-                    {department}
+                    Department : {department}
                 </Text>
             )}
             {address && (
                 <Text color="white" fontWeight="bold">
-                    {address}
+                    Address : {address}
                 </Text>
             )}
-        </HStack>
+            {onDelete && (
+                <Button colorScheme="red" onClick={onDelete}>
+                    Delete
+                </Button>
+            )}
+
+        </VStack>
     );
 };
 
-function App() {
 
+
+function App() {
     const [assignments, setAssignments] = useState([]);
 
+    const [newAssignment, setNewAssignment] = useState({
+        stock_name: "",
+        stock_industry: "",
+        stock_sector: "",
+        stock_market_cap: "",
+        department: "",
+        address: ""
+    });
+
     useEffect(() => {
+        fetchAssignments();
+    }, []);
+
+    const fetchAssignments = () => {
         fetch('http://localhost:5000/api/assignments')
             .then(response => response.json())
             .then(data => setAssignments(data))
-            .catch(error => console.error("Erreur lors de la récupération des données : ", error));
-    }, []);
+            .catch(error =>
+                console.error("Erreur lors de la récupération des données :", error)
+            );
+    };
 
     const slickSettings = {
-        dots: true,
-        infinite: true,
+       // dots: true,
         speed: 1000,
         autoplay: true,
-        slidesToShow: 3
+        className: "center",
+        centerMode: true,
+        infinite: true,
+        centerPadding: "60px",
+        slidesToShow: 3,
+        slidesToScroll: 1,
+    };
+
+    const handleInputChange = (e) => {
+
+        const { name, value } = e.target;
+        setNewAssignment(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch('http://localhost:5000/api/assignments', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newAssignment)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Mise à jour du state pour afficher le nouvel assignement dans le slider
+                setAssignments([...assignments, data]);
+                setNewAssignment({
+                    stock_name: "",
+                    stock_industry: "",
+                    stock_sector: "",
+                    stock_market_cap: "",
+                    department: "",
+                    address: ""
+                });
+            })
+            .catch(error =>
+                console.error("Erreur lors de l'ajout de l'assignement :", error)
+            );
+    };
+
+    const handleDelete = (id) => {
+        fetch(`http://localhost:5000/api/assignments/${id}`, {
+            method: "DELETE"
+        })
+            .then(response => response.json())
+            .then(() => {
+                // Mise à jour du state en retirant l'assignement supprimé
+                setAssignments(assignments.filter(assignment => assignment.id !== id));
+            })
+            .catch(error =>
+                console.error("Erreur lors de la suppression de l'assignement :", error)
+            );
     };
 
     return (
         <div className="App">
             <Box m="20">
-                <Box
-                    sx={{
+                <Box sx={{
                         ".slick-dots": {
                             transform: "translateY(1em)"
                         },
@@ -130,8 +207,7 @@ function App() {
                                 content: '"▶"'
                             }
                         }
-                    }}
-                >
+                    }}>
                     <Slider {...slickSettings}>
                         {assignments.length > 0 ? (
                             assignments.map((assignment : SlideProps) => (
@@ -143,6 +219,7 @@ function App() {
                                     stock_market_cap={assignment.stock_market_cap}
                                     department={assignment.department}
                                     address={assignment.address}
+                                    onDelete={() => handleDelete(assignment.id)}
                                 />
                             ))
                         ) : (
@@ -151,6 +228,17 @@ function App() {
                     </Slider>
                 </Box>
             </Box>
+            <SimpleGrid columns={2} columnGap="8" rowGap="5">
+                <Input placeholder="Enter stock name" name="stock_name" value={newAssignment.stock_name} onChange={handleInputChange} />
+                <Input placeholder="Enter stock industry" name="stock_industry" value={newAssignment.stock_industry} onChange={handleInputChange}/>
+                <Input placeholder="Enter stock sector" name="stock_sector" value={newAssignment.stock_sector} onChange={handleInputChange}/>
+                <Input placeholder="Enter stock market cap" name="stock_market_cap" value={newAssignment.stock_market_cap} onChange={handleInputChange}/>
+                <Input placeholder="Enter department" name="department" value={newAssignment.department} onChange={handleInputChange} />
+                <Input placeholder="Enter address" name="address" value={newAssignment.address} onChange={handleInputChange}/>
+            </SimpleGrid>
+            <Button mt={3} colorScheme="teal" size="md" onClick={handleSubmit} >
+                Add Assignment
+            </Button>
         </div>
     )
 }
