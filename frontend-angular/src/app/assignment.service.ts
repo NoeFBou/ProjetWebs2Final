@@ -21,7 +21,7 @@ export class AssignmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAssignments(page: number = 1, limit: number = 10): Observable<Assignment[]> {
+  getAssignments(page: number = 1, limit: number = 25): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${this.apiUrl}?page=${page}&limit=${limit}`);
   }
 

@@ -1,53 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
-:host {
-  width: 100%;
-  padding: 1rem;
-}
-
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: darkcyan;
-
-}
-
-ngb-carousel {
-  margin: 0 auto;
-}
-
-
-.carousel-item {
-  min-height: 300px; // Augmentez cette valeur si nécessaire
-  background-color: #f0f0f0; // Une couleur de fond claire pour le contraste
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  font-family: var(--font-family);
+  font-weight: normal;
+  background: var(--surface-ground);
+  color: var(--text-color);
   padding: 1rem;
-  box-sizing: border-box;
-  border: 1px solid #ddd; // Pour délimiter visuellement chaque slide
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #717171;
 }
 
-.carousel-item h4 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
 }
 
-.carousel-item p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 0.5rem;
-}
-
-.btn-danger {
-  margin-top: 1rem;
-}

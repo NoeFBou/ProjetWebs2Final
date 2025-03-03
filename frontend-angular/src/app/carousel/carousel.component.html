@@ -1,11 +1,27 @@
-<ngb-carousel *ngIf="assignments && assignments.length">
+<p-carousel
+  [value]="assignments"
+  [numVisible]="4"
+  [numScroll]="1"
+  [circular]="true"
 
-  <ng-template ngbSlide *ngFor="let assignment of assignments">
-    <div class="carousel-item text-center p-4">
-      <h4>{{ assignment.stock_industry }}</h4>
-      <p>{{ assignment.stock_sector }} - {{ assignment.department }}</p>
-      <p>{{ assignment.stock_market_cap }} - {{ assignment.address }}</p>
-      <button class="btn btn-danger" (click)="deleteAssignment(assignment.id)">Supprimer</button>
+  verticalViewPortHeight="360px">
+  <ng-template let-assignment pTemplate="item">
+    <div class="border-1 surface-border border-round m-2 p-3">
+      <div class="mb-3 carousel-item" >
+        <div class="carousel-header">
+          <h4>{{ assignment.stock_industry }}</h4>
+        </div>
+        <div class=" carousel-body relative mx-auto">
+          <p class="item-info">{{ assignment.stock_sector }}</p>
+          <p class="item-info">{{ assignment.department }}</p>
+          <p class="item-info">{{ assignment.stock_market_cap }}</p>
+          <p class="item-info">{{ assignment.address }}</p>
+          <p-button class="btn btn-danger " icon="pi pi-heart" severity="secondary" [outlined]="true" (onClick)="deleteAssignment(assignment.id)"/>
+
+        </div>
+      </div>
+
+
     </div>
   </ng-template>
-</ngb-carousel>
+</p-carousel>

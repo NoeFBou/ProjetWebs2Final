@@ -3,24 +3,48 @@ import {Assignment, AssignmentService} from "../assignment.service";
 import { CommonModule } from '@angular/common';
 import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
 import { CarouselModule } from 'primeng/carousel';
+import {TagModule} from "primeng/tag";
+import {Button} from "primeng/button";
 
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [CommonModule, NgbCarouselModule],
+  imports: [CommonModule, NgbCarouselModule, CarouselModule, TagModule, Button],
 
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
 export class CarouselComponent implements OnInit {
   assignments: Assignment[] = [];
-
-
+  responsiveOptions: any[] | undefined;
 
   constructor(private assignmentService: AssignmentService) { }
 
   ngOnInit(): void {
     this.loadAssignments();
+
+    this.responsiveOptions = [
+      {
+        breakpoint: '1400px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '1199px',
+        numVisible: 3,
+        numScroll: 1
+      },
+      {
+        breakpoint: '767px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '575px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
   }
 
   loadAssignments(): void {
