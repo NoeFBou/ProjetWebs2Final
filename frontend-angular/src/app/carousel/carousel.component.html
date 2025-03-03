@@ -1,9 +1,6 @@
-<div class="mb-3">
-  <input type="text" class="form-control" placeholder="Filtrer les assignments..." [(ngModel)]="filterText" (input)="applyFilter()">
-</div>
+<ngb-carousel *ngIf="assignments && assignments.length">
 
-<ngb-carousel *ngIf="filteredAssignments && filteredAssignments.length">
-  <ng-template ngbSlide *ngFor="let assignment of filteredAssignments">
+  <ng-template ngbSlide *ngFor="let assignment of assignments">
     <div class="carousel-item text-center p-4">
       <h4>{{ assignment.stock_industry }}</h4>
       <p>{{ assignment.stock_sector }} - {{ assignment.department }}</p>
