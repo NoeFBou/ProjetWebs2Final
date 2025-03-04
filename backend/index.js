@@ -1,12 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 const uri = "mongodb+srv://nono:test@clusterwebs2.lhw4z.mongodb.net/ClusterWebs2?retryWrites=true&w=majority";
 mongoose.connect(uri, {
@@ -25,9 +28,15 @@ const assignmentSchema = new mongoose.Schema({
     address: String
 });
 
+const userSchema = new mongoose.Schema({
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true }
+});
 
 // Création du modèle
 const Assignment = mongoose.model('Assignment', assignmentSchema);
+const User = mongoose.model('User', userSchema);
+
 
 app.get('/api/assignments', async (req, res) => {
     try {
@@ -108,4 +117,50 @@ app.delete('/api/assignments/:id', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port ${PORT}`);
+});
+
+
+app.post('/api/register', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, password: hashedPassword });
+        await newUser.save();
+        res.json({ message: "Utilisateur créé avec succès" });
+    } catch (error) {
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé" });
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ error: "Mot de passe invalide" });
+        }
+        //TODO variable d'environnement
+        const token = jwt.sign({ id: user._id, email: user.email}, 'secret', { expiresIn: '1h' });
+        res.json({ token });
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors de la connexion" });
+    }
+});
+
+app.get('/api/protected', (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({error: "Accès refusé"});
+    }
+    jwt.verify(token, 'secret', (err, decoded) => {
+        if (err) {
+            return res.status(403).json({error: "Token invalide"});
+        }
+        res.json({message: "Accès autorisé"});
+    });
 });
