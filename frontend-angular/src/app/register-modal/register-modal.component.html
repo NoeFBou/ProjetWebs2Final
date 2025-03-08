@@ -1,0 +1,24 @@
+<p-dialog header="Créer un compte" [(visible)]="display" [modal]="true" [closable]="false" [style]="{'width': '30vw'}">
+  <form (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="regEmail">Email</label>
+        <input id="regEmail" type="email" [(ngModel)]="email" name="email" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <label for="regPassword">Mot de passe</label>
+        <input id="regPassword" type="password" [(ngModel)]="password" name="password" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <input id="confirmPassword" type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <button type="submit" pButton label="S'inscrire" class="p-mr-2"></button>
+        <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-secondary"></button>
+      </div>
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+    </div>
+  </form>
+</p-dialog>

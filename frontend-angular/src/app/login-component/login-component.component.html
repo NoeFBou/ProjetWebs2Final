@@ -1,4 +1,3 @@
-<!-- login.component.html -->
 <div class="login-container">
   <h2>Connexion</h2>
   <form (ngSubmit)="onSubmit()">
@@ -10,10 +9,12 @@
       <label for="password">Mot de passe :</label>
       <input type="password" id="password" [(ngModel)]="password" name="password" required>
     </div>
-    <button type="submit">Se connecter</button>
-    <!-- Affichage d'un message d'erreur en cas d'échec de connexion -->
+    <button type="submit" pButton label="Se connecter"></button>
     <div *ngIf="errorMessage" class="error">
       {{ errorMessage }}
     </div>
   </form>
+  <button type="button" pButton label="Créer un compte" (click)="openRegisterModal()" class="p-mt-3"></button>
+  <!-- Insertion du composant modal d'inscription -->
+  <app-register-modal></app-register-modal>
 </div>

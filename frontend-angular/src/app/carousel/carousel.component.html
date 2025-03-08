@@ -1,5 +1,6 @@
+<app-filter (filterChange)="applyFilter($event)"></app-filter>
 <p-carousel
-  [value]="assignments"
+  [value]="filteredAssignments"
   [numVisible]="4"
   [numScroll]="1"
   [circular]="true"

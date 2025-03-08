@@ -1,6 +1,19 @@
 <main class="main">
-      <app-add-assignment-modal></app-add-assignment-modal>
-      <app-carousel></app-carousel>
+  <div *ngIf="!isLoggedIn()">
+    <app-login-component></app-login-component>
+  </div>
+  <div *ngIf="isLoggedIn()">
+    <div class="header">
+      <button
+        pButton
+        icon="pi pi-sign-out"
+        label="Déconnexion"
+        (click)="logout()">
+      </button>
+    </div>
+    <app-add-assignment-modal></app-add-assignment-modal>
+    <app-carousel></app-carousel>
+  </div>
 </main>
 
 
