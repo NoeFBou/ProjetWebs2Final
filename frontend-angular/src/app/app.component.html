@@ -11,7 +11,7 @@
         (click)="logout()">
       </button>
     </div>
-    <app-add-assignment-modal></app-add-assignment-modal>
+    <app-add-assignment-modal *ngIf="authService.isAdmin()" ></app-add-assignment-modal>
     <app-carousel></app-carousel>
   </div>
 </main>

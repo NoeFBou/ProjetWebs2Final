@@ -17,8 +17,18 @@
           <p class="item-info">{{ assignment.department }}</p>
           <p class="item-info">{{ assignment.stock_market_cap }}</p>
           <p class="item-info">{{ assignment.address }}</p>
-          <p-button class="btn btn-danger " icon="pi pi-heart" severity="secondary" [outlined]="true" (onClick)="deleteAssignment(assignment.id)"/>
-
+          <button *ngIf="authService.isAdmin()"
+                  pButton
+                  icon="pi pi-pencil"
+                  label="supprimer"
+                  (click)="deleteAssignment(assignment.id)"
+                  class="btn btn-danger"></button>
+          <button *ngIf="authService.isAdmin()"
+                  pButton
+                  icon="pi pi-pencil"
+                  label="Éditer"
+                  (click)="openEditModal(assignment)"
+                  class="p-ml-2"></button>
         </div>
       </div>
 
@@ -26,3 +36,5 @@
     </div>
   </ng-template>
 </p-carousel>
+<app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
+

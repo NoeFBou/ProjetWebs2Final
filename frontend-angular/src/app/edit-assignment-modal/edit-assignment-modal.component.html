@@ -1,0 +1,30 @@
+<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="false" [style]="{'width': '30vw'}">
+  <form (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="stock_industry">Industry</label>
+        <input id="stock_industry" type="text" [(ngModel)]="assignmentCopy.stock_industry" name="stock_industry" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <label for="stock_sector">Sector</label>
+        <input id="stock_sector" type="text" [(ngModel)]="assignmentCopy.stock_sector" name="stock_sector" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <label for="stock_market_cap">Market Cap</label>
+        <input id="stock_market_cap" type="text" [(ngModel)]="assignmentCopy.stock_market_cap" name="stock_market_cap" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <label for="department">Department</label>
+        <input id="department" type="text" [(ngModel)]="assignmentCopy.department" name="department" required class="p-inputtext" />
+      </div>
+      <div class="p-field">
+        <label for="address">Address</label>
+        <input id="address" type="text" [(ngModel)]="assignmentCopy.address" name="address" required class="p-inputtext" />
+      </div>
+      <div class="p-field" style="margin-top: 1rem;">
+        <button type="submit" pButton label="Sauvegarder" class="p-mr-2"></button>
+        <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-secondary"></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>

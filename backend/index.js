@@ -30,7 +30,8 @@ const assignmentSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    isAdmin: { type: Boolean, default: false }
 });
 
 // Création du modèle
@@ -122,9 +123,12 @@ app.listen(PORT, () => {
 
 app.post('/api/register', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, isAdmin } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, password: hashedPassword });
+        const newUser = new User({ email, password: hashedPassword, isAdmin: isAdmin || false });
+        console.log(newUser)
+        console.log(isAdmin)
+
         await newUser.save();
         res.json({ message: "Utilisateur créé avec succès" });
     } catch (error) {
@@ -133,16 +137,9 @@ app.post('/api/register', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-    console.log("e")
-    console.log(req.body)
-
     try {
         const { email, password } = req.body;
-
-        //find user by email
         const user = await User.findOne({ email });
-
-
         if (!user) {
             return res.status(404).json({ error: "Utilisateur non trouvé" });
         }
@@ -150,8 +147,11 @@ app.post('/api/login', async (req, res) => {
         if (!isPasswordValid) {
             return res.status(400).json({ error: "Mot de passe invalide" });
         }
-        //TODO variable d'environnement
-        const token = jwt.sign({ id: user._id, email: user.email}, 'secret', { expiresIn: '1h' });
+        const token = jwt.sign(
+            { id: user._id, email: user.email, isAdmin: user.isAdmin },
+            'secret', { expiresIn: '1h' }
+        );
+        console.log(user.isAdmin)
         res.json({ token });
     } catch (error) {
         res.status(500).json({ error: "Erreur lors de la connexion" });

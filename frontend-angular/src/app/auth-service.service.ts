@@ -28,5 +28,17 @@ export class AuthServiceService {
     return null;
   }
 
+  isAdmin(): boolean {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const payload = JSON.parse(window.atob(token.split('.')[1]));
+        return payload.isAdmin === true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
 
 }

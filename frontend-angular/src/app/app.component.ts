@@ -17,7 +17,7 @@ import {ButtonDirective} from "primeng/button";
 })
 export class AppComponent {
   title = 'frontend-angular';
-  constructor(private authService: AuthServiceService) { }
+  constructor(protected authService: AuthServiceService) { }
 
   isLoggedIn(): boolean {
     return this.authService.getToken() !== null;

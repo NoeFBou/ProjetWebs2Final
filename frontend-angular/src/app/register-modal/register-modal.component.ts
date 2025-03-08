@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {DialogModule} from "primeng/dialog";
 import {NgIf} from "@angular/common";
 import {ButtonDirective} from "primeng/button";
+import {CheckboxModule} from "primeng/checkbox";
 
 @Component({
   selector: 'app-register-modal',
@@ -11,7 +12,8 @@ import {ButtonDirective} from "primeng/button";
     FormsModule,
     DialogModule,
     NgIf,
-    ButtonDirective
+    ButtonDirective,
+    CheckboxModule
   ],
   templateUrl: './register-modal.component.html',
   standalone: true,
@@ -22,6 +24,7 @@ export class RegisterModalComponent {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
+  isAdmin: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
 
@@ -38,6 +41,7 @@ export class RegisterModalComponent {
     this.email = '';
     this.password = '';
     this.confirmPassword = '';
+    this.isAdmin = false;
   }
 
   onSubmit(): void {
@@ -45,11 +49,10 @@ export class RegisterModalComponent {
       this.errorMessage = "Les mots de passe ne correspondent pas";
       return;
     }
-    this.http.post<any>('http://localhost:5000/api/register', { email: this.email, password: this.password })
+    this.http.post<any>('http://localhost:5000/api/register', { email: this.email, password: this.password, isAdmin: this.isAdmin })
       .subscribe({
         next: () => {
           this.successMessage = "Utilisateur créé avec succès";
-          // Optionnel : fermer le modal après un délai
           setTimeout(() => this.hide(), 2000);
         },
         error: () => {
