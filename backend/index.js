@@ -21,7 +21,7 @@ mongoose.connect(uri, {
 
 const assignmentSchema = new mongoose.Schema({
     id: { type: Number, unique: true },
-    stock_industry: String,
+    name: String,
     date: Date,
     nombre: Number,
     department: String,

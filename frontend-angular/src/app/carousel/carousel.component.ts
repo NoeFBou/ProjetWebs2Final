@@ -85,8 +85,8 @@ export class CarouselComponent implements OnInit {
   applyFilter(criteria: FilterCriteria): void {
     console.log("Critères de filtre reçus : ", criteria);
     this.filteredAssignments = this.assignments.filter(item => {
-      return (!criteria.stock_industry ||
-          item.stock_industry.toLowerCase().includes(criteria.stock_industry.toLowerCase()))
+      return (!criteria.name ||
+          item.name.toLowerCase().includes(criteria.name.toLowerCase()))
         && (!criteria.date ||
           new Date(item.date).toISOString().substring(0, 10).includes(criteria.date))
         && (criteria.nombre == null ||

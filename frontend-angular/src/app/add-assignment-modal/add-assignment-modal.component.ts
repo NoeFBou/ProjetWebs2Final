@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddAssignmentModalComponent {
   assignment: Assignment = {
-    stock_industry: '',
+    name: '',
     date: new Date(),
     nombre: 0,
     department: '',
@@ -26,7 +26,7 @@ export class AddAssignmentModalComponent {
   open(content: any) {
     // Réinitialisation de l'objet assignment à chaque ouverture
     this.assignment = {
-      stock_industry: '',
+      name: '',
       date: new Date(),      // On peut initialiser à null pour forcer la saisie de l'utilisateur
       nombre: 0,    // Même principe pour le nombre
       department: '',

@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 
 export interface Assignment {
   id?: number;
-  stock_industry: string;
+  name: string;
   date: Date;
   nombre: number;
   department: string;
@@ -21,7 +21,7 @@ export class AssignmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAssignments(page: number = 1, limit: number = 25): Observable<Assignment[]> {
+  getAssignments(page: number = 1, limit: number = 10000): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${this.apiUrl}?page=${page}&limit=${limit}`);
   }
 

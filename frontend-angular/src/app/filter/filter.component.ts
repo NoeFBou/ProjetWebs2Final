@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 export interface FilterCriteria {
-  stock_industry?: string;
+  name?: string;
   date?: string;      // Valeur issue d'un input type date (à convertir en Date si besoin)
   nombre?: number;    // Filtrage sur le champ nombre
   department?: string;
