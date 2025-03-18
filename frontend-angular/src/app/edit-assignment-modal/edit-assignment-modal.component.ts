@@ -3,10 +3,12 @@ import {Assignment, AssignmentService} from "../assignment.service";
 import {DialogModule} from "primeng/dialog";
 import {FormsModule} from "@angular/forms";
 import {ButtonDirective} from "primeng/button";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-assignment-modal',
   imports: [
+    CommonModule,
     DialogModule,
     FormsModule,
     ButtonDirective
@@ -21,9 +23,12 @@ export class EditAssignmentModalComponent {
   assignmentCopy!: Assignment;
 
   @Input() set assignment(value: Assignment) {
-    // Clonage de l'objet pour modification
-    this.assignmentCopy = { ...value };
+    if (value) {
+      // Clonage de l'objet pour modification
+      this.assignmentCopy = { ...value };
+    }
   }
+
   @Output() assignmentUpdated = new EventEmitter<Assignment>();
 
   constructor(private assignmentService: AssignmentService) {}
@@ -37,6 +42,15 @@ export class EditAssignmentModalComponent {
   }
 
   onSubmit(): void {
+    // Conversion de la date en objet Date (si nécessaire)
+    if (this.assignmentCopy.date) {
+      this.assignmentCopy.date = new Date(this.assignmentCopy.date);
+    }
+    // Conversion en nombre
+    this.assignmentCopy.nombre = Number(this.assignmentCopy.nombre);
+    // Conversion en booléen (facultatif, car le checkbox le gère déjà)
+    this.assignmentCopy.termine = Boolean(this.assignmentCopy.termine);
+
     this.assignmentService.updateAssignment(this.assignmentCopy.id, this.assignmentCopy).subscribe({
       next: (updatedAssignment) => {
         this.assignmentUpdated.emit(updatedAssignment);
@@ -47,4 +61,5 @@ export class EditAssignmentModalComponent {
       }
     });
   }
+
 }

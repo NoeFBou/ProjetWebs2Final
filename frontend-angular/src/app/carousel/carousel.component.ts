@@ -83,16 +83,21 @@ export class CarouselComponent implements OnInit {
   }
 
   applyFilter(criteria: FilterCriteria): void {
-    console.log("test",criteria);
+    console.log("Critères de filtre reçus : ", criteria);
     this.filteredAssignments = this.assignments.filter(item => {
-      return (!criteria.stock_industry || item.stock_industry.toLowerCase().includes(criteria.stock_industry.toLowerCase()))
-        && (!criteria.stock_sector || item.stock_sector.toLowerCase().includes(criteria.stock_sector.toLowerCase()))
-        && (!criteria.stock_market_cap || item.stock_market_cap.toLowerCase().includes(criteria.stock_market_cap.toLowerCase()))
-        && (!criteria.department || item.department.toLowerCase().includes(criteria.department.toLowerCase()))
-        && (!criteria.address || item.address.toLowerCase().includes(criteria.address.toLowerCase()));
+      return (!criteria.stock_industry ||
+          item.stock_industry.toLowerCase().includes(criteria.stock_industry.toLowerCase()))
+        && (!criteria.date ||
+          new Date(item.date).toISOString().substring(0, 10).includes(criteria.date))
+        && (criteria.nombre == null ||
+          item.nombre.toString().includes(criteria.nombre.toString()))
+        && (!criteria.department ||
+          item.department.toLowerCase().includes(criteria.department.toLowerCase()))
+        && (criteria.termine == null ||
+          item.termine === criteria.termine);
     });
-
   }
+
 
   openEditModal(assignment: Assignment): void {
     console.log("test",assignment);

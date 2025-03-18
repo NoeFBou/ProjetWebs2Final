@@ -1,5 +1,6 @@
 <main class="main">
-  <div *ngIf="!isLoggedIn()">
+
+  <div *ngIf="!isLoggedIn() ">
     <app-login-component></app-login-component>
   </div>
   <div *ngIf="isLoggedIn()">
@@ -8,7 +9,9 @@
         pButton
         icon="pi pi-sign-out"
         label="Déconnexion"
-        (click)="logout()">
+        (click)="logout()"
+        class="btn btn-danger"
+      >
       </button>
     </div>
     <app-add-assignment-modal *ngIf="authService.isAdmin()" ></app-add-assignment-modal>

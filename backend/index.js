@@ -22,11 +22,12 @@ mongoose.connect(uri, {
 const assignmentSchema = new mongoose.Schema({
     id: { type: Number, unique: true },
     stock_industry: String,
-    stock_sector: String,
-    stock_market_cap: String,
+    date: Date,
+    nombre: Number,
     department: String,
-    address: String
+    termine: Boolean
 });
+
 
 const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
@@ -69,6 +70,9 @@ app.get('/api/assignments/:id', async (req, res) => {
 // Route pour ajouter un nouvel assignment
 app.post('/api/assignments', async (req, res) => {
     console.log("e")
+
+    //print(req.body)
+    console.log(req.body)
 
     try {
         req.body.id = Date.now();

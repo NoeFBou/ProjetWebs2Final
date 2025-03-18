@@ -4,37 +4,36 @@
   [numVisible]="4"
   [numScroll]="1"
   [circular]="true"
-
   verticalViewPortHeight="360px">
   <ng-template let-assignment pTemplate="item">
     <div class="border-1 surface-border border-round m-2 p-3">
-      <div class="mb-3 carousel-item" >
+      <div class="mb-3 carousel-item">
         <div class="carousel-header">
           <h4>{{ assignment.stock_industry }}</h4>
         </div>
-        <div class=" carousel-body relative mx-auto">
-          <p class="item-info">{{ assignment.stock_sector }}</p>
-          <p class="item-info">{{ assignment.department }}</p>
-          <p class="item-info">{{ assignment.stock_market_cap }}</p>
-          <p class="item-info">{{ assignment.address }}</p>
-          <button *ngIf="authService.isAdmin()"
-                  pButton
-                  icon="pi pi-pencil"
-                  label="supprimer"
-                  (click)="deleteAssignment(assignment.id)"
-                  class="btn btn-danger"></button>
-          <button *ngIf="authService.isAdmin()"
-                  pButton
-                  icon="pi pi-pencil"
-                  label="Éditer"
-                  (click)="openEditModal(assignment)"
-                  class="p-ml-2"></button>
+        <div class="carousel-body">
+          <!-- Affichage de la date formatée -->
+          <p class="item-info">Date: {{ assignment.date | date:'shortDate' }}</p>
+          <p class="item-info">Department: {{ assignment.department }}</p>
+          <!-- Affichage du nombre -->
+          <p class="item-info">Nombre: {{ assignment.nombre }}</p>
+          <!-- Affichage du statut terminé -->
+          <p class="item-info">Statut: {{ assignment.termine ? 'Terminé' : 'Non terminé' }}</p>
         </div>
+        <button *ngIf="authService.isAdmin()"
+                pButton
+                icon="pi pi-pencil"
+                label="Supprimer"
+                (click)="deleteAssignment(assignment.id)"
+                class="btn btn-danger"></button>
+        <button *ngIf="authService.isAdmin()"
+                pButton
+                icon="pi pi-pencil"
+                label="Éditer"
+                (click)="openEditModal(assignment)"
+                class="btn btn-success"></button>
       </div>
-
-
     </div>
   </ng-template>
 </p-carousel>
 <app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
-

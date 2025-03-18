@@ -1,20 +1,25 @@
-<div class="login-container">
-  <h2>Connexion</h2>
+<div class="login-container align-center">
+<h2>User Login</h2>
   <form (ngSubmit)="onSubmit()">
     <div>
-      <label for="email">Email :</label>
-      <input type="email" id="email" [(ngModel)]="email" name="email" required>
+      <input placeholder="Email Id"  type="email" id="email" [(ngModel)]="email" name="email" required>
     </div>
     <div>
-      <label for="password">Mot de passe :</label>
-      <input type="password" id="password" [(ngModel)]="password" name="password" required>
+      <input placeholder="Password" type="password" id="password" [(ngModel)]="password" name="password" required>
     </div>
-    <button type="submit" pButton label="Se connecter"></button>
-    <div *ngIf="errorMessage" class="error">
+    <div class="btn-div">
+
+    <button type="submit" pButton label="Se connecter" class="login-btn"></button>
+    </div>
+    <div *ngIf="errorMessage" class="error ">
       {{ errorMessage }}
     </div>
+    <div class="btn-div pt-2 pb-4">
+      <button type="button" pButton label="Créer un compte" (click)="openRegisterModal()" class="login-btn"></button>
+    </div>
+
   </form>
-  <button type="button" pButton label="Créer un compte" (click)="openRegisterModal()" class="p-mt-3"></button>
-  <!-- Insertion du composant modal d'inscription -->
+
+
   <app-register-modal></app-register-modal>
 </div>

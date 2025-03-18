@@ -3,12 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 export interface Assignment {
-  id: number;
+  id?: number;
   stock_industry: string;
-  stock_sector: string;
-  stock_market_cap: string;
+  date: Date;
+  nombre: number;
   department: string;
-  address: string;
+  termine: boolean;
 }
 
 @Injectable({
@@ -33,7 +33,7 @@ export class AssignmentService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  updateAssignment(id: number, assignment: Assignment): Observable<Assignment> {
+  updateAssignment(id: number | undefined, assignment: Assignment): Observable<Assignment> {
     return this.http.put<Assignment>(`${this.apiUrl}/${id}`, assignment);
   }
 

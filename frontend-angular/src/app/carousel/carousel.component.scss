@@ -1,5 +1,4 @@
 .custom-carousel {
-  // Par exemple, pour personnaliser l’arrière-plan global du carousel
   background-color: #f0f4f8;
   padding: 1rem;
 }
@@ -18,7 +17,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Header : titre en gros, couleur de fond personnalisée */
 .carousel-header {
   min-height: 7rem;
   background-color: #ef430e;
@@ -34,7 +32,6 @@
 
 }
 
-/* Corps : zone flexible pour centrer verticalement le contenu */
 .carousel-body {
   flex: 1;
   display: flex;
@@ -51,7 +48,10 @@
   border-bottom-right-radius: 8px;
 }
 
-/* Bouton personnalisé */
 .custom-button {
   width: 100%;
+}
+
+.btn {
+  margin: 0.5rem;
 }

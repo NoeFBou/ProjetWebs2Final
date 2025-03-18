@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 export interface FilterCriteria {
   stock_industry?: string;
-  stock_sector?: string;
-  stock_market_cap?: string;
+  date?: string;      // Valeur issue d'un input type date (à convertir en Date si besoin)
+  nombre?: number;    // Filtrage sur le champ nombre
   department?: string;
-  address?: string;
+  termine?: boolean;  // Filtrage sur le champ booléen
 }
 
 @Component({
@@ -23,12 +23,7 @@ export class FilterComponent {
   @Output() filterChange = new EventEmitter<FilterCriteria>();
 
   onFilterChange(): void {
-    // Émission d'un clone pour éviter les problèmes liés à la référence
-
-    //print the filter criteria
     console.log(this.criteria);
-
-
     this.filterChange.emit({ ...this.criteria });
   }
 

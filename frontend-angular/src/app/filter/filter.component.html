@@ -1,24 +1,24 @@
-<div class="filter-container" style="padding: 1rem; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 1rem;">
+<div class="filter-container">
   <form (ngSubmit)="onFilterChange()" class="filter-form">
     <div class="p-field">
       <label for="industry">Industrie :</label>
       <input type="text" id="industry" [(ngModel)]="criteria.stock_industry" name="industry" placeholder="Filtrer par industrie" (input)="onFilterChange()">
     </div>
     <div class="p-field">
-      <label for="sector">Secteur :</label>
-      <input type="text" id="sector" [(ngModel)]="criteria.stock_sector" name="sector" placeholder="Filtrer par secteur" (input)="onFilterChange()">
+      <label for="date">Date :</label>
+      <input type="date" id="date" [(ngModel)]="criteria.date" name="date" placeholder="Filtrer par date" (input)="onFilterChange()">
     </div>
     <div class="p-field">
-      <label for="marketCap">Capitalisation :</label>
-      <input type="text" id="marketCap" [(ngModel)]="criteria.stock_market_cap" name="marketCap" placeholder="Filtrer par capitalisation" (input)="onFilterChange()">
+      <label for="nombre">Nombre :</label>
+      <input type="number" id="nombre" [(ngModel)]="criteria.nombre" name="nombre" placeholder="Filtrer par nombre" (input)="onFilterChange()">
     </div>
     <div class="p-field">
       <label for="department">Département :</label>
       <input type="text" id="department" [(ngModel)]="criteria.department" name="department" placeholder="Filtrer par département" (input)="onFilterChange()">
     </div>
     <div class="p-field">
-      <label for="address">Adresse :</label>
-      <input type="text" id="address" [(ngModel)]="criteria.address" name="address" placeholder="Filtrer par adresse" (input)="onFilterChange()">
+      <label for="termine">Terminé :</label>
+      <input type="checkbox" id="termine" [(ngModel)]="criteria.termine" name="termine" (change)="onFilterChange()">
     </div>
     <div class="p-field" style="margin-top: 1rem;">
       <button type="button" (click)="resetFilters()">Réinitialiser</button>

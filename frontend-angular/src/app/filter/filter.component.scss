@@ -1,0 +1,26 @@
+/* Exemple de CSS pour aligner les champs avec Flexbox */
+.p-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.p-field label {
+  width: 150px;
+  margin-right: 0.5rem;
+}
+
+.p-field input {
+  flex: 1;
+}
+
+.filter-container{
+  padding: 2rem;
+  padding-left: 20rem;
+  padding-right: 20rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: #4fc698;
+  color: #ffffff;
+}

@@ -1,25 +1,28 @@
-<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="false" [style]="{'width': '30vw'}">
+<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="false" [style]="{'width': '30vw'}" *ngIf="assignmentCopy">
   <form (ngSubmit)="onSubmit()">
     <div class="p-fluid">
       <div class="p-field">
         <label for="stock_industry">Industry</label>
         <input id="stock_industry" type="text" [(ngModel)]="assignmentCopy.stock_industry" name="stock_industry" required class="p-inputtext" />
       </div>
+      <!-- Nouveau champ Date -->
       <div class="p-field">
-        <label for="stock_sector">Sector</label>
-        <input id="stock_sector" type="text" [(ngModel)]="assignmentCopy.stock_sector" name="stock_sector" required class="p-inputtext" />
+        <label for="date">Date</label>
+        <input id="date" type="date" [(ngModel)]="assignmentCopy.date" name="date" required class="p-inputtext" />
       </div>
+      <!-- Nouveau champ Nombre -->
       <div class="p-field">
-        <label for="stock_market_cap">Market Cap</label>
-        <input id="stock_market_cap" type="text" [(ngModel)]="assignmentCopy.stock_market_cap" name="stock_market_cap" required class="p-inputtext" />
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="number" [(ngModel)]="assignmentCopy.nombre" name="nombre" required class="p-inputtext" />
       </div>
       <div class="p-field">
         <label for="department">Department</label>
         <input id="department" type="text" [(ngModel)]="assignmentCopy.department" name="department" required class="p-inputtext" />
       </div>
+      <!-- Nouveau champ Terminé -->
       <div class="p-field">
-        <label for="address">Address</label>
-        <input id="address" type="text" [(ngModel)]="assignmentCopy.address" name="address" required class="p-inputtext" />
+        <label for="termine">Terminé</label>
+        <input id="termine" type="checkbox" [(ngModel)]="assignmentCopy.termine" name="termine" required class="p-inputtext" />
       </div>
       <div class="p-field" style="margin-top: 1rem;">
         <button type="submit" pButton label="Sauvegarder" class="p-mr-2"></button>
