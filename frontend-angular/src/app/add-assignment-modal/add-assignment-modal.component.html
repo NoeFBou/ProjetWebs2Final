@@ -1,44 +1,39 @@
-<!-- Bouton pour ouvrir le modal -->
-<button class="btn btn-success mb-3" (click)="open(content)">Ajouter un Assignment</button>
+<!-- add-assignment-modal.component.html -->
+<div class="modal-header">
+  <h4 class="modal-title">Ajouter un Assignment</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" [(ngModel)]="assignment.name" name="industry">
+    </div>
 
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Ajouter un Assignment</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" class="form-control" [(ngModel)]="assignment.name" name="industry">
-      </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" class="form-control" [(ngModel)]="assignment.date" name="date">
+    </div>
 
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" class="form-control" [(ngModel)]="assignment.date" name="date">
-      </div>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="number" class="form-control" [(ngModel)]="assignment.nombre" name="nombre">
+    </div>
 
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="number" class="form-control" [(ngModel)]="assignment.nombre" name="nombre">
-      </div>
+    <div class="form-group">
+      <label>Department</label>
+      <input type="text" class="form-control" [(ngModel)]="assignment.department" name="department">
+    </div>
 
-      <div class="form-group">
-        <label>Department</label>
-        <input type="text" class="form-control" [(ngModel)]="assignment.department" name="department">
-      </div>
-
-      <div class="form-group">
-        <label>Terminé</label>
-        <input type="checkbox" class="form-control" [(ngModel)]="assignment.termine" name="termine">
-      </div>
-
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="addAssignment(modal)">Ajouter</button>
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
-  </div>
-</ng-template>
+    <div class="form-group">
+      <label>Terminé</label>
+      <input type="checkbox" class="form-control" [(ngModel)]="assignment.termine" name="termine">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="addAssignment()">Ajouter</button>
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Annuler</button>
+</div>

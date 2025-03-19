@@ -20,10 +20,11 @@
         <input id="department" type="text" [(ngModel)]="assignmentCopy.department" name="department" required class="p-inputtext" />
       </div>
       <!-- Nouveau champ Terminé -->
-      <div class="p-field">
+      <div class="p-field-checkbox">
+        <p-checkbox inputId="termine" [(ngModel)]="assignmentCopy.termine" binary="true" name="termine"></p-checkbox>
         <label for="termine">Terminé</label>
-        <input id="termine" type="checkbox" [(ngModel)]="assignmentCopy.termine" name="termine" required class="p-inputtext" />
       </div>
+
       <div class="p-field" style="margin-top: 1rem;">
         <button type="submit" pButton label="Sauvegarder" class="p-mr-2"></button>
         <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-secondary"></button>

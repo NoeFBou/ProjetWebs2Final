@@ -1,24 +1,17 @@
-<main class="main">
+<ng-container *ngIf="isLoggedIn(); else loginTemplate">
+  <main class="main" [ngStyle]="{'margin-left': sidebarCollapsed ? '60px' : '250px'}">
+    <!-- Intégration de la side navigation qui gère désormais les actions -->
+    <app-side-navigation (collapsedChange)="onSidebarCollapseChange($event)"></app-side-navigation>
 
-  <div *ngIf="!isLoggedIn() ">
-    <app-login-component></app-login-component>
-  </div>
-  <div *ngIf="isLoggedIn()">
-    <div class="header">
-      <button
-        pButton
-        icon="pi pi-sign-out"
-        label="Déconnexion"
-        (click)="logout()"
-        class="btn btn-danger"
-      >
-      </button>
-    </div>
-    <app-add-assignment-modal *ngIf="authService.isAdmin()" ></app-add-assignment-modal>
+    <!-- Reste de la page principale -->
     <app-carousel></app-carousel>
-  </div>
-</main>
+  </main>
+</ng-container>
 
+<ng-template #loginTemplate>
+  <main class="login-container">
+    <app-login-component></app-login-component>
+  </main>
+</ng-template>
 
-
-<router-outlet />
+<router-outlet></router-outlet>

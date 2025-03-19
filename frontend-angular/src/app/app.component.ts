@@ -4,14 +4,15 @@ import {CarouselComponent} from "./carousel/carousel.component";
 import {AddAssignmentModalComponent} from "./add-assignment-modal/add-assignment-modal.component";
 import {LoginComponentComponent} from "./login-component/login-component.component";
 import {AuthServiceService} from "./auth-service.service";
-import {CommonModule, NgIf} from '@angular/common';
+import {CommonModule, NgClass, NgIf, NgStyle} from '@angular/common';
 import {ButtonDirective} from "primeng/button";
+import {SideNavigationComponent} from "./side-navigation/side-navigation.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CarouselComponent, AddAssignmentModalComponent, RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective],
+  imports: [CarouselComponent, AddAssignmentModalComponent, RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective, SideNavigationComponent, NgStyle, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -26,6 +27,12 @@ export class AppComponent {
   logout(): void {
     localStorage.removeItem('token');
     window.location.reload();
+  }
+
+  sidebarCollapsed: boolean = false;
+
+  onSidebarCollapseChange(collapsed: boolean) {
+    this.sidebarCollapsed = collapsed;
   }
 }
 

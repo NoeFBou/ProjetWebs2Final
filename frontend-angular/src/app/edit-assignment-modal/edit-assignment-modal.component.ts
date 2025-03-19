@@ -4,6 +4,7 @@ import {DialogModule} from "primeng/dialog";
 import {FormsModule} from "@angular/forms";
 import {ButtonDirective} from "primeng/button";
 import { CommonModule } from '@angular/common';
+import {CheckboxModule} from "primeng/checkbox";
 
 @Component({
   selector: 'app-edit-assignment-modal',
@@ -11,7 +12,8 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     DialogModule,
     FormsModule,
-    ButtonDirective
+    ButtonDirective,
+    CheckboxModule
   ],
   templateUrl: './edit-assignment-modal.component.html',
   standalone: true,

@@ -1,0 +1,35 @@
+<nav class="side-nav" [class.collapsed]="isCollapsed">
+
+
+  <ul class="list-unstyled">
+
+    <li class="mb-2">
+      <button (click)="toggleCollapse()" class="btn btn-secondary mb-3">
+        <i class="bi" [ngClass]="{'bi-chevron-right': isCollapsed, 'bi-chevron-left': !isCollapsed}"></i>
+        <span *ngIf="!isCollapsed">
+      {{ isCollapsed ? 'Étendre' : 'Réduire' }}
+    </span>
+      </button>
+    </li>
+
+    <li class="mb-2">
+      <button
+        pButton
+        icon="pi pi-sign-out"
+        [label]="!isCollapsed ? 'Déconnexion' : ''"
+        (click)="logout()"
+        class="btn btn-danger w-100">
+      </button>
+    </li>
+
+    <!-- Bouton Ajouter un Assignment (affiché uniquement pour les admins) -->
+    <li  class="mb-2" *ngIf="authService.isAdmin()">
+      <button
+        pButton
+        [label]="!isCollapsed ? 'Ajouter un Assignment' : ''"
+        (click)="openAddAssignmentModal()"
+        class="btn btn-success w-100 2-circle-fill">
+      </button>
+    </li>
+  </ul>
+</nav>

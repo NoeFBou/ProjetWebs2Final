@@ -1,16 +1,15 @@
+// add-assignment-modal.component.ts
 import { Component } from '@angular/core';
-import {Assignment, AssignmentService} from "../assignment.service";
-import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { Assignment, AssignmentService } from "../assignment.service";
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-assignment-modal',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
+  imports: [ FormsModule ],
   templateUrl: './add-assignment-modal.component.html',
-  styleUrl: './add-assignment-modal.component.scss'
+  styleUrls: ['./add-assignment-modal.component.scss']
 })
 export class AddAssignmentModalComponent {
   assignment: Assignment = {
@@ -21,44 +20,31 @@ export class AddAssignmentModalComponent {
     termine: false
   };
 
-  constructor(private modalService: NgbModal, private assignmentService: AssignmentService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private assignmentService: AssignmentService
+  ) {}
 
-  open(content: any) {
-    // Réinitialisation de l'objet assignment à chaque ouverture
-    this.assignment = {
-      name: '',
-      date: new Date(),      // On peut initialiser à null pour forcer la saisie de l'utilisateur
-      nombre: 0,    // Même principe pour le nombre
-      department: '',
-      termine: false
-    };
-    this.modalService.open(content);
-  }
-
-  addAssignment(modal: any) {
-    // Conversion de la date si une valeur est renseignée
-    console.log(this.assignment);
+  addAssignment() {
+    // Conversion de la date
     if (this.assignment.date) {
       this.assignment.date = new Date(this.assignment.date);
     }
-    // Conversion en nombre
+    // Conversion en nombre et vérification du booléen
     this.assignment.nombre = Number(this.assignment.nombre);
-    // La checkbox retourne déjà un booléen, mais on peut s'assurer que c'est bien le cas
     this.assignment.termine = Boolean(this.assignment.termine);
 
-    // Pour vérifier dans la console que l'objet a bien les valeurs saisies par l'utilisateur
     console.log("Assignment à envoyer :", this.assignment);
 
     this.assignmentService.addAssignment(this.assignment).subscribe({
       next: (data: Assignment) => {
         console.log("Assignment ajouté :", data);
-        modal.close();
-        // Optionnel : émettre un événement pour rafraîchir la liste/affichage
+        // Fermeture du modal
+        this.activeModal.close();
       },
       error: (error) => {
         console.error("Erreur lors de l'ajout", error);
       }
     });
   }
-
 }
