@@ -16,7 +16,9 @@
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+p-link {
+  color: #ff0000;
+}
 .carousel-header {
   min-height: 7rem;
   background-color: #ef430e;
@@ -40,7 +42,6 @@
   margin: 1rem 0;
 }
 
-/* Footer : zone avec couleur de fond pour le bouton */
 .carousel-footer {
   background-color: #ef430e;
   padding: 8px;
@@ -55,3 +56,5 @@
 .btn {
   margin: 0.5rem;
 }
+
+

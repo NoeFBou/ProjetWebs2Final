@@ -21,12 +21,11 @@ import {CheckboxModule} from "primeng/checkbox";
 })
 export class EditAssignmentModalComponent {
   display: boolean = false;
-  // Utilisation d'une copie locale pour ne pas modifier directement l'objet parent avant validation
   assignmentCopy!: Assignment;
+  datetemp: string = "";
 
   @Input() set assignment(value: Assignment) {
     if (value) {
-      // Clonage de l'objet pour modification
       this.assignmentCopy = { ...value };
     }
   }
@@ -36,6 +35,7 @@ export class EditAssignmentModalComponent {
   constructor(private assignmentService: AssignmentService) {}
 
   show(): void {
+    console.log("Affichage de la modale");
     this.display = true;
   }
 
@@ -44,17 +44,14 @@ export class EditAssignmentModalComponent {
   }
 
   onSubmit(): void {
-    // Conversion de la date en objet Date (si nécessaire)
-    if (this.assignmentCopy.date) {
-      this.assignmentCopy.date = new Date(this.assignmentCopy.date);
-    }
-    // Conversion en nombre
+    this.assignmentCopy.date = new Date(this.assignmentCopy.date);
+
     this.assignmentCopy.nombre = Number(this.assignmentCopy.nombre);
-    // Conversion en booléen (facultatif, car le checkbox le gère déjà)
     this.assignmentCopy.termine = Boolean(this.assignmentCopy.termine);
 
     this.assignmentService.updateAssignment(this.assignmentCopy.id, this.assignmentCopy).subscribe({
       next: (updatedAssignment) => {
+
         this.assignmentUpdated.emit(updatedAssignment);
         this.hide();
       },
@@ -64,4 +61,10 @@ export class EditAssignmentModalComponent {
     });
   }
 
+  protected readonly Date = Date;
+
+  onDateChange($event: any) {
+    this.assignmentCopy.date = new Date($event);
+
+  }
 }

@@ -8,11 +8,12 @@ import {Button, ButtonDirective} from "primeng/button";
 import {FilterComponent, FilterCriteria} from "../filter/filter.component";
 import {AuthServiceService} from "../auth-service.service";
 import {EditAssignmentModalComponent} from "../edit-assignment-modal/edit-assignment-modal.component";
+import {PaginatorModule} from "primeng/paginator";
 
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [CommonModule, NgbCarouselModule, CarouselModule, TagModule, Button, FilterComponent, EditAssignmentModalComponent, ButtonDirective],
+  imports: [CommonModule, NgbCarouselModule, CarouselModule, TagModule, Button, FilterComponent, EditAssignmentModalComponent, ButtonDirective, PaginatorModule],
 
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
@@ -23,11 +24,15 @@ export class CarouselComponent implements OnInit {
   filteredAssignments: Assignment[] = [];
 
   @ViewChild('editModal', { static: true }) editModal!: EditAssignmentModalComponent;
+  protected page: number;
 
   constructor(
     private assignmentService: AssignmentService,
     public authService: AuthServiceService
-  ) { }
+  ) {
+    this.page = 0;
+  }
+
   ngOnInit(): void {
     this.loadAssignments();
 
@@ -83,19 +88,22 @@ export class CarouselComponent implements OnInit {
   }
 
   applyFilter(criteria: FilterCriteria): void {
-    console.log("Critères de filtre reçus : ", criteria);
     this.filteredAssignments = this.assignments.filter(item => {
-      return (!criteria.name ||
+    //  console.log("item",item);
+    //  console.log("item",item);
+      return (!criteria.name || item.name &&
           item.name.toLowerCase().includes(criteria.name.toLowerCase()))
-        && (!criteria.date ||
+        && (!criteria.date || item.date &&
           new Date(item.date).toISOString().substring(0, 10).includes(criteria.date))
-        && (criteria.nombre == null ||
+        && (criteria.nombre == null || item.nombre &&
           item.nombre.toString().includes(criteria.nombre.toString()))
-        && (!criteria.department ||
+        && (!criteria.department || item.department &&
           item.department.toLowerCase().includes(criteria.department.toLowerCase()))
-        && (criteria.termine == null ||
+        && (criteria.termine == null || item.termine &&
           item.termine === criteria.termine);
     });
+    this.page = 0;
+
   }
 
 
@@ -116,4 +124,13 @@ export class CarouselComponent implements OnInit {
       this.applyFilter({});
     }
   }
+
+  pageChange(event : any) {
+    this.page = event.page;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredAssignments.length / 5);
+  }
+
 }

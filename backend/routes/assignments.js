@@ -47,15 +47,23 @@ router.post('/', async (req, res) => {
 
 // Modifier un assignment existant
 router.put('/:id', async (req, res) => {
+  //  console.log(req.body);
     try {
+        const assignmentId = parseInt(req.params.id, 10);
+
         const updatedAssignment = await Assignment.findOneAndUpdate(
-            { id: req.params.id },
+            { id: assignmentId },
             req.body,
             { new: true }
         );
+       // console.log(updatedAssignment);
         if (!updatedAssignment) {
             return res.status(404).json({ message: "Assignment non trouvé" });
         }
+
+
+       // console.log("test");
+       // console.log(updatedAssignment);
         res.json(updatedAssignment);
     } catch (error) {
         console.error(error);

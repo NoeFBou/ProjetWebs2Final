@@ -4,7 +4,9 @@
   [numVisible]="5"
   [numScroll]="5"
   [circular]="true"
-  verticalViewPortHeight="360px">
+  [showIndicators]="false"
+  (onPage)="pageChange($event)">
+verticalViewPortHeight="360px">
   <ng-template let-assignment pTemplate="item">
     <div class="border-1 surface-border border-round m-2 p-3">
       <div class="mb-3 carousel-item">
@@ -33,4 +35,8 @@
     </div>
   </ng-template>
 </p-carousel>
+
 <app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
+<div class="pagination-info text-center mt-3">
+  Page {{ page + 1 }} sur {{ totalPages }}
+</div>

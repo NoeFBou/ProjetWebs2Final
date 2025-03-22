@@ -5,12 +5,17 @@
         <label for="name">Industry</label>
         <input id="name" type="text" [(ngModel)]="assignmentCopy.name" name="Name" required class="p-inputtext" />
       </div>
-      <!-- Nouveau champ Date -->
       <div class="p-field">
         <label for="date">Date</label>
-        <input id="date" type="date" [(ngModel)]="assignmentCopy.date" name="date" required class="p-inputtext" />
+        <input
+          id="date"
+          type="date"
+          [ngModel]="assignmentCopy.date | date:'yyyy-MM-dd'"
+          (ngModelChange)="onDateChange($event)"
+          name="date"
+          required
+          class="p-inputtext" />
       </div>
-      <!-- Nouveau champ Nombre -->
       <div class="p-field">
         <label for="nombre">Nombre</label>
         <input id="nombre" type="number" [(ngModel)]="assignmentCopy.nombre" name="nombre" required class="p-inputtext" />

@@ -3,7 +3,7 @@ import {AddAssignmentModalComponent} from "../add-assignment-modal/add-assignmen
 import {AuthServiceService} from "../auth-service.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ButtonDirective} from "primeng/button";
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-side-navigation',
@@ -12,7 +12,8 @@ import {NgClass, NgIf} from "@angular/common";
   imports: [
     ButtonDirective,
     NgIf,
-    NgClass
+    NgClass,
+    NgOptimizedImage
   ],
   styleUrls: ['./side-navigation.component.scss']
 })
