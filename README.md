@@ -36,7 +36,6 @@ Attention, quand vous ajoutez un assignment, il faut réactualiser la page pour 
 Pré-requis
 - Node.js et npm doivent être installés.
 
-- MongoDB : une instance locale ou une connexion à un cluster MongoDB.
 ## Fonctionnalités
 
 ### Pré-requis
