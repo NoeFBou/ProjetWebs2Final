@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { Assignment, AssignmentService } from "../assignment.service";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import {CheckboxModule} from "primeng/checkbox";
 
 @Component({
   selector: 'app-add-assignment-modal',
   standalone: true,
-  imports: [ FormsModule ],
+  imports: [FormsModule, CheckboxModule],
   templateUrl: './add-assignment-modal.component.html',
   styleUrls: ['./add-assignment-modal.component.scss']
 })
@@ -34,7 +35,7 @@ export class AddAssignmentModalComponent {
     this.assignment.nombre = Number(this.assignment.nombre);
     this.assignment.termine = Boolean(this.assignment.termine);
 
-    console.log("Assignment à envoyer :", this.assignment);
+    //console.log("Assignment à envoyer :", this.assignment);
 
     this.assignmentService.addAssignment(this.assignment).subscribe({
       next: (data: Assignment) => {

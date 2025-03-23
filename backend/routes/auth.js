@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Exemple de route protégée accessible uniquement avec un token valide
+// TODO Route protégée
 router.get('/protected', authMiddleware, (req, res) => {
     res.json({ message: "Accès autorisé", user: req.user });
 });

@@ -108,7 +108,7 @@ export class CarouselComponent implements OnInit {
 
 
   openEditModal(assignment: Assignment): void {
-    console.log("test",assignment);
+  //  console.log("test",assignment);
     if (this.authService.isAdmin()) {
       console.log("testad",assignment);
       this.editModal.assignment = assignment;

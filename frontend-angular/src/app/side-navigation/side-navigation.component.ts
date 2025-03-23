@@ -36,7 +36,6 @@ export class SideNavigationComponent implements OnInit {
 
 
   logout() {
-    // Appel à la méthode de déconnexion dans votre service d'authentification
     this.authService.logout();
   }
 

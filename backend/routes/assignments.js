@@ -1,3 +1,5 @@
+// Définition des routes relatives aux assignments
+
 const express = require('express');
 const router = express.Router();
 const Assignment = require('../models/Assignment');

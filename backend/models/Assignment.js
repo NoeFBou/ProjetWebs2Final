@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
+// Define the schema for the assignments
 const assignmentSchema = new mongoose.Schema({
     id: { type: Number, unique: true },
     name: String,
@@ -10,5 +11,5 @@ const assignmentSchema = new mongoose.Schema({
     termine: Boolean
 });
 
-// C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD
+
 module.exports = mongoose.model('Assignment', assignmentSchema);

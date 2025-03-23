@@ -1,3 +1,5 @@
+// Importation des données du fichier data.json dans la base de données MongoDB
+
 /*const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
