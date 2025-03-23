@@ -93,13 +93,13 @@ Après avoir cloné le dépôt, suivez les étapes suivantes pour installer le b
 - **Authentification et Navigation :**
     - **Page de connexion :** Le composant `login-component.component.html` affiche un formulaire de connexion. En cas d’erreur (mauvais identifiants), un message d’erreur s’affiche.
     - **Modale d’inscription :** Le composant `register-modal.component.html` permet aux nouveaux utilisateurs de créer un compte. Un champ « Admin » optionnel permet de créer un compte administrateur.
-    - **Navigation latérale :** Le composant `side-navigation.component.html` offre des boutons pour la déconnexion, l’ajout d’assignments (pour les administrateurs) et la gestion de la navigation (collapse/expand).
 
 - **Gestion des Assignments :**
     - **Carousel d’affichage :** Le composant `carousel.component.html` affiche les assignments dans un carousel interactif. Chaque carte présente des informations (nom, date, département, nombre, statut) et inclut des boutons pour supprimer ou éditer l’assignement (fonctionnalité réservée aux administrateurs).
     - **Ajouter un Assignment :** `add-assignment-modal.component.html` présente un formulaire pour ajouter un nouvel assignment (fonctionnalité réservée aux administrateurs).
     - **Éditer un Assignment :** `edit-assignment-modal.component.html` permet de modifier les informations d’un assignment existant.
     - **Filtrage des Assignments :** Le composant `filter.component.html` offre un formulaire permettant de filtrer la liste des assignments selon différents critères (nom, date, nombre, département, statut).
+    - **Navigation latérale :** Le composant `side-navigation.component.html` offre des boutons pour la déconnexion, l’ajout d’assignments (pour les administrateurs) et la gestion de la navigation (collapse/expand).
 
 ## Problèmes Rencontrés
 je ne suis pas sur la dernière version d'anuglar, donc je n'ai pas pu utiliser la syntaxe que vous recommandez d'utiliser pour les for et les if.
