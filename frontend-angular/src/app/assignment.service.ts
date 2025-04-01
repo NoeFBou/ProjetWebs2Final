@@ -1,6 +1,7 @@
+//assignment.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {forkJoin, Observable, Subscription} from "rxjs";
 
 export interface Assignment {
   id?: number;
@@ -35,6 +36,24 @@ export class AssignmentService {
 
   updateAssignment(id: number | undefined, assignment: Assignment): Observable<Assignment> {
     return this.http.put<Assignment>(`${this.apiUrl}/${id}`, assignment);
+  }
+
+  peuplerBD(bdInitialAssignments : any): Observable<readonly unknown[]> {
+    let appel: Observable<Assignment>[] = [];
+
+    bdInitialAssignments.forEach((a: { name: any; date: string | number | Date; nombre: any; department: any; termine: any; }) => {
+      let nouvelAssignment: Assignment = {
+        name: a.name,
+        date: new Date(a.date),
+        nombre: a.nombre,
+        department: a.department,
+        termine: a.termine
+      }
+
+      appel.push(this.addAssignment(nouvelAssignment))
+    });
+
+    return forkJoin(appel);
   }
 
 }

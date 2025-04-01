@@ -29,5 +29,10 @@
       </button>
     </li>
 
+    <li class="mb-2" *ngIf="authService.isAdmin()">
+
+      <app-import-assignment></app-import-assignment>
+    </li>
+
   </ul>
 </nav>

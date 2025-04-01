@@ -4,6 +4,8 @@ import {AuthServiceService} from "../auth-service.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ButtonDirective} from "primeng/button";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
+import {Assignment, AssignmentService} from "../assignment.service";
+import {ImportAssignmentComponent} from "../import-assignment/import-assignment.component";
 
 @Component({
   selector: 'app-side-navigation',
@@ -13,16 +15,18 @@ import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
     ButtonDirective,
     NgIf,
     NgClass,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ImportAssignmentComponent
   ],
   styleUrls: ['./side-navigation.component.scss']
 })
 export class SideNavigationComponent implements OnInit {
   isCollapsed: boolean = false;
+  assignments: Assignment[] = [];
 
   // Émission de l'état vers le composant parent
   @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  constructor(protected authService: AuthServiceService, private modalService: NgbModal) {}
+  constructor(protected authService: AuthServiceService, private modalService: NgbModal,private assignmentService: AssignmentService) {}
 
 
   ngOnInit(): void { }
@@ -31,9 +35,6 @@ export class SideNavigationComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
     this.collapsedChange.emit(this.isCollapsed);
   }
-
-
-
 
   logout() {
     this.authService.logout();

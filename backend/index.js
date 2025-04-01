@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 // Import des routes
 const assignmentsRoutes = require('./routes/assignments');
 const authRoutes = require('./routes/auth');
+//const frontRoutes = require('./routes/front');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,8 @@ app.use(bodyParser.json());
 // Enregistrement des routes
 app.use('/api/assignments', assignmentsRoutes);
 app.use('/api', authRoutes);
+
+//app.use('/',frontRoutes);
 
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port ${PORT}`);

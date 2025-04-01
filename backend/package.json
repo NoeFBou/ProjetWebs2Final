@@ -11,6 +11,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@nguniversal/builders": "^16.2.0",
+    "@nguniversal/common": "^16.2.0",
+    "@nguniversal/express-engine": "^16.2.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
@@ -20,7 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.1",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

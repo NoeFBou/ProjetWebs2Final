@@ -42,6 +42,7 @@ export class AddAssignmentModalComponent {
         console.log("Assignment ajouté :", data);
         // Fermeture du modal
         this.activeModal.close();
+        window.location.reload();
       },
       error: (error) => {
         console.error("Erreur lors de l'ajout", error);
