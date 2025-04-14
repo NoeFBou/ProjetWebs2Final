@@ -1,6 +1,5 @@
 // Importation des données du fichier data.json dans la base de données MongoDB
-
-/*const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
@@ -56,4 +55,3 @@ fs.readFile(filePath, 'utf8', async (err, data) => {
         mongoose.disconnect();
     }
 });
-*/
