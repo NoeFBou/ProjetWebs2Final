@@ -2,7 +2,19 @@
   <form (ngSubmit)="onFilterChange()" class="filter-form">
     <div class="p-field">
       <label for="name">Name :</label>
-      <input type="text" id="name" [(ngModel)]="criteria.name" name="industry" placeholder="Filtrer par industrie" (input)="onFilterChange()">
+      <p-autoComplete
+        id="name"
+        [(ngModel)]="criteria.name"
+        name="name"
+        [suggestions]="filteredNames"
+        (completeMethod)="filterNames($event)"
+        placeholder="Filtrer par nom"
+        (input)="onFilterChange()">
+      </p-autoComplete>
+
+
+
+
     </div>
     <div class="p-field">
       <label for="date">Date :</label>
@@ -12,9 +24,19 @@
       <label for="nombre">Nombre :</label>
       <input type="number" id="nombre" [(ngModel)]="criteria.nombre" name="nombre" placeholder="Filtrer par nombre" (input)="onFilterChange()">
     </div>
+
+
     <div class="p-field">
       <label for="department">Département :</label>
-      <input type="text" id="department" [(ngModel)]="criteria.department" name="department" placeholder="Filtrer par département" (input)="onFilterChange()">
+      <p-autoComplete
+        id="department"
+        [(ngModel)]="criteria.department"
+        name="department"
+        [suggestions]="filteredDepartments"
+        (completeMethod)="filterDepartments($event)"
+        placeholder="Filtrer par département"
+        (input)="onFilterChange()">
+      </p-autoComplete>
     </div>
     <div class="p-field">
       <label for="termine">Terminé :</label>
