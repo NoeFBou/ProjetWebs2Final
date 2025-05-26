@@ -12,7 +12,9 @@ import {SideNavigationComponent} from "./side-navigation/side-navigation.compone
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CarouselComponent, AddAssignmentModalComponent, RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective, SideNavigationComponent, NgStyle, NgClass],
+  imports: [ RouterOutlet,
+    CommonModule,
+    RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective, SideNavigationComponent, NgStyle, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

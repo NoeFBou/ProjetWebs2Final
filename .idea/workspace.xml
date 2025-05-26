@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="" />
+    <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,6 +56,7 @@
     "npm.build:frontend.executor": "Run",
     "npm.dev:concurrently.executor": "Run",
     "npm.install:all.executor": "Run",
+    "npm.start.executor": "Run",
     "npm.watch.executor": "Run",
     "ts.external.directory.path": "C:\\Users\\noe\\WebstormProjects\\ProjetWebs2Final\\ProjetWebs2Final\\apps\\frontend-angular\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
@@ -58,22 +68,12 @@
       <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final\apps" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build:frontend">
+  <component name="RunManager" selected="npm.start">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="build" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="build:backend" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="build:backend" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -99,6 +99,16 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/frontend-angular/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="watch" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/apps/frontend-angular/package.json" />
       <command value="run" />
@@ -111,11 +121,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start" />
         <item itemvalue="npm.build:frontend" />
         <item itemvalue="npm.build" />
         <item itemvalue="npm.install:all" />
         <item itemvalue="npm.watch" />
-        <item itemvalue="npm.build:backend" />
       </list>
     </recent_temporary>
   </component>
@@ -134,7 +144,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748250123171</updated>
-      <workItem from="1748250125350" duration="5609000" />
+      <workItem from="1748250125350" duration="12904000" />
     </task>
     <servers />
   </component>

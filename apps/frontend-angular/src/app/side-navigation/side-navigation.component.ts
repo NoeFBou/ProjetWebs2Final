@@ -6,15 +6,16 @@ import {ButtonDirective} from "primeng/button";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {Assignment, AssignmentService} from "../assignment.service";
 import {ImportAssignmentComponent} from "../import-assignment/import-assignment.component";
+import {RouterLink, RouterModule} from "@angular/router";
 
 @Component({
   selector: 'app-side-navigation',
   templateUrl: './side-navigation.component.html',
   standalone: true,
   imports: [
-    ButtonDirective,
+    RouterLink,
     NgIf,
-    NgClass,
+    RouterModule ,
     NgOptimizedImage,
     ImportAssignmentComponent
   ],

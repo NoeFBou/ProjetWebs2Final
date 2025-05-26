@@ -2,9 +2,40 @@ onglet categorie avec la possibilité d'ajout et visualiser avec un arbre
 route
 changer les input de tout
 onglet pour chnager le theme
-changer la couleur en fonction du status
 ajout de text area dans les model
 onglet utilisateur
-bouton pour imprimer
 ia qui auto complete
 facturation?
+
+
+route  -> assignement note ->  associer les assignement avec un professeur/eleve
+-> changer la couleur en fonction du status
+-> bouton pour imprimer
+-> ajouter categorie matiere exercice p-cascadeSelect
+-> reaction à un devoir (<p-rating)
+-> un assignement peut etre bloquer par son propriaitaire pour empecher les autres professeurs de le modifier p-toggleButton
+-> assignement p-editor InputSwitch MultiSelect
+-> filtre : p-calendar p-dropdown InputSwitch MultiSelect
+-> account -> p-password
+-> onglet avec p-table qui resume le nombre d'assignement par categorie/eleve/professeur
+-> onglet p-organizationChart ou p-treeTable pour voir quel exercice dans quel matiere avec que l professeur
+-> confirmpopup pour suprression
+-> FileUpload pour uploader des fichiers
+-> pour afficher le texte p-panel des assignements
+
+
+onglet prof
+- accueil avec stat
+- onglet avec tous les assignements
+- onglet avec ses assignements
+- onglets avec des tables/arbres
+- différents moodales pour les assignements
+
+onglet eleve
+- accueil avec stat
+- onglet avec tous les assignements
+- onglet avec ses assignements
+- onglets avec des tables/arbres
+
+assignement  doit avoir un eleve, un professeur , une note une mateire , un exercice(facultatif) un ou plusieur tag (facultatif) un status (en cours, terminé, en attente) une date de rendu, un status visible et status locked
+-> facturation pour les eleves pour augmenter les notes

@@ -1,8 +1,7 @@
 <ng-container *ngIf="isLoggedIn(); else loginTemplate">
+  <app-side-navigation (collapsedChange)="onSidebarCollapseChange($event)"></app-side-navigation>
   <main class="main" [ngStyle]="{'margin-left': sidebarCollapsed ? '60px' : '250px'}">
-    <app-side-navigation (collapsedChange)="onSidebarCollapseChange($event)"></app-side-navigation>
-
-    <app-carousel></app-carousel>
+    <router-outlet></router-outlet>
   </main>
 </ng-container>
 
@@ -11,5 +10,3 @@
     <app-login-component></app-login-component>
   </main>
 </ng-template>
-
-<router-outlet></router-outlet>
