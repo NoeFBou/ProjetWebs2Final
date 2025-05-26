@@ -4,8 +4,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "build": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "importData": "node importData.js"
+    "importData": "node importData.js",
+    "dev": "node index.js"
   },
   "keywords": [],
   "author": "",

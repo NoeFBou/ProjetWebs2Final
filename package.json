@@ -1,0 +1,42 @@
+{
+  "name": "projetwebs2final",
+  "version": "1.0.0",
+  "private": true,
+  "description": "test monorepo",
+  "scripts": {
+    "// --- Gestion des Dépendances ---": "",
+    "install:all": "npm install && npm run install:backend && npm run install:frontend",
+    "install:backend": "cd apps/backend && npm install",
+    "install:frontend": "cd apps/frontend-angular && npm install",
+    "// --- Développement ---": "",
+    "dev": "npm run dev:backend & npm run dev:frontend",
+    "dev:concurrently": "concurrently \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "cd apps/backend && npm run dev",
+    "dev:frontend": "cd apps/frontend-angular && npm run start",
+    "// --- Build ---": "",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd apps/backend && npm run build",
+    "build:frontend": "cd apps/frontend-angular && npm run build",
+    "// --- Linting & Formatting ---": "",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "// --- Tests ---": "",
+    "test": "echo \"Aucun test global défini, exécutez les tests par package.\" && exit 0",
+    "test:backend": "cd apps/backend && npm test",
+    "test:frontend": "cd apps/frontend && npm test",
+    "// --- Git Hooks (avec Husky) ---": "",
+    "prepare": "husky install"
+  },
+ 
+  "author": "nono le petit robot",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3"
+  }
+}

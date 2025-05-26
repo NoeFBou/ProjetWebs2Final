@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/projetwebs2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config/db.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/data.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/importData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/Assignment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/User.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/assignments.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/front.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/secu/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/.vscode/tasks.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/angular.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.config.server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/app.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/assignment.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/assignment.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/auth-service.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/auth-service.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/carousel/carousel.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/carousel/carousel.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/carousel/carousel.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/carousel/carousel.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/filter/filter.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/filter/filter.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/filter/filter.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/filter/filter.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/import-assignment/import-assignment.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/import-assignment/import-assignment.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/import-assignment/import-assignment.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/import-assignment/import-assignment.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/login-component/login-component.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/login-component/login-component.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/login-component/login-component.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/login-component/login-component.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/register-modal/register-modal.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/register-modal/register-modal.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/register-modal/register-modal.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/register-modal/register-modal.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/side-navigation/side-navigation.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/side-navigation/side-navigation.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/side-navigation/side-navigation.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/side-navigation/side-navigation.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/toolbar/toolbar.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/toolbar/toolbar.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/toolbar/toolbar.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/app/toolbar/toolbar.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/assets/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/assets/add-square-svgrepo-com.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/assets/collapse-left-svgrepo-com.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/assets/collapse-right-svgrepo-com.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/assets/logout-svgrepo-com.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/main.server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/src/styles.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/tsconfig.app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-angular/tsconfig.spec.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2xcvLfqvIP4sBK8R2Bdv42xxn2c" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.build:backend.executor": "Run",
+    "npm.build:frontend.executor": "Run",
+    "npm.dev:concurrently.executor": "Run",
+    "npm.install:all.executor": "Run",
+    "ts.external.directory.path": "C:\\Users\\noe\\WebstormProjects\\ProjetWebs2Final\\ProjetWebs2Final\\apps\\frontend-angular\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final" />
+      <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final\apps" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.build:frontend">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build:backend" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:backend" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build:frontend" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:frontend" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:concurrently" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:concurrently" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="install:all" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="install:all" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build:frontend" />
+        <item itemvalue="npm.build" />
+        <item itemvalue="npm.build:backend" />
+        <item itemvalue="npm.dev:concurrently" />
+        <item itemvalue="npm.install:all" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="" />
+      <created>1748250123171</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748250123171</updated>
+      <workItem from="1748250125350" duration="1219000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

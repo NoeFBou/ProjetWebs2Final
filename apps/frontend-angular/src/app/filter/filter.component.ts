@@ -2,7 +2,6 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import * as console from "node:console";
 import {Assignment, AssignmentService} from "../assignment.service";
 
 export interface FilterCriteria {
@@ -45,7 +44,7 @@ export class FilterComponent implements OnInit {
   }
 
   onFilterChange(): void {
-    console.log(this.criteria);
+    //console.log(this.criteria);
     this.filterChange.emit({ ...this.criteria });
   }
 

@@ -4,10 +4,10 @@
     <li class="mb-2">
       <button (click)="toggleCollapse()" class="btn btn-secondary w-100">
         <ng-container *ngIf="isCollapsed; else expandedIcon">
-          <img ngSrc="assets/collapse-right-svgrepo-com.svg" alt="Étendre" width="20" height="20">
+          <img ngSrc="../../assets/collapse-right-svgrepo-com.svg" alt="Étendre" width="20" height="20">
         </ng-container>
         <ng-template #expandedIcon>
-          <img ngSrc="assets/collapse-left-svgrepo-com.svg" alt="Réduire" width="20" height="20">
+          <img ngSrc="../../assets/collapse-left-svgrepo-com.svg" alt="Réduire" width="20" height="20">
         </ng-template>
         <span *ngIf="!isCollapsed">
           {{ isCollapsed ? 'Étendre' : 'Réduire' }}
@@ -17,14 +17,14 @@
 
     <li class="mb-2">
       <button (click)="logout()" class="btn btn-danger w-100">
-        <img ngSrc="assets/logout-svgrepo-com.svg" alt="Déconnexion" width="20" height="20">
+        <img ngSrc="../../assets/logout-svgrepo-com.svg" alt="Déconnexion" width="20" height="20">
         <span *ngIf="!isCollapsed">Déconnexion</span>
       </button>
     </li>
 
     <li class="mb-2" *ngIf="authService.isAdmin()">
       <button (click)="openAddAssignmentModal()" class="btn btn-success w-100">
-        <img ngSrc="assets/add-square-svgrepo-com.svg" alt="Ajouter un Assignment" width="20" height="20">
+        <img ngSrc="../../assets/add-square-svgrepo-com.svg" alt="Ajouter un Assignment" width="20" height="20">
         <span *ngIf="!isCollapsed">Ajouter un Assignment</span>
       </button>
     </li>
