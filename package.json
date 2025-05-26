@@ -27,7 +27,7 @@
     "// --- Git Hooks (avec Husky) ---": "",
     "prepare": "husky install"
   },
- 
+
   "author": "nono le petit robot",
   "license": "ISC",
   "dependencies": {

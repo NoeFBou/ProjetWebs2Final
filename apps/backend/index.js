@@ -6,7 +6,6 @@ const connectDB = require('./config/db');
 // Import des routes
 const assignmentsRoutes = require('./routes/assignments');
 const authRoutes = require('./routes/auth');
-//const frontRoutes = require('./routes/front');
 
 const app = express();
 const PORT = process.env.PORT || 5000;

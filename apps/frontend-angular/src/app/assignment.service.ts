@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {forkJoin, Observable, Subscription} from "rxjs";
+import {environment} from "../environments/environment";
 
 export interface Assignment {
   id?: number;
@@ -18,24 +19,24 @@ export interface Assignment {
 
 export class AssignmentService {
 
-  private apiUrl = 'http://localhost:5000/api/assignments';
+  private baseApiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
   getAssignments(page: number = 1, limit: number = 10000): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(`${this.apiUrl}?page=${page}&limit=${limit}`);
+    return this.http.get<Assignment[]>(`${this.baseApiUrl}?page=${page}&limit=${limit}`);
   }
 
   addAssignment(assignment: Assignment): Observable<Assignment> {
-    return this.http.post<Assignment>(this.apiUrl, assignment);
+    return this.http.post<Assignment>(this.baseApiUrl, assignment);
   }
 
   deleteAssignment(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.baseApiUrl}/${id}`);
   }
 
   updateAssignment(id: number | undefined, assignment: Assignment): Observable<Assignment> {
-    return this.http.put<Assignment>(`${this.apiUrl}/${id}`, assignment);
+    return this.http.put<Assignment>(`${this.baseApiUrl}/${id}`, assignment);
   }
 
   peuplerBD(bdInitialAssignments : any): Observable<readonly unknown[]> {
