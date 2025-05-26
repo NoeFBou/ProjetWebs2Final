@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/frontend-angular/src/environments/environment.prod.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/frontend-angular/src/environments/environment.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/routes/front.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/auth-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/auth-service.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +60,7 @@
       <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final\apps" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.watch">
+  <component name="RunManager" selected="npm.build:frontend">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -99,11 +91,11 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="dev:concurrently" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="install:all" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="dev:concurrently" />
+        <script value="install:all" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -121,11 +113,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.watch" />
         <item itemvalue="npm.build:frontend" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.install:all" />
+        <item itemvalue="npm.watch" />
         <item itemvalue="npm.build:backend" />
-        <item itemvalue="npm.dev:concurrently" />
       </list>
     </recent_temporary>
   </component>
@@ -144,7 +136,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748250123171</updated>
-      <workItem from="1748250125350" duration="4489000" />
+      <workItem from="1748250125350" duration="5268000" />
     </task>
     <servers />
   </component>

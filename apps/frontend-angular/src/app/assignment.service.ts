@@ -19,7 +19,7 @@ export interface Assignment {
 
 export class AssignmentService {
 
-  private baseApiUrl = environment.apiUrl;
+  private baseApiUrl = environment.apiUrl + '/assignments';
 
   constructor(private http: HttpClient) { }
 
