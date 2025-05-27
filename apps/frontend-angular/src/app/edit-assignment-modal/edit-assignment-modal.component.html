@@ -20,7 +20,8 @@
               optionLabel="label"
               optionValue="value"
               styleClass="w-full"
-              required>
+              [editable]="true" (onChange)="onMatiereChange($event)" required>
+              >
             </p-dropdown>
           </div>
 

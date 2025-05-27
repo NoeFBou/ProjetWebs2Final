@@ -17,7 +17,7 @@ $modal-padding: 1.5rem;
 .modal-header {
   background-color: #f8f9fa; // A light background for the header
   border-bottom: 1px solid $border-color;
-  padding: $modal-padding / 1.5 $modal-padding;
+  padding: calc($modal-padding / 1.5);
 
   .modal-title {
     font-size: 1.25rem;
@@ -68,11 +68,7 @@ $modal-padding: 1.5rem;
       margin-top: 0.5rem; // Add some space for slider
     }
 
-    .note-display {
-      min-width: 40px; // Ensure space for note value
-      text-align: right;
-      font-weight: 500;
-    }
+
 
     .d-flex.align-items-center { // For slider and random button
       gap: 0.5rem; // Space between slider, value, button
@@ -84,6 +80,23 @@ $modal-padding: 1.5rem;
     .p-toggleButton{
       font-size: 0.85rem;
     }
+    .note-slider-container {
+      width: 100%; // Ensure the container takes full width
+      .p-slider.flex-grow-1 { // Target the slider within this container
+        width: auto; // Allow slider to grow
+        flex-grow: 1 !important; // Make it take available space
+      }
+    }
+
+    .note-display {
+      min-width: 45px; // Adjusted for better display
+      text-align: center; // Centered
+      font-weight: 500;
+      background-color: #f8f9fa;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+    }
   }
 
   .form-group-full-width {
@@ -92,7 +105,7 @@ $modal-padding: 1.5rem;
 }
 
 .modal-footer {
-  padding: $modal-padding / 1.5 $modal-padding;
+  padding: calc($modal-padding / 1.5);
   background-color: #f8f9fa;
   border-top: 1px solid $border-color;
   display: flex;

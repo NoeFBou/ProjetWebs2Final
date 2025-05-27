@@ -4,7 +4,7 @@ import { Assignment, AssignmentService } from "../assignment.service";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import {CheckboxModule} from "primeng/checkbox";
-import {User} from "../auth-service.service";
+import {AuthServiceService, DecodedToken, User} from "../auth-service.service";
 import {ToggleButtonModule} from "primeng/togglebutton";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {ChipsModule} from "primeng/chips";
@@ -15,6 +15,7 @@ import {DropdownModule} from "primeng/dropdown";
 import {forkJoin} from "rxjs";
 import {UserService} from "../user.service";
 import {NgIf} from "@angular/common";
+import {MessageService} from "primeng/api";
 
 interface DisplayUser extends User { // Interface for dropdown display
   fullName: string;
@@ -61,14 +62,18 @@ export class AddAssignmentModalComponent implements OnInit {
 
   dateDeRenduModel: Date = new Date();
   isLoadingUsers: boolean = false;
+  currentUser: DecodedToken | null = null;
 
   constructor(
     public activeModal: NgbActiveModal,
     private assignmentService: AssignmentService,
-    private userService: UserService // Inject UserService
+    private userService: UserService,
+    private authService: AuthServiceService,
+  private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
     this.dateDeRenduModel = this.assignment.dateDeRendu ? new Date(this.assignment.dateDeRendu) : new Date();
     this.loadUsersForSelection();
   }
@@ -88,11 +93,18 @@ export class AddAssignmentModalComponent implements OnInit {
           ...user,
           fullName: `${user.prenom} ${user.nom}`
         }));
+        if (this.currentUser && this.currentUser.isAdmin) {
+          const currentTeacher = this.allTeachers.find(t => t._id === this.currentUser!.id);
+          if (currentTeacher) {
+            this.selectedTeacher = currentTeacher;
+          }
+        }
         this.isLoadingUsers = false;
       },
       error: (err) => {
         console.error("Erreur lors du chargement des utilisateurs:", err);
         // Handle error display to user, e.g., using a toast message
+
         this.isLoadingUsers = false;
       }
     });
@@ -133,14 +145,28 @@ export class AddAssignmentModalComponent implements OnInit {
     this.assignmentService.addAssignment(this.assignment).subscribe({
       next: (data: Assignment) => {
         console.log("Assignment ajouté :", data);
+        this.messageService.add({severity:'success', summary: 'Succès', detail: `Assignment '${data.nom}' ajouté.`});
         this.activeModal.close(data);
       },
       error: (error) => {
         console.error("Erreur lors de l'ajout de l'assignment", error);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: `L'ajout a échoué: ${error.error?.error || error.message}`});
+
         alert(`Erreur lors de l'ajout: ${error.error?.error || error.message}`);
       }
     });
   }
 
   protected readonly String = String;
+
+  onMatiereChange(event: any) {
+    const typedValue = event.value;
+
+
+    if (typeof typedValue === 'string' && !this.matieresOptions.some(option => option.value === typedValue)) {
+
+      this.matieresOptions.push({ label: typedValue, value: typedValue });
+      console.log('Nouvelle matière saisie:', typedValue);
+    }
+  }
 }

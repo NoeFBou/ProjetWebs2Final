@@ -13,13 +13,13 @@ route  -> assignement note ->  associer les assignement avec un professeur/eleve
 -> bouton pour imprimer
 -> ajouter categorie matiere exercice p-cascadeSelect
 -> reaction à un devoir (<p-rating)
--> un assignement peut etre bloquer par son propriaitaire pour empecher les autres professeurs de le modifier p-toggleButton
--> assignement p-editor InputSwitch MultiSelect
--> filtre : p-calendar p-dropdown InputSwitch MultiSelect
+ok -> un assignement peut etre bloquer par son propriaitaire pour empecher les autres professeurs de le modifier p-toggleButton
+ok -> assignement p-editor InputSwitch MultiSelect
+ok -> filtre : p-calendar p-dropdown InputSwitch MultiSelect
 -> account -> p-password
 -> onglet avec p-table qui resume le nombre d'assignement par categorie/eleve/professeur
 -> onglet p-organizationChart ou p-treeTable pour voir quel exercice dans quel matiere avec que l professeur
--> confirmpopup pour suprression
+ok -> confirmpopup pour suprression ok
 -> FileUpload pour uploader des fichiers
 -> pour afficher le texte p-panel des assignements
 

@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <ng-container *ngIf="isLoggedIn(); else loginTemplate">
   <app-side-navigation (collapsedChange)="onSidebarCollapseChange($event)"></app-side-navigation>
   <main class="main" [ngStyle]="{'margin-left': sidebarCollapsed ? '60px' : '250px'}">
@@ -10,3 +11,7 @@
     <app-login-component></app-login-component>
   </main>
 </ng-template>
+
+
+
+

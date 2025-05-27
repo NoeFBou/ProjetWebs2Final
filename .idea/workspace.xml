@@ -5,35 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/backend/routes/users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/importData.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/importData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/models/Assignment.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/models/Assignment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/models/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/routes/assignments.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/assignments.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/routes/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/TODO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/add-assignment-modal/add-assignment-modal.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/auth-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/auth-service.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +165,7 @@
       <updated>1748250123171</updated>
       <workItem from="1748250125350" duration="15478000" />
       <workItem from="1748277611304" duration="4475000" />
-      <workItem from="1748333046578" duration="13334000" />
+      <workItem from="1748333046578" duration="15982000" />
     </task>
     <servers />
   </component>

@@ -7,14 +7,15 @@ import {AuthServiceService} from "./auth-service.service";
 import {CommonModule, NgClass, NgIf, NgStyle} from '@angular/common';
 import {ButtonDirective} from "primeng/button";
 import {SideNavigationComponent} from "./side-navigation/side-navigation.component";
+import {ToastModule} from "primeng/toast";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ RouterOutlet,
+  imports: [RouterOutlet,
     CommonModule,
-    RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective, SideNavigationComponent, NgStyle, NgClass],
+    RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective, SideNavigationComponent, NgStyle, NgClass, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

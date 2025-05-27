@@ -8,13 +8,14 @@ import {CheckboxModule} from "primeng/checkbox";
 import {forkJoin} from "rxjs";
 import {UserService} from "../user.service";
 import {User} from "../auth-service.service";
-import {DropdownModule} from "primeng/dropdown";
+import {DropdownChangeEvent, DropdownModule} from "primeng/dropdown";
 import {EditorModule} from "primeng/editor";
 import {CalendarModule} from "primeng/calendar";
 import {ChipsModule} from "primeng/chips";
 import {SliderModule} from "primeng/slider";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {ToggleButtonModule} from "primeng/togglebutton";
+import {MessageService} from "primeng/api";
 
 
 interface DisplayUser extends User { // Interface for dropdown display
@@ -80,6 +81,7 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
 
   constructor(
     private assignmentService: AssignmentService,
+    private messageService: MessageService,
     private userService: UserService
   ) {}
 
@@ -202,11 +204,14 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
     this.assignmentService.updateAssignment(this.assignmentCopy._id, this.assignmentCopy).subscribe({
       next: (updatedAssignment) => {
         this.assignmentUpdated.emit(updatedAssignment);
+        this.messageService.add({severity:'success', summary: 'Succès', detail: `Assignment '${updatedAssignment.nom}' mis à jour.`});
         this.hide();
       },
       error: (error) => {
         console.error("Erreur lors de la mise à jour", error);
-        alert(`Erreur lors de la mise à jour: ${error.error?.error || error.message}`);
+     //   alert(`Erreur lors de la mise à jour: ${error.error?.error || error.message}`);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: `La mise à jour a échoué: ${error.error?.error || error.message}`});
+
       }
     });
   }
@@ -217,4 +222,20 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
   }
 
   protected readonly String = String;
+
+  onMatiereChange(event: any) {
+    const typedValue = event.value;
+
+    // If the typed value is not already in matieresOptions (by value)
+    // and it's a new string entry (not one of the objects from the list)
+    if (typeof typedValue === 'string' && !this.matieresOptions.some(option => option.value === typedValue)) {
+      // Option 1: Just use the typed string value (already handled by ngModel)
+      // this.assignment.matiere is already updated.
+
+      // Option 2: Add it to the options list for future selection in this modal instance (optional)
+      this.matieresOptions.push({ label: typedValue, value: typedValue });
+      // Note: This won't persist it globally unless you have a service for managing matières.
+      console.log('Nouvelle matière saisie:', typedValue);
+    }
+  }
 }

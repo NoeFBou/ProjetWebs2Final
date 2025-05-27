@@ -55,20 +55,21 @@
           </p-tabView>
         </div>
         <div class="card-footer mt-auto">
-          <button *ngIf="authService.isAdmin()"
-                  pButton
+          <button *ngIf="authService.isAdmin()" pButton
                   type="button"
                   icon="pi pi-pencil"
                   (click)="openEditModal(assignment)"
-                  class="p-button-sm p-button-info"
-                  pTooltip="Éditer">
+                  class="p-button-sm p-button-info me-2"
+                  pTooltip="Éditer"
+                  [disabled]="isEditDisabled(assignment)" [pTooltip]="isEditDisabled(assignment) ? 'Verrouillé (seul le prof. assigné peut éditer)' : 'Éditer'"
+                  tooltipPosition="top">
           </button>
           <button *ngIf="authService.isAdmin()"
                   pButton
                   type="button"
                   icon="pi pi-trash"
-                  (click)="deleteAssignment(assignment._id)"
-                  class="p-button-sm p-button-danger"
+                  [disabled]="isEditDisabled(assignment)" [pTooltip]="isEditDisabled(assignment) ? 'Verrouillé (seul le prof. assigné peut supprimer)' : 'Supprimer'"
+                  (click)="confirmDelete($event, assignment._id)" class="p-button-sm p-button-danger"
                   pTooltip="Supprimer">
           </button>
         </div>
@@ -82,3 +83,8 @@
 <div class="pagination-info text-center mt-3" *ngIf="filteredAssignments.length > 0">
   Page {{ page + 1 }} / {{ totalPages }}
 </div>
+
+<p-confirmPopup></p-confirmPopup>
+
+
+

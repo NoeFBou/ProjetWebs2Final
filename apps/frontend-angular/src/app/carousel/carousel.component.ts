@@ -6,13 +6,16 @@ import { CarouselModule } from 'primeng/carousel';
 import {TagModule} from "primeng/tag";
 import {Button, ButtonDirective, ButtonModule} from "primeng/button";
 import {FilterComponent, FilterCriteria} from "../filter/filter.component";
-import {AuthServiceService} from "../auth-service.service";
+import {AuthServiceService, DecodedToken} from "../auth-service.service";
 import {PaginatorModule} from "primeng/paginator";
 import {TabViewModule} from "primeng/tabview";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {TooltipModule} from "primeng/tooltip";
 import { SplitterModule } from 'primeng/splitter';
 import {EditAssignmentModalComponent} from "../edit-assignment-modal/edit-assignment-modal.component";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ToastModule} from "primeng/toast";
 
 @Pipe({
   name: 'safeHtml',
@@ -38,7 +41,7 @@ export class SafeHtmlPipe implements PipeTransform {
     SafeHtmlPipe,
     TooltipModule,
     SplitterModule,
-    PaginatorModule, EditAssignmentModalComponent],
+    PaginatorModule, EditAssignmentModalComponent, ConfirmPopupModule, ToastModule],
 
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
@@ -50,11 +53,25 @@ export class CarouselComponent implements OnInit {
 
   @ViewChild('editModal', { static: true }) editModal!: EditAssignmentModalComponent;
   protected page: number = 0; // Current page for pagination display
+  private currentUser: DecodedToken | null;
 
   constructor(
     private assignmentService: AssignmentService,
-    public authService: AuthServiceService // Keep public if accessed in template
-  ) {}
+    public authService: AuthServiceService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+  ) {
+    this.currentUser = this.authService.getCurrentUser();
+  }
+  isEditDisabled(assignment: Assignment): boolean {
+    if (!assignment.locked) {
+      return false;
+    }
+    if (this.currentUser && this.currentUser.isAdmin) {
+      return this.currentUser.id !== assignment.professeur?.idProf;
+    }
+    return true;
+  }
 
   ngOnInit(): void {
     this.loadAssignments();
@@ -80,7 +97,7 @@ export class CarouselComponent implements OnInit {
       }
     });
   }
-
+/*
   deleteAssignment(id: string | undefined): void { // id is now _id (string)
     if (!id) return;
     if (confirm("Voulez-vous vraiment supprimer cet assignment ?")) {
@@ -97,7 +114,7 @@ export class CarouselComponent implements OnInit {
         }
       });
     }
-  }
+  }*/
 
   // Store current filter criteria to re-apply after delete/update
   private currentFilterCriteria: FilterCriteria = {};
@@ -240,4 +257,35 @@ export class CarouselComponent implements OnInit {
       default:
         return 'secondary';
     }  }
+
+  confirmDelete(event: Event, assignmentId: string | undefined): void {
+    if (!assignmentId) return;
+    this.confirmationService.confirm({
+      target: event.target as EventTarget, // Anchor the popup to the button
+      message: 'Voulez-vous vraiment supprimer cet assignment ?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      accept: () => {
+        this.deleteAssignment(assignmentId);
+      },
+      reject: () => {
+        this.messageService.add({severity:'info', summary:'Annulé', detail:'Suppression annulée.'});
+      }
+    });
+  }
+
+  private deleteAssignment(id: string): void {
+    this.assignmentService.deleteAssignment(id).subscribe({
+      next: () => {
+        this.assignments = this.assignments.filter(a => a._id !== id);
+        this.applyFilter(this.currentFilterCriteria || {});
+        this.messageService.add({severity:'success', summary:'Succès', detail:'Assignment supprimé.'});
+      },
+      error: (error) => {
+        console.error('Erreur lors de la suppression', error);
+        this.messageService.add({severity:'error', summary:'Erreur', detail:'La suppression a échoué.'});
+      }
+    });
+  }
 }
