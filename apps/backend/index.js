@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const assignmentsRoutes = require('./routes/assignments');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users'); // Import user routes
+const statsRoutes = require('./routes/stats'); // <--- Import the new stats routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/api/assignments', assignmentsRoutes);
 app.use('/api', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/stats', statsRoutes);
 //app.use('/',frontRoutes);
 
 app.listen(PORT, () => {

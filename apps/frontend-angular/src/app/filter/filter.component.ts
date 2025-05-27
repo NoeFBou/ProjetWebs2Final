@@ -11,6 +11,7 @@ import {ChipsModule} from "primeng/chips";
 import {ButtonModule} from "primeng/button";
 import {UserService} from "../user.service";
 import {forkJoin, map} from "rxjs";
+import {FocusTrapModule} from "primeng/focustrap";
 
 export interface FilterCriteria {
   nom?: string; // Keep if you still want to filter by assignment name
@@ -41,7 +42,8 @@ interface DisplayUser {
     SliderModule,
     SelectButtonModule,
     ChipsModule,
-    ButtonModule
+    ButtonModule,
+    FocusTrapModule
   ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
