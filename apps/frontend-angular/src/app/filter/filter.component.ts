@@ -3,63 +3,142 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {Assignment, AssignmentService} from "../assignment.service";
+import {CalendarModule} from "primeng/calendar";
+import {MultiSelectModule} from "primeng/multiselect";
+import {SliderModule} from "primeng/slider";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {ChipsModule} from "primeng/chips";
+import {ButtonModule} from "primeng/button";
+import {UserService} from "../user.service";
+import {forkJoin, map} from "rxjs";
 
 export interface FilterCriteria {
-  name?: string;
-  date?: string;      // Valeur issue d'un input type date (à convertir en Date si besoin)
-  nombre?: number;    // Filtrage sur le champ nombre
-  department?: string;
-  termine?: boolean;  // Filtrage sur le champ booléen
+  nom?: string; // Keep if you still want to filter by assignment name
+  dateDeRenduRange?: Date[]; // For p-calendar [startDate, endDate]
+  selectedTags?: string[];    // For p-multiSelect
+  noteRange?: number[];       // For p-slider [minNote, maxNote]
+  locked?: boolean | null;    // null for 'Any', true for 'Locked', false for 'Unlocked'
+  selectedMatieres?: string[];// For p-multiSelect
+  selectedProfesseurIds?: string[]; // For p-multiSelect (User IDs)
+  selectedEleveIds?: string[];    // For p-multiSelect (User IDs)
+  selectedStatuts?: string[]; // For p-selectButton (multiple)
+  exerciceKeywords?: string[];// For p-chips
 }
 
-
+interface DisplayUser {
+  _id: string;
+  fullName: string;
+}
 
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule, AutoCompleteModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    CalendarModule,
+    MultiSelectModule,
+    SliderModule,
+    SelectButtonModule,
+    ChipsModule,
+    ButtonModule
+  ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
 
-  criteria: FilterCriteria = {};
+  criteria: FilterCriteria = {
+    noteRange: [0, 20], // Default note range
+    locked: null // Default to 'Any'
+  };
 
-  names: string[] = [];
-  departments: string[] = [];
-  filteredNames: string[] = [];
-  filteredDepartments: string[] = [];
+  // Options for dropdowns/multiselects
+  allTags: { label: string, value: string }[] = [];
+  allMatieres: { label: string, value: string }[] = [];
+  allProfesseurs: DisplayUser[] = [];
+  allEleves: DisplayUser[] = [];
+
+  statutOptions: { label: string, value: string }[] = [
+    { label: 'En Cours', value: 'en cours' },
+    { label: 'Terminé', value: 'terminé' },
+    { label: 'En Attente', value: 'en attente' }
+  ];
+
+  lockedOptions: { label: string, value: boolean | null }[] = [
+    { label: 'Tous', value: null }, // 'Any' state
+    { label: 'Verrouillé', value: true },
+    { label: 'Déverrouillé', value: false }
+  ];
+
+  isLoadingOptions: boolean = false;
 
   @Output() filterChange = new EventEmitter<FilterCriteria>();
 
-  constructor(private assignmentService: AssignmentService) { }
+  constructor(
+    private assignmentService: AssignmentService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
-    this.assignmentService.getAssignments().subscribe((assignments: Assignment[]) => {
-      this.names = assignments.map(a => a.name);
-      this.names = [...new Set(this.names)];
-      this.departments = assignments.map(a => a.department);
-      this.departments = [...new Set(this.departments)];
+    this.loadFilterOptions();
+  }
+
+  loadFilterOptions(): void {
+    this.isLoadingOptions = true;
+    forkJoin({
+      assignments: this.assignmentService.getAssignments(1, 10000), // Fetch all for options; consider a dedicated endpoint for distinct values
+      professeurs: this.userService.getUsers({ isAdmin: true }),
+      eleves: this.userService.getUsers({ isAdmin: false })
+    }).pipe(
+      map(results => {
+        const uniqueTags = new Set<string>();
+        const uniqueMatieres = new Set<string>();
+        results.assignments.forEach(assignment => {
+          if (assignment.tags) {
+            assignment.tags.forEach(tag => uniqueTags.add(tag));
+          }
+          if (assignment.matiere) {
+            uniqueMatieres.add(assignment.matiere);
+          }
+        });
+
+        return {
+          tags: Array.from(uniqueTags).map(tag => ({ label: tag, value: tag })),
+          matieres: Array.from(uniqueMatieres).map(matiere => ({ label: matiere, value: matiere })),
+          professeurs: results.professeurs.map(p => ({ _id: p._id, fullName: `${p.prenom} ${p.nom}` })),
+          eleves: results.eleves.map(e => ({ _id: e._id, fullName: `${e.prenom} ${e.nom}` }))
+        };
+      })
+    ).subscribe({
+      next: (options) => {
+        this.allTags = options.tags;
+        this.allMatieres = options.matieres;
+        this.allProfesseurs = options.professeurs;
+        this.allEleves = options.eleves;
+        this.isLoadingOptions = false;
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement des options de filtre:", err);
+        this.isLoadingOptions = false;
+        // Handle error (e.g., show a message to the user)
+      }
     });
   }
 
   onFilterChange(): void {
-    //console.log(this.criteria);
-    this.filterChange.emit({ ...this.criteria });
+    // Create a deep copy to avoid issues with object references if criteria is modified elsewhere
+    const criteriaToEmit = JSON.parse(JSON.stringify(this.criteria));
+    this.filterChange.emit(criteriaToEmit);
   }
 
   resetFilters(): void {
-    this.criteria = {};
+    this.criteria = {
+      noteRange: [0, 20], // Reset to default
+      locked: null // Reset to default 'Any'
+    };
+    // To clear p-calendar range, set to an empty array or [null, null]
+    this.criteria.dateDeRenduRange = undefined; // Or []
     this.onFilterChange();
-  }
-
-  filterNames(event: { query: string }): void {
-    const query = event.query.toLowerCase();
-    this.filteredNames = this.names.filter(name => name.toLowerCase().includes(query));
-  }
-
-  filterDepartments(event: { query: string }): void {
-    const query = event.query.toLowerCase();
-    this.filteredDepartments = this.departments.filter(department => department.toLowerCase().includes(query));
   }
 }

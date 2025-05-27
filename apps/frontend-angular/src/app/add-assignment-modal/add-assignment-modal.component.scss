@@ -1,6 +1,117 @@
-.btn{
-  margin: 0.1rem;
+// add-assignment-modal.component.scss
+
+// Variables (optional, but good for consistency)
+$primary-color: #007bff; // Example primary color
+$label-color: #495057;
+$border-color: #dee2e6;
+$input-bg: #fff;
+$input-focus-border-color: #80bdff;
+$modal-padding: 1.5rem;
+
+// Host context for ng-bootstrap modal adjustments (if needed, often not necessary for content)
+// :host ::ng-deep .modal-dialog {
+//   // You can set max-width here if size:'xl' is not enough, but 'size' option is preferred
+// }
+
+// Style the modal content provided in the component's template
+.modal-header {
+  background-color: #f8f9fa; // A light background for the header
+  border-bottom: 1px solid $border-color;
+  padding: $modal-padding / 1.5 $modal-padding;
+
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .btn-close {
+    &:focus {
+      box-shadow: none;
+    }
+  }
 }
-form-group{
-  align-items: center;
+
+.modal-body {
+  padding: $modal-padding;
+  background-color: #fff; // Ensure a clean background
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // Responsive columns
+    gap: 1.25rem 1.5rem; // Row and column gap
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: $label-color;
+      font-size: 0.9rem;
+    }
+
+    // PrimeNG component full width adjustments if ::ng-deep is needed
+    // Usually, styleClass="w-full" on the component itself is enough.
+    // Example for p-dropdown, p-calendar, etc.
+    // ::ng-deep .p-dropdown, ::ng-deep .p-calendar, ::ng-deep .p-chips {
+    //   width: 100%;
+    // }
+
+    .p-editor {
+      border: 1px solid $border-color;
+      border-radius: 4px;
+    }
+
+    .p-slider {
+      margin-top: 0.5rem; // Add some space for slider
+    }
+
+    .note-display {
+      min-width: 40px; // Ensure space for note value
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .d-flex.align-items-center { // For slider and random button
+      gap: 0.5rem; // Space between slider, value, button
+    }
+
+    .p-selectButton .p-button { // Style selectButton items
+      font-size: 0.85rem;
+    }
+    .p-toggleButton{
+      font-size: 0.85rem;
+    }
+  }
+
+  .form-group-full-width {
+    grid-column: 1 / -1; // Make this item span all columns in the grid
+  }
 }
+
+.modal-footer {
+  padding: $modal-padding / 1.5 $modal-padding;
+  background-color: #f8f9fa;
+  border-top: 1px solid $border-color;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem; // Space between footer buttons
+
+  .btn {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+  }
+}
+
+// Specific overrides for PrimeNG components if w-full is not enough or for custom look
+// These should generally be avoided if component properties can achieve the same.
+// Use with caution as ::ng-deep pierces encapsulation.
+// :host ::ng-deep .p-inputtext {
+//   border-color: $border-color;
+//   &:focus {
+//     border-color: $input-focus-border-color;
+//     box-shadow: 0 0 0 0.2rem rgba($input-focus-border-color, 0.25);
+//   }
+// }

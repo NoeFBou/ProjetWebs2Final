@@ -1,42 +1,84 @@
 <app-filter (filterChange)="applyFilter($event)"></app-filter>
+
 <p-carousel
   [value]="filteredAssignments"
-  [numVisible]="5"
-  [numScroll]="5"
-  [circular]="true"
-  [showIndicators]="false"
-  (onPage)="pageChange($event)">
-verticalViewPortHeight="360px">
+  [numVisible]="responsiveOptions ? responsiveOptions[0].numVisible : 3"
+  [numScroll]="responsiveOptions ? responsiveOptions[0].numScroll : 1"
+  [circular]="filteredAssignments.length > (responsiveOptions && responsiveOptions[0].numVisible ? responsiveOptions[0].numVisible : 3)"
+  [responsiveOptions]="responsiveOptions"
+  [showIndicators]="filteredAssignments.length > (responsiveOptions && responsiveOptions[0].numVisible ? responsiveOptions[0].numVisible : 3)"
+  (onPage)="pageChange($event)"
+  styleClass="custom-carousel">
   <ng-template let-assignment pTemplate="item">
-    <div class="border-1 surface-border border-round m-2 p-3">
-      <div class="mb-3 carousel-item">
-        <div class="carousel-header">
-          <h4>{{ assignment.name }}</h4>
+    <div class="carousel-item-container">
+      <div class="assignment-card">
+        <div class="card-header mb-3">
+          <h4 class="mb-1">{{ assignment.nom }}</h4>
+          <small class="text-muted">Matière: {{ assignment.matiere }}</small>
         </div>
-        <div class="carousel-body">
-          <p class="item-info">Date: {{ assignment.date | date:'shortDate' }}</p>
-          <p class="item-info">Department: {{ assignment.department }}</p>
-          <p class="item-info">Nombre: {{ assignment.nombre }}</p>
-          <p class="item-info">Statut: {{ assignment.termine ? 'Terminé' : 'Non terminé' }}</p>
+
+        <div class="card-content-wrapper">
+          <p-tabView styleClass="tabview-custom">
+            <p-tabPanel header="Détails">
+              <div class="details-grid py-2">
+                <div><strong>Date de Rendu:</strong> {{ assignment.dateDeRendu | date:'dd/MM/yyyy HH:mm' }}</div>
+                <div><strong>Note:</strong> {{ assignment.note !== null && assignment.note !== undefined ? (assignment.note | number:'1.0-2') + '/20' : 'Non noté' }}</div>
+                <div><strong>Statut:</strong> <p-tag [value]="assignment.statut" [severity]="getStatutSeverity(assignment.statut)"></p-tag></div>
+                <div><strong>Professeur:</strong> {{ assignment.professeur?.nomProf || 'N/A' }}</div>
+                <div><strong>Élève:</strong> {{ assignment.eleve?.nomEleve || 'N/A' }}</div>
+                <div class="tags-container">
+                  <strong>Tags:</strong>
+                  <ng-container *ngIf="assignment.tags && assignment.tags.length > 0; else noTags">
+                    <p-tag *ngFor="let tag of assignment.tags" [value]="tag" styleClass="mr-1 mt-1"></p-tag>
+                  </ng-container>
+                  <ng-template #noTags><span>Aucun tag</span></ng-template>
+                </div>
+                <div>
+                  <strong>Visibilité:</strong>
+                  <i [class]="assignment.visible ? 'pi pi-eye' : 'pi pi-eye-slash'"
+                     [pTooltip]="assignment.visible ? 'Visible' : 'Caché'"
+                     [style.color]="assignment.visible ? 'green' : 'red'"></i>
+                </div>
+                <div>
+                  <strong>Verrouillage:</strong>
+                  <i [class]="assignment.locked ? 'pi pi-lock' : 'pi pi-lock-open'"
+                     [pTooltip]="assignment.locked ? 'Verrouillé' : 'Déverrouillé'"
+                     [style.color]="assignment.locked ? 'orange' : 'inherit'"></i>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="Exercice" [disabled]="!assignment.exercice">
+              <div class="py-2 exercice-content" [innerHTML]="assignment.exercice | safeHtml">
+              </div>
+              <p *ngIf="!assignment.exercice && !assignment.exercice?.length">Aucune description d'exercice.</p>
+            </p-tabPanel>
+          </p-tabView>
         </div>
-        <button *ngIf="authService.isAdmin()"
-                pButton
-                icon="pi pi-pencil"
-                label="Supprimer"
-                (click)="deleteAssignment(assignment.id)"
-                class="btn btn-danger"></button>
-        <button *ngIf="authService.isAdmin()"
-                pButton
-                icon="pi pi-pencil"
-                label="Éditer"
-                (click)="openEditModal(assignment)"
-                class="btn btn-success"></button>
+        <div class="card-footer mt-auto">
+          <button *ngIf="authService.isAdmin()"
+                  pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  (click)="openEditModal(assignment)"
+                  class="p-button-sm p-button-info"
+                  pTooltip="Éditer">
+          </button>
+          <button *ngIf="authService.isAdmin()"
+                  pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  (click)="deleteAssignment(assignment._id)"
+                  class="p-button-sm p-button-danger"
+                  pTooltip="Supprimer">
+          </button>
+        </div>
       </div>
     </div>
   </ng-template>
-</p-carousel>
 
+</p-carousel>
 <app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
-<div class="pagination-info text-center mt-3">
-  Page {{ page + 1 }} sur {{ totalPages }}
+
+<div class="pagination-info text-center mt-3" *ngIf="filteredAssignments.length > 0">
+  Page {{ page + 1 }} / {{ totalPages }}
 </div>

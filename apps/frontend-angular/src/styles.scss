@@ -3,6 +3,9 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.snow.css";
 body {
   font-family: var(--font-family);
   font-weight: normal;

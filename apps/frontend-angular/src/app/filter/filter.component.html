@@ -1,49 +1,145 @@
-<div class="filter-container">
-  <form (ngSubmit)="onFilterChange()" class="filter-form">
-    <div class="p-field">
-      <label for="name">Name :</label>
-      <p-autoComplete
-        id="name"
-        [(ngModel)]="criteria.name"
-        name="name"
-        [suggestions]="filteredNames"
-        (completeMethod)="filterNames($event)"
-        placeholder="Filtrer par nom"
-        (input)="onFilterChange()">
-      </p-autoComplete>
+<div class="filter-container p-fluid mb-4" pFocusTrap>
+  <form (ngSubmit)="onFilterChange()" #filterForm="ngForm">
+    <div class="grid formgrid align-items-center">
+      <div class="row">
+        <div class="field col-3">
+          <label class="text-center" for="filter-nom">Nom Assignment</label>
+          <input type="text" pInputText id="filter-nom" [(ngModel)]="criteria.nom" name="nom" (input)="onFilterChange()" placeholder="Filtrer par nom">
+        </div>
+        <div class="field col-3">
+          <label class="text-center"  for="filter-dateDeRendu">Date de Rendu (Plage)</label>
+          <p-calendar
+            id="filter-dateDeRendu"
+            [(ngModel)]="criteria.dateDeRenduRange"
+            name="dateDeRenduRange"
+            selectionMode="range"
+            [readonlyInput]="true"
+            dateFormat="dd/mm/yy"
+            placeholder="Sélectionner une plage de dates"
+            (onSelect)="onFilterChange()"
+            (onClearClick)="criteria.dateDeRenduRange = undefined; onFilterChange()"
+            [showButtonBar]="true">
+          </p-calendar>
+        </div>
 
+        <div class="field col-3">
+          <label class="text-center" for="filter-tags">Tags</label>
+          <p-multiSelect
+            id="filter-tags"
+            [options]="allTags"
+            [(ngModel)]="criteria.selectedTags"
+            name="selectedTags"
+            placeholder="Filtrer par tags"
+            optionLabel="label"
+            optionValue="value"
+            display="chip"
+            [showClear]="true"
+            (onChange)="onFilterChange()"
+            [disabled]="isLoadingOptions">
+          </p-multiSelect>
+        </div>
+        <div class="field col-3">
+          <label class="text-center" for="filter-note">Note (Plage: {{criteria.noteRange ? criteria.noteRange[0] : 0}} - {{criteria.noteRange ? criteria.noteRange[1] : 20}})</label>
+          <p-slider
+            id="filter-note"
+            [(ngModel)]="criteria.noteRange"
+            name="noteRange"
+            [range]="true"
+            [min]="0"
+            [max]="20"
+            [step]="0.5"
+            (onSlideEnd)="onFilterChange()"
+            styleClass="mt-2 mb-3">
+          </p-slider>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field col-3">
+          <label class="text-center" for="filter-locked">Statut Verrouillé</label>
+          <p-selectButton
+            id="filter-locked"
+            [options]="lockedOptions"
+            [(ngModel)]="criteria.locked"
+            name="locked"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onFilterChange()">
+          </p-selectButton>
+        </div>
+        <div class="field col-3">
+          <label class="text-center" for="filter-statuts">Statuts Assignment</label>
+          <p-selectButton
+            id="filter-statuts"
+            [options]="statutOptions"
+            [(ngModel)]="criteria.selectedStatuts"
+            name="selectedStatuts"
+            optionLabel="label"
+            optionValue="value"
+            [multiple]="true"
+            (onChange)="onFilterChange()">
+          </p-selectButton>
+        </div>
 
+        <div class="field col-3">
+          <label class="text-center" for="filter-professeurs">Professeurs</label>
+          <p-multiSelect
+            id="filter-professeurs"
+            [options]="allProfesseurs"
+            [(ngModel)]="criteria.selectedProfesseurIds"
+            name="selectedProfesseurIds"
+            placeholder="Filtrer par professeurs"
+            optionLabel="fullName"
+            optionValue="_id"
+            display="chip"
+            [showClear]="true"
+            (onChange)="onFilterChange()"
+            [disabled]="isLoadingOptions">
+          </p-multiSelect>
 
-
-    </div>
-    <div class="p-field">
-      <label for="date">Date :</label>
-      <input type="date" id="date" [(ngModel)]="criteria.date" name="date" placeholder="Filtrer par date" (input)="onFilterChange()">
-    </div>
-    <div class="p-field">
-      <label for="nombre">Nombre :</label>
-      <input type="number" id="nombre" [(ngModel)]="criteria.nombre" name="nombre" placeholder="Filtrer par nombre" (input)="onFilterChange()">
-    </div>
-
-
-    <div class="p-field">
-      <label for="department">Département :</label>
-      <p-autoComplete
-        id="department"
-        [(ngModel)]="criteria.department"
-        name="department"
-        [suggestions]="filteredDepartments"
-        (completeMethod)="filterDepartments($event)"
-        placeholder="Filtrer par département"
-        (input)="onFilterChange()">
-      </p-autoComplete>
-    </div>
-    <div class="p-field">
-      <label for="termine">Terminé :</label>
-      <input type="checkbox" id="termine" [(ngModel)]="criteria.termine" name="termine" (change)="onFilterChange()">
-    </div>
-    <div class="p-field" style="margin-top: 1rem;">
-      <button type="button" (click)="resetFilters()">Réinitialiser</button>
+          <label class="text-center" for="filter-eleves">Élèves</label>
+          <p-multiSelect
+            id="filter-eleves"
+            [options]="allEleves"
+            [(ngModel)]="criteria.selectedEleveIds"
+            name="selectedEleveIds"
+            placeholder="Filtrer par élèves"
+            optionLabel="fullName"
+            optionValue="_id"
+            display="chip"
+            [showClear]="true"
+            (onChange)="onFilterChange()"
+            [disabled]="isLoadingOptions">
+          </p-multiSelect>
+        </div>
+        <div class="field col-3">
+          <label class="text-center" for="filter-matieres">Matières</label>
+          <p-multiSelect
+            id="filter-matieres"
+            [options]="allMatieres"
+            [(ngModel)]="criteria.selectedMatieres"
+            name="selectedMatieres"
+            placeholder="Filtrer par matières"
+            optionLabel="label"
+            optionValue="value"
+            display="chip"
+            [showClear]="true"
+            (onChange)="onFilterChange()"
+            [disabled]="isLoadingOptions">
+          </p-multiSelect>
+          <label class="text-center" for="filter-exercice">Mots-clés dans Exercice</label>
+          <p-chips
+            id="filter-exercice"
+            [(ngModel)]="criteria.exerciceKeywords"
+            name="exerciceKeywords"
+            placeholder="Entrer mots-clés"
+            (onAdd)="onFilterChange()"
+            (onRemove)="onFilterChange()">
+          </p-chips>
+        </div>
+      </div>
+      <div class="field col-4 flex justify-content-end mt-3">
+        <button pButton type="button" label="Réinitialiser Filtres" icon="pi pi-times" (click)="resetFilters()" class="p-button-outlined"></button>
+      </div>
     </div>
   </form>
 </div>

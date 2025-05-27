@@ -1,38 +1,159 @@
-<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="false" [style]="{'width': '30vw'}" *ngIf="assignmentCopy">
-  <form (ngSubmit)="onSubmit()">
-    <div class="p-fluid">
-      <div class="p-field">
-        <label for="name">Industry</label>
-        <input id="name" type="text" [(ngModel)]="assignmentCopy.name" name="Name" required class="p-inputtext" />
-      </div>
-      <div class="p-field">
-        <label for="date">Date</label>
-        <input
-          id="date"
-          type="date"
-          [ngModel]="assignmentCopy.date | date:'yyyy-MM-dd'"
-          (ngModelChange)="onDateChange($event)"
-          name="date"
-          required
-          class="p-inputtext" />
-      </div>
-      <div class="p-field">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" type="number" [(ngModel)]="assignmentCopy.nombre" name="nombre" required class="p-inputtext" />
-      </div>
-      <div class="p-field">
-        <label for="department">Department</label>
-        <input id="department" type="text" [(ngModel)]="assignmentCopy.department" name="department" required class="p-inputtext" />
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox inputId="termine" [(ngModel)]="assignmentCopy.termine" binary="true" name="termine"></p-checkbox>
-        <label for="termine">Terminé</label>
-      </div>
+<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="true" (onHide)="hide()" [style]="{'width': '70vw', 'max-width': '900px'}">
+  <ng-container *ngIf="assignmentCopy">
+    <form #editAssignmentForm="ngForm" (ngSubmit)="onSubmit()">
+      <div class="modal-body p-fluid">
+        <div class="form-grid">
 
-      <div class="p-field" style="margin-top: 1rem;">
-        <button type="submit" pButton label="Sauvegarder" class="p-mr-2"></button>
-        <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-secondary"></button>
+          <div class="form-group">
+            <label for="edit-nom">Nom de l'assignment</label>
+            <input type="text" id="edit-nom" name="nom" class="p-inputtext p-component w-full" [(ngModel)]="assignmentCopy.nom" required>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-matiere">Matière</label>
+            <p-dropdown
+              id="edit-matiere"
+              name="matiere"
+              [options]="matieresOptions"
+              [(ngModel)]="assignmentCopy.matiere"
+              placeholder="Sélectionner une matière"
+              optionLabel="label"
+              optionValue="value"
+              styleClass="w-full"
+              required>
+            </p-dropdown>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-professeur">Professeur</label>
+            <p-dropdown
+              id="edit-professeur"
+              name="professeur"
+              [options]="allTeachers"
+              [(ngModel)]="selectedTeacher"
+              placeholder="Sélectionner un professeur"
+              optionLabel="fullName"
+              [filter]="true"
+              filterBy="fullName"
+              [showClear]="true"
+              styleClass="w-full"
+              [disabled]="isLoadingUsers"
+              required>
+              <ng-template pTemplate="empty">
+                <span *ngIf="isLoadingUsers">Chargement...</span>
+                <span *ngIf="!isLoadingUsers && allTeachers.length === 0">Aucun professeur</span>
+              </ng-template>
+              <ng-template let-user pTemplate="item">
+                <div>{{user.fullName}} ({{user.email}})</div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-eleve">Élève</label>
+            <p-dropdown
+              id="edit-eleve"
+              name="eleve"
+              [options]="allStudents"
+              [(ngModel)]="selectedStudent"
+              placeholder="Sélectionner un élève"
+              optionLabel="fullName"
+              [filter]="true"
+              filterBy="fullName"
+              [showClear]="true"
+              styleClass="w-full"
+              [disabled]="isLoadingUsers"
+              required>
+              <ng-template pTemplate="empty">
+                <span *ngIf="isLoadingUsers">Chargement...</span>
+                <span *ngIf="!isLoadingUsers && allStudents.length === 0">Aucun élève</span>
+              </ng-template>
+              <ng-template let-user pTemplate="item">
+                <div>{{user.fullName}} ({{user.email}})</div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+
+          <div class="form-group form-group-full-width">
+            <label for="edit-exercice">Exercice / Description</label>
+            <p-editor [(ngModel)]="assignmentCopy.exercice" name="exercice" [style]="{ height: '200px' }"></p-editor>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-dateDeRendu">Date de Rendu</label>
+            <p-calendar
+              inputId="edit-dateDeRendu"
+              name="dateDeRendu"
+              [(ngModel)]="dateDeRenduModel"
+              [showTime]="true"
+              [hourFormat]="String(24)"
+              dateFormat="dd/mm/yy"
+              styleClass="w-full"
+              required>
+            </p-calendar>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-tags">Tags</label>
+            <p-chips [(ngModel)]="assignmentCopy.tags" name="tags" placeholder="Ajouter des tags" styleClass="w-full"></p-chips>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-note">Note (0-20)</label>
+            <div class="d-flex align-items-center">
+              <p-slider [(ngModel)]="assignmentCopy.note" name="note" [min]="0" [max]="20" [step]="0.5" styleClass="w-full me-2"></p-slider>
+              <span class="ms-2 me-2" style="min-width: 30px;">{{ assignmentCopy.note || 0 }}</span>
+              <button pButton type="button" icon="pi pi-bolt" (click)="generateRandomNote()" class="p-button-sm p-button-outlined" pTooltip="Générer note aléatoire"></button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-statut">Statut</label>
+            <p-selectButton
+              id="edit-statut"
+              name="statut"
+              [options]="statutOptions"
+              [(ngModel)]="assignmentCopy.statut"
+              optionLabel="label"
+              optionValue="value"
+              required>
+            </p-selectButton>
+          </div>
+
+          <div class="form-group d-flex flex-column align-items-start">
+            <label for="edit-locked" class="mb-2">Verrouillé</label>
+            <p-toggleButton
+              id="edit-locked"
+              name="locked"
+              [(ngModel)]="assignmentCopy.locked"
+              onLabel="Verrouillé"
+              offLabel="Déverrouillé"
+              onIcon="pi pi-lock"
+              offIcon="pi pi-lock-open"
+              styleClass="w-9rem">
+            </p-toggleButton>
+          </div>
+
+          <div class="form-group d-flex flex-column align-items-start">
+            <label for="edit-visible" class="mb-2">Visible</label>
+            <p-toggleButton
+              id="edit-visible"
+              name="visible"
+              [(ngModel)]="assignmentCopy.visible"
+              onLabel="Visible"
+              offLabel="Caché"
+              onIcon="pi pi-eye"
+              offIcon="pi pi-eye-slash"
+              styleClass="w-9rem">
+            </p-toggleButton>
+          </div>
+        </div>
       </div>
-    </div>
-  </form>
+      <div class="p-dialog-footer"> <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-text"></button>
+        <button type="submit" pButton label="Sauvegarder" class="p-button-primary" [disabled]="!editAssignmentForm.form.valid || isLoadingUsers"></button>
+      </div>
+    </form>
+  </ng-container>
+  <ng-template pTemplate="footer">
+  </ng-template>
 </p-dialog>

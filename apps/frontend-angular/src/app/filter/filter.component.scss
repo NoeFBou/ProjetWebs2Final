@@ -1,23 +1,98 @@
-.p-field {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
+// .p-field { // This global styling for .p-field might be too broad.
+//   display: flex; // PrimeNG's .field already handles much of this with the grid.
+//   align-items: center;
+//   margin-bottom: 0.5rem;
+// }
 
-.p-field label {
-  width: 150px;
-  margin-right: 0.5rem;
-}
+// .p-field label { // Consider styling labels directly or via PrimeNG's structure.
+//   width: 150px; // Fixed width labels can be problematic for responsiveness.
+//   margin-right: 0.5rem;
+// }
 
-.p-field input {
-  flex: 1;
-}
+// .p-field input { // This is too generic.
+//   flex: 1;
+// }
 
-.filter-container{
-  padding: 2rem 20rem;
+.filter-container {
+  padding: 2rem; // Reduced horizontal padding [MODIFIED]
   border: 1px solid #ccc;
   border-radius: 8px;
   margin-bottom: 1rem;
-  background-color: #4fc698;
-  color: #ffffff;
+  background-color: #4fc698; //
+  color: #ffffff; //
+}
+
+.filter-container .field { // Add some bottom margin to each field for spacing
+  margin-bottom: 1rem;
+}
+
+.filter-container label {
+  display: block; // Ensure label is on its own line above the input
+  margin-bottom: 0.5rem; // Space between label and input
+  font-weight: bold;
+  color: #ffffff; // Ensure labels are visible on the green background
+}
+
+// If you need specific alignment for the reset button when it was in a col-4:
+// .d-flex.align-items-end {
+//   display: flex;
+//   align-items: flex-end;
+//   height: 100%; /* Ensure it takes full height of the grid row cell to align button at bottom */
+// }
+// .d-flex.align-items-end .p-button-outlined {
+//    margin-top: auto; /* Pushes button to bottom if label was also in this div */
+// }
+
+// Ensure p-slider label and component are well-spaced
+.filter-container .field p-slider {
+  margin-top: 0.5rem; // Add some space if the label is close
+}
+
+.filter-container .grid.formgrid .field.col-6 {
+  flex-direction: row; // Arrange label and input horizontally
+  align-items: center;   // Vertically center label and input in the row
+
+  label {
+    margin-bottom: 0;     // Remove bottom margin (used when stacked)
+    margin-right: 0.75em; // Add space between label and input
+    white-space: nowrap;  // Prevent label from wrapping
+    // font-weight and color are inherited or already set by .filter-container .field label
+  }
+
+  /* Ensure PrimeNG input components take up available space in flex container */
+  input[pInputText],
+  p-calendar,
+  p-multiSelect, // Include other PrimeNG components if they might be used in a col-6 context
+  p-slider,
+  p-selectButton,
+  p-chips {
+    flex: 1;      // Allows the input component to grow and fill remaining space
+    min-width: 0; // Important for flex items that might overflow their container
+    // This helps override PrimeNG's p-fluid width: 100% when in a flex row.
+  }
+}
+
+/* The original @media query for other .md:col-6 fields (like Tags, Note, etc.) */
+/* should be kept if those fields still use the .md:col-6 class and responsive behavior. */
+@media (min-width: 768px) {
+  .filter-container .grid.formgrid .field.md\:col-6 {
+    flex-direction: row;
+    align-items: center;
+
+    label {
+      margin-bottom: 0;
+      margin-right: 0.75em;
+      white-space: nowrap;
+    }
+
+    input[pInputText],
+    p-calendar,
+    p-multiSelect,
+    p-slider,
+    p-selectButton,
+    p-chips {
+      flex: 1;
+      min-width: 0;
+    }
+  }
 }

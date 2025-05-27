@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {AddAssignmentModalComponent} from "../add-assignment-modal/add-assignment-modal.component";
 import {AuthServiceService} from "../auth-service.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {ButtonDirective} from "primeng/button";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {Assignment, AssignmentService} from "../assignment.service";
@@ -42,6 +42,10 @@ export class SideNavigationComponent implements OnInit {
   }
 
   openAddAssignmentModal() {
-    this.modalService.open(AddAssignmentModalComponent, { centered: true });
+    const modalOptions: NgbModalOptions = {
+      size: 'xl', // 'lg' for large, 'xl' for extra large
+      centered: true,
+    };
+    this.modalService.open(AddAssignmentModalComponent, modalOptions);
   }
 }

@@ -3,38 +3,80 @@
   padding: 1rem;
 }
 
-.carousel-item {
-  background-color: #4fc698;
+.carousel-item-container { // Added a wrapper for better control
+  padding: 0.5rem; // Provides spacing around cards if needed
+  height: 100%;
+  display: flex; // Helps in centering or managing single item
+  justify-content: center; // Center card if it's alone and takes less than full width
+}
+
+.assignment-card {
+  background-color: #4fc698; // Card body color [MODIFIED]
   border: 1px solid #000000;
   border-radius: 8px;
-  color: #ffffff;
-  padding: 16px;
-  height: 100%;
+  color: #333333; // Changed default text color for better readability on new background
+  padding: 0; // Padding will be handled by inner elements [MODIFIED]
+  height: 100%; // Crucial for uniform height
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between; // Can be removed if header/footer/body manage their space
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden; // Prevents content from breaking card boundaries
+  min-height: 450px; // Or a suitable fixed height [ADDED] - Adjust as needed
+  max-width: 95%; // Prevents single card from taking full carousel width [ADDED]
+  margin: 0 auto; // Center the card if it's narrower than the slot [ADDED]
 }
-p-link {
+
+.card-content-wrapper { // Added wrapper for padding and text margin [ADDED]
+  padding: 16px;
+  padding-left: 24px; // Small margin/padding to the left of the text [ADDED]
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; // If content inside tabs overflows
+  text-align: left; // Align text to the left for better readability
+}
+
+
+p-link { // This seems to be a custom component or typo for <a>. If it's PrimeNG Link, style accordingly.
   color: #ff0000;
 }
-.carousel-header {
-  min-height: 7rem;
+
+.carousel-header { // This class seems to be from a previous structure, .card-header is used in HTML
+  min-height: 4rem; // Reduced min-height for a more compact header
   background-color: #ef430e;
-  padding: 8px;
+  padding: 12px 16px; // Adjusted padding
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   color: #ffffff;
-  font-size: 1.2rem;
-
+  font-size: 1.1rem; // Slightly reduced font size
   display: flex;
   justify-content: center;
   align-items: center;
-
+  text-align: center; // Ensure header text is centered
 }
 
-.carousel-body {
+// Styles for the actual card header used in your HTML
+.assignment-card .card-header { // More specific selector [MODIFIED]
+  background-color: transparent; // Assuming you want the card body color to show
+  color: #000000; // Text color for header
+  padding: 12px 16px; // Padding for the header
+  border-bottom: 1px solid rgba(0,0,0,0.1); // Optional separator
+  min-height: auto; // Reset min-height if not needed like .carousel-header
+}
+
+.assignment-card .card-header h4 {
+  font-size: 1.15rem; //
+  margin-bottom: 0.25rem; // Adjust spacing
+}
+
+.assignment-card .card-header small {
+  font-size: 0.85rem; // Adjust spacing
+}
+
+
+.carousel-body { // This class also seems unused in current HTML structure of the card item
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -42,21 +84,78 @@ p-link {
   margin: 1rem 0;
 }
 
-.carousel-footer {
+// Card footer styling
+.assignment-card .card-footer { // More specific selector and color change [MODIFIED]
   background-color: #ef430e;
-  padding: 8px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  padding: 12px 16px; // Adjusted padding
+  border-bottom-left-radius: 8px; // Keep if card itself has no bottom padding
+  border-bottom-right-radius: 8px; // Keep if card itself has no bottom padding
+  margin-top: auto; // Pushes footer to the bottom
+  text-align: right; // Align buttons to the right as per HTML
 }
 
-.custom-button {
+.custom-button { // General custom button, not specifically used on card buttons in HTML
   width: 100%;
 }
 
-.btn {
+.btn { // General btn class, ensure it doesn't conflict
   margin: 0.5rem;
 }
 
-pagination-info {
-  color: #ffffff;
+.pagination-info {
+  color: #333333; // Changed for better visibility if background isn't dark
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  font-size: 0.9rem; //
+  padding: 8px 0; // Add some padding [MODIFIED]
+}
+
+.details-grid > div {
+  padding: 4px 0; //
+}
+
+.tags-container p-tag {
+  margin-right: 4px;
+  margin-bottom: 4px; //
+}
+
+.exercice-content {
+  max-height: 200px; // Or any desired height
+  overflow-y: auto;
+  font-size: 0.9rem; //
+  word-wrap: break-word; //
+  padding: 8px 0; // Add some padding [MODIFIED]
+}
+
+// TabView styling to ensure consistency
+:host ::ng-deep .tabview-custom {
+  flex: 1; // Allow tabview to fill space
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep .tabview-custom .p-tabview-nav {
+  flex-shrink: 0; // Prevent nav from shrinking
+}
+:host ::ng-deep .tabview-custom .p-tabview-nav li .p-tabview-nav-link {
+  padding: 0.75rem 1rem; //
+}
+
+:host ::ng-deep .tabview-custom .p-tabview-panels {
+  padding: 0.5rem 0; // Reduce default panel padding
+  flex: 1; // Allow panels to take available space
+  overflow-y: auto; // If individual panel content overflows
+  background-color: transparent; // Ensure it doesn't override card body color
+}
+
+// Ensure PrimeNG button styles in footer are not overridden negatively
+.assignment-card .card-footer .p-button {
+  margin-left: 0.5rem; // Consistent with previous .me-2
+}
+.assignment-card .card-footer .p-button-sm {
+  padding: 0.4rem 0.8rem; // Adjust if needed
 }

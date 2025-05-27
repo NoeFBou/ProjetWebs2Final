@@ -11,7 +11,11 @@ router.get('/', async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
-        const assignments = await Assignment.find().skip(skip).limit(limit);
+        const assignments = await Assignment.find()
+            // .populate('professeur.idProf', 'nom prenom email') // Optionally populate more user details
+            // .populate('eleve.idEleve', 'nom prenom email')
+            .skip(skip)
+            .limit(limit);
         res.json(assignments);
     } catch (error) {
         console.error(error);
@@ -22,7 +26,10 @@ router.get('/', async (req, res) => {
 // Récupérer un assignment par son ID
 router.get('/:id', async (req, res) => {
     try {
-        const assignment = await Assignment.findOne({ id: req.params.id });
+        // Ensure req.params.id is a valid MongoDB ObjectId if needed, or Mongoose handles it
+        const assignment = await Assignment.findById(req.params.id);
+        // .populate('professeur.idProf') // Optionally populate
+        // .populate('eleve.idEleve');
         if (!assignment) {
             return res.status(404).json({ message: "Assignment non trouvé" });
         }
@@ -36,9 +43,30 @@ router.get('/:id', async (req, res) => {
 // Ajouter un nouvel assignment
 router.post('/', async (req, res) => {
     try {
-        // Génération d'un identifiant unique via Date.now()
-        req.body.id = Date.now();
-        const newAssignment = new Assignment(req.body);
+        // Destructure all new fields from req.body
+        const { nom, matiere, exercice, note, tags, statut, dateDeRendu, visible, locked, professeur, eleve } = req.body;
+
+        // Basic validation (add more as needed)
+        if (!nom || !matiere || !statut || !dateDeRendu || !professeur || !eleve ) {
+            return res.status(400).json({ error: "Champs requis manquants." });
+        }
+        if (!professeur.idProf || !professeur.nomProf || !eleve.idEleve || !eleve.nomEleve) {
+            return res.status(400).json({ error: "Informations professeur ou élève manquantes." });
+        }
+
+        const newAssignment = new Assignment({
+            nom, matiere, exercice, note, tags, statut,
+            dateDeRendu: new Date(dateDeRendu), // Ensure it's a Date object
+            visible, locked,
+            professeur: {
+                idProf: professeur.idProf,
+                nomProf: professeur.nomProf
+            },
+            eleve: {
+                idEleve: eleve.idEleve,
+                nomEleve: eleve.nomEleve
+            }
+        });
         await newAssignment.save();
         res.status(201).json(newAssignment);
     } catch (error) {
@@ -49,34 +77,34 @@ router.post('/', async (req, res) => {
 
 // Modifier un assignment existant
 router.put('/:id', async (req, res) => {
-  //  console.log(req.body);
     try {
-        const assignmentId = parseInt(req.params.id, 10);
+        const assignmentId = req.params.id;
+        // Ensure req.body only contains fields that can be updated
+        // For example, you might not want to update professeur/eleve details this way
+        // or handle it specifically.
+        if (req.body.dateDeRendu) {
+            req.body.dateDeRendu = new Date(req.body.dateDeRendu);
+        }
 
-        const updatedAssignment = await Assignment.findOneAndUpdate(
-            { id: assignmentId },
+        const updatedAssignment = await Assignment.findByIdAndUpdate(
+            assignmentId,
             req.body,
-            { new: true }
+            { new: true, runValidators: true } // new: true returns the updated doc, runValidators ensures schema rules are checked
         );
-       // console.log(updatedAssignment);
         if (!updatedAssignment) {
             return res.status(404).json({ message: "Assignment non trouvé" });
         }
-
-
-       // console.log("test");
-       // console.log(updatedAssignment);
         res.json(updatedAssignment);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erreur serveur" });
+        res.status(500).json({ error: "Erreur lors de la modification de l'assignment" });
     }
 });
 
 // Supprimer un assignment
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedAssignment = await Assignment.findOneAndDelete({ id: req.params.id });
+        const deletedAssignment = await Assignment.findByIdAndDelete(req.params.id);
         if (!deletedAssignment) {
             return res.status(404).json({ message: "Assignment non trouvé" });
         }

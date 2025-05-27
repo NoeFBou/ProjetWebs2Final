@@ -2,6 +2,14 @@
   <form (ngSubmit)="onSubmit()">
     <div class="p-fluid">
       <div class="p-field pt-2">
+        <label for="regNom">Nom</label>
+        <input id="regNom" type="text" [(ngModel)]="nom" name="nom" required class="p-inputtext" />
+      </div>
+      <div class="p-field pt-2">
+        <label for="regPrenom">Prénom</label>
+        <input id="regPrenom" type="text" [(ngModel)]="prenom" name="prenom" required class="p-inputtext" />
+      </div>
+      <div class="p-field pt-2">
         <label for="regEmail">User Name</label>
         <input id="regEmail" type="email" [(ngModel)]="email" name="email" required class="p-inputtext" />
       </div>

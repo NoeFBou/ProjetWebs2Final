@@ -8,14 +8,21 @@ const authMiddleware = require('../secu/auth');
 // Route d'inscription
 router.post('/register', async (req, res) => {
     try {
-        const { email, password, isAdmin } = req.body;
+        const { email, password, isAdmin, nom, prenom } = req.body; // Added nom, prenom
+        if (!nom || !prenom) {
+            return res.status(400).json({ error: "Le nom et le prénom sont requis." });
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, password: hashedPassword, isAdmin: isAdmin || false });
+        const newUser = new User({ email, password: hashedPassword, isAdmin: isAdmin || false, nom, prenom });
         await newUser.save();
-        res.json({ message: "Utilisateur créé avec succès" });
+        res.status(201).json({ message: "Utilisateur créé avec succès" }); // Changed to 201 for resource creation
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erreur serveur" });
+        // Handle potential duplicate email error (code 11000)
+        if (error.code === 11000) {
+            return res.status(400).json({ error: "Cet email est déjà utilisé." });
+        }
+        res.status(500).json({ error: "Erreur serveur lors de l'inscription" });
     }
 });
 
@@ -32,8 +39,14 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: "Mot de passe invalide" });
         }
         const token = jwt.sign(
-            { id: user._id, email: user.email, isAdmin: user.isAdmin },
-            process.env.JWT_SECRET || 'secret', // Utilisez une variable d'environnement pour le secret
+            {
+                id: user._id, // Use MongoDB's _id
+                email: user.email,
+                nom: user.nom, // Add nom
+                prenom: user.prenom, // Add prenom
+                isAdmin: user.isAdmin
+            },
+            process.env.JWT_SECRET || 'secret',
             { expiresIn: '1h' }
         );
         res.json({ token });
@@ -42,6 +55,8 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: "Erreur lors de la connexion" });
     }
 });
+
+
 
 // TODO Route protégée
 router.get('/protected', authMiddleware, (req, res) => {

@@ -5,6 +5,7 @@ import {DialogModule} from "primeng/dialog";
 import {NgIf} from "@angular/common";
 import {ButtonDirective} from "primeng/button";
 import {CheckboxModule} from "primeng/checkbox";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-register-modal',
@@ -27,6 +28,8 @@ export class RegisterModalComponent {
   isAdmin: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
+  nom: string = '';
+  prenom: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -49,8 +52,13 @@ export class RegisterModalComponent {
       this.errorMessage = "Les mots de passe ne correspondent pas";
       return;
     }
-    this.http.post<any>('http://localhost:5000/api/register', { email: this.email, password: this.password, isAdmin: this.isAdmin })
-      .subscribe({
+    this.http.post<any>(`${environment.apiUrl}/register`, {
+      nom: this.nom,
+      prenom: this.prenom,
+      email: this.email,
+      password: this.password,
+      isAdmin: this.isAdmin
+    }).subscribe({
         next: () => {
           this.successMessage = "Utilisateur créé avec succès";
           setTimeout(() => this.hide(), 2000);

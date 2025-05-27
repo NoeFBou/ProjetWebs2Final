@@ -1,0 +1,28 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem; /* Add some padding to modal body content */
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.form-group-full-width {
+  grid-column: 1 / -1; /* Make this item span all columns */
+}
+.w-full .p-component, .w-full > .p-component {
+  width: 100% !important;
+}
+.p-slider.w-full {
+  width: 100%;
+}
+/* Adjust footer if buttons are inside the form */
+.p-dialog .p-dialog-footer {
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}

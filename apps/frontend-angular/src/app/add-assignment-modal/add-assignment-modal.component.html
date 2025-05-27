@@ -1,38 +1,158 @@
 <div class="modal-header">
   <h4 class="modal-title">Ajouter un Assignment</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
+
 <div class="modal-body">
-  <form>
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text" class="form-control" [(ngModel)]="assignment.name" name="Name">
-    </div>
+  <form #assignmentForm="ngForm">
+    <div class="form-grid">
 
-    <div class="form-group">
-      <label>Date</label>
-      <input type="date" class="form-control" [(ngModel)]="assignment.date" name="date">
-    </div>
+      <div class="form-group">
+        <label for="add-nom">Nom de l'assignment</label>
+        <input type="text" id="add-nom" name="nom" class="p-inputtext p-component w-full" [(ngModel)]="assignment.nom" required placeholder="Ex: Devoir Maison Maths Chapitre 3">
+      </div>
 
-    <div class="form-group">
-      <label>Nombre</label>
-      <input type="number" class="form-control" [(ngModel)]="assignment.nombre" name="nombre">
-    </div>
+      <div class="form-group">
+        <label for="add-matiere">Matière</label>
+        <p-dropdown
+          id="add-matiere"
+          name="matiere"
+          [options]="matieresOptions"
+          [(ngModel)]="assignment.matiere"
+          placeholder="Sélectionner une matière"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full"
+          required>
+        </p-dropdown>
+      </div>
 
-    <div class="form-group">
-      <label>Department</label>
-      <input type="text" class="form-control" [(ngModel)]="assignment.department" name="department">
-    </div>
+      <div class="form-group">
+        <label for="professeur">Professeur</label>
+        <p-dropdown
+          id="professeur"
+          name="professeur"
+          [options]="allTeachers"
+          [(ngModel)]="selectedTeacher"
+          placeholder="Sélectionner un professeur"
+          optionLabel="fullName"
+          [filter]="true" filterBy="fullName"
+          [showClear]="true"
+          styleClass="w-full"
+          [disabled]="isLoadingUsers"
+          required>
+          <ng-template pTemplate="empty">
+            <span *ngIf="isLoadingUsers">Chargement...</span>
+            <span *ngIf="!isLoadingUsers && allTeachers.length === 0">Aucun professeur</span>
+          </ng-template>
+          <ng-template let-user pTemplate="item">
+            <div>{{user.fullName}} ({{user.email}})</div>
+          </ng-template>
+        </p-dropdown>
+      </div>
 
-    <div class="form-group ">
-      <label>Terminé</label>
-      <p-checkbox inputId="termine" class="form-control" [(ngModel)]="assignment.termine" binary="true" name="termine"></p-checkbox>
+      <div class="form-group">
+        <label for="eleve">Élève</label>
+        <p-dropdown
+          id="eleve"
+          name="eleve"
+          [options]="allStudents"
+          [(ngModel)]="selectedStudent"
+          placeholder="Sélectionner un élève"
+          optionLabel="fullName"
+          [filter]="true" filterBy="fullName"
+          [showClear]="true"
+          styleClass="w-full"
+          [disabled]="isLoadingUsers"
+          required>
+          <ng-template pTemplate="empty">
+            <span *ngIf="isLoadingUsers">Chargement...</span>
+            <span *ngIf="!isLoadingUsers && allStudents.length === 0">Aucun élève</span>
+          </ng-template>
+          <ng-template let-user pTemplate="item">
+            <div>{{user.fullName}} ({{user.email}})</div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="form-group form-group-full-width">
+        <label for="exercice">Exercice / Description</label>
+        <p-editor [(ngModel)]="assignment.exercice" name="exercice" [style]="{ height: '200px' }"></p-editor>
+      </div>
+
+      <div class="form-group">
+        <label for="dateDeRendu">Date de Rendu</label>
+        <p-calendar
+          inputId="dateDeRendu"
+          name="dateDeRendu"
+          [(ngModel)]="dateDeRenduModel"
+          [showTime]="true"
+          hourFormat="24" dateFormat="dd/mm/yy"
+          styleClass="w-full"
+          placeholder="jj/mm/aaaa hh:mm"
+          required>
+        </p-calendar>
+      </div>
+
+      <div class="form-group">
+        <label for="tags">Tags</label>
+        <p-chips [(ngModel)]="assignment.tags" name="tags" placeholder="Ajouter tags (ex: facile)" styleClass="w-full"></p-chips>
+      </div>
+
+      <div class="form-group">
+        <label for="note">Note (0-20)</label>
+        <div class="d-flex align-items-center">
+          <p-slider [(ngModel)]="assignment.note" name="note" [min]="0" [max]="20" [step]="0.5" styleClass="w-full me-2"></p-slider>
+          <span class="ms-2 me-2 note-display">{{ assignment.note !== null && assignment.note !== undefined ? assignment.note : 'N/A' }}</span>
+          <button pButton type="button" icon="pi pi-bolt" (click)="generateRandomNote()" class="p-button-sm p-button-outlined" pTooltip="Générer note aléatoire" tooltipPosition="top"></button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="statut">Statut</label>
+        <p-selectButton
+          id="statut"
+          name="statut"
+          [options]="statutOptions"
+          [(ngModel)]="assignment.statut"
+          optionLabel="label"
+          optionValue="value"
+          required>
+        </p-selectButton>
+      </div>
+
+      <div class="form-group d-flex flex-column align-items-start">
+        <label for="locked" class="mb-2">Verrouillé</label>
+        <p-toggleButton
+          id="locked"
+          name="locked"
+          [(ngModel)]="assignment.locked"
+          onLabel="Verrouillé"
+          offLabel="Déverrouillé"
+          onIcon="pi pi-lock"
+          offIcon="pi pi-lock-open"
+          styleClass="w-9rem">
+        </p-toggleButton>
+      </div>
+
+      <div class="form-group d-flex flex-column align-items-start">
+        <label for="visible" class="mb-2">Visible</label>
+        <p-toggleButton
+          id="visible"
+          name="visible"
+          [(ngModel)]="assignment.visible"
+          onLabel="Visible"
+          offLabel="Caché"
+          onIcon="pi pi-eye"
+          offIcon="pi pi-eye-slash"
+          styleClass="w-9rem">
+        </p-toggleButton>
+      </div>
     </div>
   </form>
 </div>
+
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="addAssignment()">Ajouter</button>
-  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Annuler</button>
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel click')">Annuler</button>
+  <button type="button" class="btn btn-primary" (click)="addAssignment()" [disabled]="!assignmentForm.form.valid || isLoadingUsers">Ajouter Assignment</button>
 </div>
