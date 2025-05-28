@@ -43,7 +43,7 @@ const populateUsers = async () => {
 
 const populateAssignments = async (users) => {
     try {
-        await Assignment.deleteMany({}); // Clear existing assignments
+    //    await Assignment.deleteMany({}); // Clear existing assignments
         console.log('Existing assignments cleared.');
 
         const assignmentsData = JSON.parse(fs.readFileSync(assignmentsFilePath, 'utf-8'));
