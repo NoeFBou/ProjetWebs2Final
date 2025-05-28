@@ -20,7 +20,6 @@ router.get('/', authMiddleware, async (req, res) => {
             query.isAdmin = false;
         }
         // Add other query parameters as needed, e.g., for search, pagination
-        console.log(query);
         // Only allow admins to fetch all users if no filter is applied
         if (Object.keys(query).length === 0 && (req.user && !req.user.isAdmin)) {
             return res.status(403).json({ error: "Accès non autorisé pour lister tous les utilisateurs." });
