@@ -8,30 +8,27 @@
     <div *ngIf="!isLoading && chartData && chartData.length > 0">
       <p-organizationChart [value]="chartData" [collapsible]="true" selectionMode="single">
         <ng-template let-node pTemplate="person">
-          <div class="node-content p-2 text-center" [ngClass]="node.styleClass"> <ng-container *ngIf="node.type === 'user' && node.data">
-            <p-avatar
-              [image]="node.data.image" [label]="!node.data.image ? getAvatarLabel(node.data.name) : ''"
-              size="large"
-              shape="circle"
-              styleClass="node-avatar mb-2">
-            </p-avatar>
-            <div class="font-bold node-name">{{ node.label }}</div> <div class="text-sm node-title">{{ node.data.title }}</div>
-          </ng-container>
-
-            <ng-container *ngIf="node.type === 'assignment' && node.data">
-              <div class="assignment-icon mb-2">
-                <i class="pi pi-file-edit" style="font-size: 2rem; color: var(--primary-color);"></i>
+          <div class="node-content p-2 text-center" [ngClass]="node.styleClass">
+            <ng-container *ngIf="node.type === 'user' && node.data">
+              <p-avatar
+                [image]="node.data.image"
+                [label]="!node.data.image ? getAvatarLabel(node.data.name) : ''"
+                size="large"
+                shape="circle"
+                styleClass="node-avatar mb-2">
+              </p-avatar>
+              <div class="font-bold node-name">{{ node.label }}</div>
+              <div class="text-sm node-title">{{ node.data.title }}</div>
+              <div *ngIf="node.data.image" class="text-xs mt-1" style="word-break: break-all; color: #757575;">
+                <small>URL: {{ node.data.image }}</small>
               </div>
-              <div class="font-medium node-name">{{ node.label }}</div> <div class="text-sm node-title">{{ node.data.title }}</div>
+              <div *ngIf="!node.data.image" class="text-xs mt-1" style="color: #d9534f;">
+                <small>Pas d'image</small>
+              </div>
             </ng-container>
           </div>
         </ng-template>
       </p-organizationChart>
-    </div>
-
-    <div *ngIf="!isLoading && (!chartData || chartData.length === 0)" class="text-center py-5">
-      <i class="pi pi-inbox" style="font-size: 3rem; color: var(--text-color-secondary)"></i>
-      <p class="mt-2 text-color-secondary">Aucune donnée d'organisation à afficher.</p>
     </div>
   </p-card>
 </div>

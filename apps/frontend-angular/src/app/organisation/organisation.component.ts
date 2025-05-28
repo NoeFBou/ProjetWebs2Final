@@ -26,45 +26,6 @@ export class OrganisationComponent implements OnInit {
   isLoading: boolean = true;
   currentUser: DecodedToken | null;
   serverBaseUrl = environment.serverBaseUrl || ''; // Pour les images
-  data: TreeNode[] = [
-    {
-      label: 'Argentina',
-      expanded: true,
-      data: 'ar',
-      children: [
-        {
-          label: 'Argentina',
-          expanded: true,
-          data: 'ar',
-          children: [
-            {
-              label: 'Argentina',
-              data: 'ar'
-            },
-            {
-              label: 'Croatia',
-              data: 'hr'
-            }
-          ]
-        },
-        {
-          label: 'France',
-          expanded: true,
-          data: 'fr',
-          children: [
-            {
-              label: 'France',
-              data: 'fr'
-            },
-            {
-              label: 'Morocco',
-              data: 'ma'
-            }
-          ]
-        }
-      ]
-    }
-  ];
 
   constructor(
     private statsService: StatisticsService, // ou OrganizationService
@@ -99,6 +60,9 @@ export class OrganisationComponent implements OnInit {
       if (node.type === 'user' && node.data && node.data.image && !node.data.image.startsWith('http')) {
         node.data.image = `${this.serverBaseUrl}${node.data.image}`;
       }
+      // @ts-ignore
+      console.log(`Image URL pour ${node.data.name}: ${node.data.image}`); // Log pour débogage
+
       if (node.children) {
         node.children.forEach(processNode);
       }
