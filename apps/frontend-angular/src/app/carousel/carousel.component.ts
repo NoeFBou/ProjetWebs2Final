@@ -16,6 +16,10 @@ import {EditAssignmentModalComponent} from "../edit-assignment-modal/edit-assign
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ToastModule} from "primeng/toast";
+import {environment} from "../../environments/environment";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {UserProfileViewModalComponent} from "../user-profile-view-modal/user-profile-view-modal.component";
+import {AvatarModule} from "primeng/avatar";
 
 @Pipe({
   name: 'safeHtml',
@@ -27,7 +31,11 @@ export class SafeHtmlPipe implements PipeTransform {
     return this.sanitizer.bypassSecurityTrustHtml(value || '');
   }
 }
-
+export interface PaginatedAssignments {
+  assignments: Assignment[];
+  totalPages: number;
+  currentPage: number;
+}
 @Component({
   selector: 'app-carousel',
   standalone: true,
@@ -41,7 +49,7 @@ export class SafeHtmlPipe implements PipeTransform {
     SafeHtmlPipe,
     TooltipModule,
     SplitterModule,
-    PaginatorModule, EditAssignmentModalComponent, ConfirmPopupModule, ToastModule],
+    PaginatorModule, EditAssignmentModalComponent, ConfirmPopupModule, ToastModule, AvatarModule],
 
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
@@ -54,12 +62,15 @@ export class CarouselComponent implements OnInit {
   @ViewChild('editModal', { static: true }) editModal!: EditAssignmentModalComponent;
   protected page: number = 0; // Current page for pagination display
   private currentUser: DecodedToken | null;
+  dialogRef: DynamicDialogRef | undefined;
+  serverBaseUrl = environment.serverBaseUrl || '';
 
   constructor(
     private assignmentService: AssignmentService,
     public authService: AuthServiceService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public dialogService: DialogService
   ) {
     this.currentUser = this.authService.getCurrentUser();
   }
@@ -86,11 +97,19 @@ export class CarouselComponent implements OnInit {
 
   loadAssignments(): void {
     this.assignmentService.getAssignments(1, 10000).subscribe({ // Consider actual pagination
-      next: (data: Assignment[]) => {
-        console.log('Assignments loaded:', data);
-        this.assignments = data;
-        this.filteredAssignments = data; // Initialize filtered list
-        // this.page = 0; // Already initialized
+      next: (data: PaginatedAssignments) => {
+        console.log("Assignments data received from service:", data);
+        if (data && Array.isArray(data.assignments)) {
+          this.assignments = data.assignments;
+          this.filteredAssignments = data.assignments; // Initialize filtered list
+          // Update your component's totalPages and currentPage if using them for display
+          // this.totalPages = response.totalPages;
+          // this.page = response.currentPage -1; // If your 'page' is 0-indexed
+        } else {
+          console.error("Received data is not in the expected paginated format or assignments array is missing.", data);
+          this.assignments = [];
+          this.filteredAssignments = [];
+        }
       },
       error: (error) => {
         console.error('Erreur lors du chargement des assignments', error);
@@ -287,5 +306,39 @@ export class CarouselComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'Erreur', detail:'La suppression a échoué.'});
       }
     });
+  }
+
+  openUserProfileModal(userId: string | undefined): void {
+    if (!userId) {
+      console.error("User ID is undefined, cannot open profile modal.");
+      return;
+    }
+    this.dialogRef = this.dialogService.open(UserProfileViewModalComponent, {
+      header: 'Détails du Profil Utilisateur',
+      width: '60%', // Or '700px', '50vw', etc.
+      contentStyle: {"max-height": "80vh", "overflow": "auto"},
+      baseZIndex: 10000,
+      maximizable: true,
+      data: { // Pass data to the modal
+        userId: userId
+      }
+    });
+  }
+
+  getAvatarLabelForUser(name: string | undefined): string {
+    if (name) {
+      const parts = name.split(' ');
+      const prenomInitial = parts[0] ? parts[0][0].toUpperCase() : '';
+      const nomInitial = parts.length > 1 && parts[parts.length -1] ? parts[parts.length -1][0].toUpperCase() : '';
+      return prenomInitial + nomInitial;
+    }
+    return '??';
+  }
+
+  getProfilePictureFullUrl(profilePicture: any) {
+    if (profilePicture) {
+      return `${this.serverBaseUrl}/uploads/profile-pictures/${profilePicture}`;
+    }
+    return undefined;
   }
 }

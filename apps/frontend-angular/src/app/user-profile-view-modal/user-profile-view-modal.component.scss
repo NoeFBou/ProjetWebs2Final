@@ -1,0 +1,69 @@
+// src/app/user-profile-view-modal/user-profile-view-modal.component.scss
+:host ::ng-deep .user-profile-card {
+  .p-card-body {
+    padding: 0; // Remove default card body padding if content template handles it
+  }
+  .p-card-content {
+    padding: 1.5rem;
+  }
+  .p-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--surface-border);
+    text-align: right;
+  }
+}
+
+.profile-content {
+  align-items: flex-start; // Align items to the start for better layout
+}
+
+.profile-avatar {
+  width: 120px !important;  // Ensure consistent size
+  height: 120px !important; // Ensure consistent size
+  font-size: 3rem !important; // Make label larger if image not present
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+  border: 3px solid var(--surface-border);
+}
+
+.avatar-subtext {
+  font-size: 0.8rem;
+  color: var(--text-color-secondary);
+}
+
+.user-details p {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  strong {
+    color: var(--text-color-secondary);
+    min-width: 80px;
+    display: inline-block;
+  }
+}
+
+.p-fileupload {
+  // Add any custom styling for fileupload if needed
+  // e.g., make the content area more prominent
+  ::ng-deep .p-fileupload-content {
+    padding: 1rem;
+    border: 1px dashed var(--surface-d);
+    border-radius: var(--border-radius);
+  }
+  ::ng-deep .p-fileupload-empty {
+    padding: 2rem;
+    color: var(--text-color-secondary);
+  }
+}
+
+.text-center { text-align: center; }
+.text-muted { color: var(--text-color-secondary); }
+.mb-3 { margin-bottom: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+
+// PrimeFlex grid classes if you use them, or simple CSS grid:
+.grid { display: grid; gap: 1rem; }
+.col-12 { grid-column: span 12 / span 12; }
+@media (min-width: 768px) { /* md */
+  .md\:col-4 { grid-column: span 4 / span 4; }
+  .md\:col-8 { grid-column: span 8 / span 8; }
+}

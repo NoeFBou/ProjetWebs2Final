@@ -96,7 +96,7 @@ export class FilterComponent implements OnInit {
       map(results => {
         const uniqueTags = new Set<string>();
         const uniqueMatieres = new Set<string>();
-        results.assignments.forEach(assignment => {
+        results.assignments.assignments.forEach(assignment => {
           if (assignment.tags) {
             assignment.tags.forEach(tag => uniqueTags.add(tag));
           }

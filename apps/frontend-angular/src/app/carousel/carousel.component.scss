@@ -94,16 +94,20 @@ p-link { // This seems to be a custom component or typo for <a>. If it's PrimeNG
   text-align: right; // Align buttons to the right as per HTML
 }
 
-.custom-button { // General custom button, not specifically used on card buttons in HTML
+.custom-button {
   width: 100%;
 }
 
-.btn { // General btn class, ensure it doesn't conflict
+.btn {
   margin: 0.5rem;
 }
 
 .pagination-info {
-  color: #333333; // Changed for better visibility if background isn't dark
+  color: #333333;
+}
+
+.p-button{
+  color : #ffffff;
 }
 
 .details-grid {
@@ -158,4 +162,22 @@ p-link { // This seems to be a custom component or typo for <a>. If it's PrimeNG
 }
 .assignment-card .card-footer .p-button-sm {
   padding: 0.4rem 0.8rem; // Adjust if needed
+}
+
+.user-info-line {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; // Small gap between elements
+
+  .user-avatar {
+    width: 24px !important; // Example size
+    height: 24px !important;
+    font-size: 0.8rem !important; // For label if no image
+    background-color: var(--surface-400); // A neutral background for avatar
+    color: var(--text-color);
+  }
+  .p-button.p-button-sm.p-button-rounded.p-button-text {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
 }

@@ -11,12 +11,59 @@ router.get('/', async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
-        const assignments = await Assignment.find()
-            // .populate('professeur.idProf', 'nom prenom email') // Optionally populate more user details
-            // .populate('eleve.idEleve', 'nom prenom email')
-            .skip(skip)
-            .limit(limit);
-        res.json(assignments);
+        const assignments = await Assignment.aggregate([
+            { $sort: { dateDeRendu: -1 } }, // Example sort
+            { $skip: skip },
+            { $limit: limit },
+            { // Lookup for Professor
+                $lookup: {
+                    from: "users", // your users collection name
+                    localField: "professeur.idProf",
+                    foreignField: "_id",
+                    as: "professeurDetailsArr"
+                }
+            },
+            { // Lookup for Eleve
+                $lookup: {
+                    from: "users",
+                    localField: "eleve.idEleve",
+                    foreignField: "_id",
+                    as: "eleveDetailsArr"
+                }
+            },
+            { // Unwind the arrays created by $lookup (assuming one prof/eleve per assignment)
+                $unwind: { path: "$professeurDetailsArr", preserveNullAndEmptyArrays: true }
+            },
+            {
+                $unwind: { path: "$eleveDetailsArr", preserveNullAndEmptyArrays: true }
+            },
+            { // Project the desired fields, including profile pictures
+                $project: {
+                    // Include all original Assignment fields
+                    nom: 1, matiere: 1, exercice: 1, note: 1, tags: 1, statut: 1,
+                    dateDeRendu: 1, visible: 1, locked: 1,
+                    // Original professeur/eleve objects (containing IDs and denormalized names)
+                    "professeur.idProf": 1,
+                    "professeur.nomProf": 1, // This is the denormalized name
+                    "eleve.idEleve": 1,
+                    "eleve.nomEleve": 1,   // This is the denormalized name
+                    // Add profile picture from the looked-up user documents
+                    "professeur.profilePicture": "$professeurDetailsArr.profilePicture",
+                    "eleve.profilePicture": "$eleveDetailsArr.profilePicture",
+                    // You can also overwrite nomProf/nomEleve with fresh data if needed:
+                    // "professeur.nomProfFresh": { $concat: ["$professeurDetailsArr.prenom", " ", "$professeurDetailsArr.nom"] },
+                    // "eleve.nomEleveFresh": { $concat: ["$eleveDetailsArr.prenom", " ", "$eleveDetailsArr.nom"] },
+                }
+            }
+        ]);
+
+        const totalAssignments = await Assignment.countDocuments();
+
+        res.json({
+            assignments,
+            totalPages: Math.ceil(totalAssignments / limit),
+            currentPage: page
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Erreur lors de la récupération des assignments" });

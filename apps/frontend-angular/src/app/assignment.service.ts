@@ -5,15 +5,21 @@ import {forkJoin, Observable, Subscription} from "rxjs";
 import {environment} from "../environments/environment";
 
 export interface ProfesseurInfo {
-  idProf: string; // Corresponds to User._id
+  idProf: string;
   nomProf: string;
+  profilePicture?: string;
 }
 
 export interface EleveInfo {
-  idEleve: string; // Corresponds to User._id
+  idEleve: string;
   nomEleve: string;
+  profilePicture?: string;
 }
-
+export interface PaginatedAssignments { // You can move this to a shared models file
+  assignments: Assignment[];
+  totalPages: number;
+  currentPage: number;
+}
 export interface Assignment {
   _id?: string; // MongoDB's ID, optional for new assignments before saving
   nom: string;
@@ -39,12 +45,8 @@ export class AssignmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAssignments(page: number = 1, limit: number = 10000): Observable<Assignment[]> {
-
-
-
-
-    return this.http.get<Assignment[]>(`${this.baseApiUrl}?page=${page}&limit=${limit}`);
+  getAssignments(page: number = 1, limit: number = 10): Observable<PaginatedAssignments> { // Update return type
+    return this.http.get<PaginatedAssignments>(`${this.baseApiUrl}?page=${page}&limit=${limit}`);
   }
 
   addAssignment(assignment: Assignment): Observable<Assignment> {

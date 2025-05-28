@@ -1,0 +1,59 @@
+<p-card [header]="user ? (user.prenom + ' ' + user.nom) : 'Profil Utilisateur'" styleClass="user-profile-card">
+  <ng-template pTemplate="content">
+    <div *ngIf="isLoading" class="text-center">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      <p>Chargement...</p>
+    </div>
+
+    <div *ngIf="!isLoading && user" class="profile-content grid">
+      <div class="col-12 md:col-4 text-center">
+        <p-avatar
+          [image]="profilePictureUrl"
+          [label]="!profilePictureUrl ? getAvatarLabel() : ''"
+          size="xlarge"
+          shape="circle"
+          styleClass="profile-avatar mb-3">
+        </p-avatar>
+        <div *ngIf="profilePictureUrl" class="avatar-subtext">(Image actuelle)</div>
+      </div>
+
+      <div class="col-12 md:col-8 user-details">
+        <p><strong>Nom:</strong> {{ user.nom }}</p>
+        <p><strong>Prénom:</strong> {{ user.prenom }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Rôle:</strong> {{ user.isAdmin ? 'Professeur (Admin)' : 'Élève' }}</p>
+      </div>
+
+      <div *ngIf="canEditProfilePic" class="col-12 mt-4">
+        <h5>Changer la photo de profil</h5>
+        <p-fileUpload #fileUploader
+          name="profilePic"
+          [customUpload]="true"
+          (uploadHandler)="customUploadHandler($event)"
+          (onError)="onUploadError($event)"
+          [multiple]="false"
+          accept="image/*"
+          maxFileSize="5000000"
+          chooseLabel="Choisir"
+          uploadLabel="Uploader"
+          cancelLabel="Annuler"
+          [showUploadButton]="true"
+          [showCancelButton]="true"
+          invalidFileSizeMessageSummary="{0}: Fichier trop volumineux,"
+          invalidFileSizeMessageDetail="Taille max. autorisée: {0}."
+          invalidFileTypeMessageSummary="{0}: Type de fichier invalide,"
+          invalidFileTypeMessageDetail="Seuls les types suivants sont autorisés: {0}.">
+          <ng-template pTemplate="empty">
+            <p>Glissez-déposez un fichier ici pour uploader.</p>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+    </div>
+    <div *ngIf="!isLoading && !user" class="text-center text-muted">
+      Impossible de charger les informations de l'utilisateur.
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button label="Fermer" icon="pi pi-times" (click)="ref.close()" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-card>

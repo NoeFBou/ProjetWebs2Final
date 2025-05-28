@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
+const path = require('path');
 
 // Import des routes
 const assignmentsRoutes = require('./routes/assignments');
@@ -18,6 +19,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Enregistrement des routes
 app.use('/api/assignments', assignmentsRoutes);

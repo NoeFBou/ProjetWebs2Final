@@ -40,11 +40,12 @@ router.post('/login', async (req, res) => {
         }
         const token = jwt.sign(
             {
-                id: user._id, // Use MongoDB's _id
+                id: user._id,
                 email: user.email,
-                nom: user.nom, // Add nom
-                prenom: user.prenom, // Add prenom
-                isAdmin: user.isAdmin
+                nom: user.nom,
+                prenom: user.prenom,
+                isAdmin: user.isAdmin,
+                profilePicture: user.profilePicture
             },
             process.env.JWT_SECRET || 'secret',
             { expiresIn: '1h' }
@@ -57,8 +58,6 @@ router.post('/login', async (req, res) => {
 });
 
 
-
-// TODO Route protégée
 router.get('/protected', authMiddleware, (req, res) => {
     res.json({ message: "Accès autorisé", user: req.user });
 });

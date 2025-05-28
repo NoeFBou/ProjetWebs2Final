@@ -3,23 +3,23 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../environments/environment";
 
-
-
+// In auth-service.service.ts or a shared model file
 export interface User {
-  _id: string; // MongoDB's ID
+  _id: string;
   nom: string;
   prenom: string;
   email: string;
   isAdmin: boolean;
-  // password is not typically stored on the frontend user object after login
+  profilePicture?: string;
 }
 
 export interface DecodedToken {
-  id: string; // Corresponds to user._id
+  id: string;
   email: string;
   nom: string;
   prenom: string;
   isAdmin: boolean;
+  profilePicture?: string;
   exp?: number;
   iat?: number;
 }

@@ -8,6 +8,7 @@ import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/ht
 import {authInterceptor} from "./auth.interceptor";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {provideAnimations} from "@angular/platform-browser/animations";
+import {DialogService} from "primeng/dynamicdialog";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideAnimations(),
     MessageService,
+    DialogService,
     ConfirmationService
   ]
 };
