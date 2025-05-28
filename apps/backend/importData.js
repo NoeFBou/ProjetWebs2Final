@@ -1,96 +1,114 @@
-// scripts/seedDB.js
+require('dotenv').config(); // If you use environment variables for MONGO_URI or JWT_SECRET
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 const bcrypt = require('bcryptjs');
-const User = require('./models/User'); // Adjust path to your User model
-const Assignment = require('./models/Assignment'); // Adjust path
-const connectDB = require('./config/db'); // Adjust path if your db connection setup is there
 
-const seedData = async () => {
+const connectDB = require('./config/db'); //
+const User = require('./models/User'); //
+const Assignment = require('./models/Assignment'); //
+
+const usersFilePath = path.join(__dirname, 'users.json');
+const assignmentsFilePath = path.join(__dirname, 'assignments.json');
+
+const populateUsers = async () => {
     try {
-        await connectDB(); // Connect to the DB
+       // await User.deleteMany({}); // Clear existing users
+        console.log('Existing users cleared.');
 
-        // Clear existing data
-        console.log('Clearing existing data...');
-        await User.deleteMany({});
-        await Assignment.deleteMany({});
-        console.log('Data cleared.');
+        const usersData = JSON.parse(fs.readFileSync(usersFilePath, 'utf-8'));
+        const createdUsers = [];
 
-        // Create Users (Teachers and Students)
-        console.log('Creating users...');
-        const hashedProfPassword = await bcrypt.hash('password123', 10);
-        const prof1 = await User.create({
-            nom: 'Einstein',
-            prenom: 'Albert',
-            email: 'prof.einstein@example.com',
-            password: hashedProfPassword,
-            isAdmin: true // Teacher
-        });
-
-        const hashedStudentPassword = await bcrypt.hash('password456', 10);
-        const student1 = await User.create({
-            nom: 'Curie',
-            prenom: 'Marie',
-            email: 'student.curie@example.com',
-            password: hashedStudentPassword,
-            isAdmin: false // Student
-        });
-        const student2 = await User.create({
-            nom: 'Newton',
-            prenom: 'Isaac',
-            email: 'student.newton@example.com',
-            password: hashedStudentPassword, // Can reuse or make unique
-            isAdmin: false // Student
-        });
-        console.log('Users created.');
-
-        // Create Assignments
-        console.log('Creating assignments...');
-        await Assignment.create([
-            {
-                nom: 'Dissertation sur la Relativité',
-                matiere: 'Physique',
-                exercice: 'Expliquer E=mc^2 en 5 pages.',
-                tags: ['physique', 'relativité'],
-                statut: 'en cours',
-                dateDeRendu: new Date('2025-09-15'),
-                visible: true,
-                locked: false,
-                professeur: { idProf: prof1._id, nomProf: `${prof1.prenom} ${prof1.nom}` },
-                eleve: { idEleve: student1._id, nomEleve: `${student1.prenom} ${student1.nom}` },
-                note: 18.5
-            },
-            {
-                nom: 'Recherche sur la Radioactivité',
-                matiere: 'Chimie',
-                tags: ['chimie', 'recherche'],
-                statut: 'terminé',
-                dateDeRendu: new Date('2025-08-20'),
-                visible: true,
-                locked: true,
-                professeur: { idProf: prof1._id, nomProf: `${prof1.prenom} ${prof1.nom}` },
-                eleve: { idEleve: student1._id, nomEleve: `${student1.prenom} ${student1.nom}` },
-                note: 19
-            },
-            {
-                nom: 'Devoir sur les Lois du Mouvement',
-                matiere: 'Physique',
-                exercice: 'Résoudre 10 problèmes sur la dynamique.',
-                tags: ['physique', 'mécanique'],
-                statut: 'en attente',
-                dateDeRendu: new Date('2025-10-01'),
-                professeur: { idProf: prof1._id, nomProf: `${prof1.prenom} ${prof1.nom}` },
-                eleve: { idEleve: student2._id, nomEleve: `${student2.prenom} ${student2.nom}` }
-            }
-        ]);
-        console.log('Assignments created.');
-
-        console.log('Database seeded successfully!');
+        for (const userData of usersData) {
+            const hashedPassword = await bcrypt.hash(userData.password, 10); //
+            const user = new User({
+                nom: userData.nom, //
+                prenom: userData.prenom, //
+                email: userData.email, //
+                password: hashedPassword, //
+                isAdmin: userData.isAdmin || false, //
+                profilePicture: userData.profilePicture //
+            });
+            const savedUser = await user.save();
+            createdUsers.push(savedUser);
+            console.log(`User ${savedUser.email} created.`);
+        }
+        console.log(`${createdUsers.length} users successfully populated!`);
+        return createdUsers;
     } catch (error) {
-        console.error('Error seeding database:', error);
-    } finally {
-        mongoose.disconnect();
-        console.log('Disconnected from MongoDB.');
+        console.error('Error populating users:', error);
+        process.exit(1);
     }
 };
 
-seedData();
+const populateAssignments = async (users) => {
+    try {
+        await Assignment.deleteMany({}); // Clear existing assignments
+        console.log('Existing assignments cleared.');
+
+        const assignmentsData = JSON.parse(fs.readFileSync(assignmentsFilePath, 'utf-8'));
+        let populatedCount = 0;
+
+        // Create a map of email to user object for easy lookup
+        const userMap = users.reduce((map, user) => {
+            map[user.email] = user;
+            return map;
+        }, {});
+
+        for (const assignData of assignmentsData) {
+            const professor = userMap[assignData.professeurEmail];
+            const student = userMap[assignData.eleveEmail];
+
+            if (!professor) {
+                console.warn(`Professor with email ${assignData.professeurEmail} not found. Skipping assignment: ${assignData.nom}`);
+                continue;
+            }
+            if (!student) {
+                console.warn(`Student with email ${assignData.eleveEmail} not found. Skipping assignment: ${assignData.nom}`);
+                continue;
+            }
+
+            const assignment = new Assignment({
+                nom: assignData.nom,
+                matiere: assignData.matiere,
+                exercice: assignData.exercice,
+                note: assignData.note,
+                tags: assignData.tags,
+                statut: assignData.statut,
+                dateDeRendu: new Date(assignData.dateDeRendu),
+                visible: assignData.visible !== undefined ? assignData.visible : true,
+                locked: assignData.locked !== undefined ? assignData.locked : false,
+                professeur: {
+                    idProf: professor._id,
+                    nomProf: `${professor.prenom} ${professor.nom}`
+                },
+                eleve: {
+                    idEleve: student._id,
+                    nomEleve: `${student.prenom} ${student.nom}`
+                }
+            });
+            await assignment.save();
+            populatedCount++;
+            console.log(`Assignment "${assignment.nom}" created.`);
+        }
+        console.log(`${populatedCount} assignments successfully populated!`);
+    } catch (error) {
+        console.error('Error populating assignments:', error);
+        process.exit(1);
+    }
+};
+
+
+const runPopulation = async () => {
+    await connectDB(); //
+    const createdUsers = await populateUsers();
+    if (createdUsers && createdUsers.length > 0) {
+        await populateAssignments(createdUsers);
+    } else {
+        console.log('No users were created, skipping assignment population.');
+    }
+    await mongoose.disconnect();
+    console.log('Database population complete. Disconnected from MongoDB.');
+};
+
+runPopulation();
