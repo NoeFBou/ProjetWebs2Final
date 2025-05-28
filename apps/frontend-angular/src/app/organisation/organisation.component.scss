@@ -1,0 +1,74 @@
+// src/app/organisation/organisation.component.scss
+:host ::ng-deep { // Pour styler les éléments internes de p-organizationChart
+  .p-organizationchart {
+    .p-organizationchart-node-content {
+      padding: 0.5rem;
+      border: 1px solid var(--surface-d);
+      border-radius: 6px;
+      background-color: var(--surface-a);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+    }
+
+    // Style spécifique pour les nœuds utilisateur
+    .professeur-node, .eleve-node {
+      .p-organizationchart-node-content {
+        // background-color: var(--surface-b); // Légèrement différent si besoin
+      }
+    }
+    .professeur-node .p-organizationchart-node-content {
+      border-left: 4px solid var(--blue-500);
+    }
+    .eleve-node .p-organizationchart-node-content {
+      border-left: 4px solid var(--green-500);
+    }
+    .assignment-node .p-organizationchart-node-content {
+      border-left: 4px solid var(--orange-500);
+      background-color: var(--surface-50); // Un fond très léger pour les assignments
+    }
+
+    .p-node-toggler {
+      color: var(--primary-color) !important;
+    }
+  }
+}
+
+.organisation-container {
+  .p-card .p-card-content {
+    padding: 0; // Pour que l'organigramme prenne toute la place
+  }
+}
+
+.node-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px; // Assurer une largeur minimale pour les nœuds
+
+  .node-avatar {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 1.8rem !important;
+    // border: 2px solid var(--surface-c);
+  }
+
+  .node-name {
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+  }
+
+  .node-title {
+    font-size: 0.8rem;
+    color: var(--text-color-secondary);
+  }
+
+  .assignment-icon i {
+    color: var(--text-color-secondary); // Icône un peu plus discrète
+  }
+}

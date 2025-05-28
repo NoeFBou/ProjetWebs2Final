@@ -41,6 +41,114 @@ router.get('/assignments/status-counts', authMiddleware, async (req, res) => {
     }
 });
 
+router.get('/my-organization-chart', authMiddleware, async (req, res) => {
+    try {
+        const currentUserFromAuth = req.user; // Contient id, isAdmin, nom, prenom, profilePicture
+        const currentUserId = new mongoose.Types.ObjectId(currentUserFromAuth.id);
+
+        const rootNodeLabel = `${currentUserFromAuth.prenom} ${currentUserFromAuth.nom}`;
+        const rootNode = {
+            label: rootNodeLabel, // Ajout de la propriété label
+            expanded: true,
+            type: 'user',
+            styleClass: currentUserFromAuth.isAdmin ? 'professeur-node current-user' : 'eleve-node current-user',
+            data: {
+                id: currentUserFromAuth.id,
+                name: rootNodeLabel, // Peut être redondant mais utile pour le template
+                title: currentUserFromAuth.isAdmin ? 'Professeur (Moi)' : 'Élève (Moi)',
+                image: currentUserFromAuth.profilePicture ? `/uploads/profile-pictures/${currentUserFromAuth.profilePicture}` : null
+            },
+            children: []
+        };
+
+        if (currentUserFromAuth.isAdmin) { // Si l'utilisateur connecté est un professeur
+            const assignmentsByProf = await Assignment.find({ 'professeur.idProf': currentUserId })
+                .populate('eleve.idEleve', 'nom prenom profilePicture email') // Ajouter email pour plus d'infos si besoin
+                .lean();
+
+            const studentsMap = new Map();
+            assignmentsByProf.forEach(assign => {
+                if (assign.eleve && assign.eleve.idEleve && assign.eleve.idEleve._id) {
+                    const studentDetails = assign.eleve.idEleve;
+                    const studentIdStr = studentDetails._id.toString();
+                    if (!studentsMap.has(studentIdStr)) {
+                        studentsMap.set(studentIdStr, {
+                            id: studentIdStr,
+                            name: `${studentDetails.prenom} ${studentDetails.nom}`,
+                            title: 'Élève',
+                            image: studentDetails.profilePicture ? `/uploads/profile-pictures/${studentDetails.profilePicture}` : null,
+                            assignments: []
+                        });
+                    }
+                    studentsMap.get(studentIdStr).assignments.push({ name: assign.nom });
+                }
+            });
+
+            studentsMap.forEach(student => {
+                const studentNode = {
+                    label: student.name, // Ajout de la propriété label
+                    expanded: true, // Peut-être false par défaut pour les grands arbres
+                    type: 'user',
+                    styleClass: 'eleve-node',
+                    data: { id: student.id, name: student.name, title: student.title, image: student.image },
+                    children: student.assignments.map(assign => ({
+                        label: assign.name, // Ajout de la propriété label
+                        type: 'assignment',
+                        styleClass: 'assignment-node',
+                        data: { name: assign.name, title: 'Devoir' },
+                        leaf: true // Indique que c'est une feuille, pas d'enfants
+                    }))
+                };
+                rootNode.children.push(studentNode);
+            });
+
+        } else { // Si l'utilisateur connecté est un élève
+            const assignmentsForStudent = await Assignment.find({ 'eleve.idEleve': currentUserId })
+                .populate('professeur.idProf', 'nom prenom profilePicture email')
+                .lean();
+
+            const professorsMap = new Map();
+            assignmentsForStudent.forEach(assign => {
+                if (assign.professeur && assign.professeur.idProf && assign.professeur.idProf._id) {
+                    const profDetails = assign.professeur.idProf;
+                    const profIdStr = profDetails._id.toString();
+                    if (!professorsMap.has(profIdStr)) {
+                        professorsMap.set(profIdStr, {
+                            id: profIdStr,
+                            name: `${profDetails.prenom} ${profDetails.nom}`,
+                            title: 'Professeur',
+                            image: profDetails.profilePicture ? `/uploads/profile-pictures/${profDetails.profilePicture}` : null,
+                            assignments: []
+                        });
+                    }
+                    professorsMap.get(profIdStr).assignments.push({ name: assign.nom });
+                }
+            });
+
+            professorsMap.forEach(prof => {
+                const profNode = {
+                    label: prof.name, // Ajout de la propriété label
+                    expanded: true, // Peut-être false par défaut
+                    type: 'user',
+                    styleClass: 'professeur-node',
+                    data: { id: prof.id, name: prof.name, title: prof.title, image: prof.image },
+                    children: prof.assignments.map(assign => ({
+                        label: assign.name, // Ajout de la propriété label
+                        type: 'assignment',
+                        styleClass: 'assignment-node',
+                        data: { name: assign.name, title: 'Devoir' },
+                        leaf: true
+                    }))
+                };
+                rootNode.children.push(profNode);
+            });
+        }
+        res.json([rootNode]);
+    } catch (error) {
+        console.error("Error fetching organization chart data:", error);
+        res.status(500).json({ error: "Erreur serveur lors de la récupération des données de l'organigramme." });
+    }
+});
 // GET /api/stats/assignments/average-note-per-student
 router.get('/assignments/average-note-per-student', authMiddleware, async (req, res) => {
     try {

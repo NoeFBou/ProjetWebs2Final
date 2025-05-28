@@ -1,0 +1,106 @@
+<div class="assignment2-container p-3">
+
+  <p-dataView #dv [value]="assignments" layout="grid" [rows]="rows" [paginator]="true" [totalRecords]="totalRecords"
+              (onPage)="onPageChange($event)" [lazy]="true" [loading]="isLoading" paginatorPosition="both"
+              [sortField]="sortField" [sortOrder]="sortOrder">
+
+    <ng-template pTemplate="header">
+      <div class="flex flex-column md:flex-row md:justify-content-between align-items-center p-2">
+        <h3 class="m-0">Mes Assignments ({{ totalRecords }})</h3>
+        <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Trier par"
+                    (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+      </div>
+    </ng-template>
+
+    <ng-template let-assignment pTemplate="gridItem">
+      {{ assignment[1].eleve.idEleve }}
+      {{ assignment[0].eleve.idEleve }}
+      <div class="col-6 p-2">
+        <div class="assignment-card surface-card border-round shadow-2 h-full">
+        <div class="card-header p-3">
+          <h5 class="mb-1 font-semibold">{{ assignment.nom }}</h5>
+          <small class="text-color-secondary">Matière: {{ assignment.matiere }}</small>
+        </div>
+
+        <p-tabView styleClass="tabview-condensed">
+          <p-tabPanel header="Détails">
+            <div class="details-grid p-3">
+              <div><strong>Date Rendu:</strong> {{ assignment.dateDeRendu | date:'dd/MM/yy HH:mm' }}</div>
+              <div><strong>Note:</strong> {{ assignment.note !== null && assignment.note !== undefined ? (assignment.note | number:'1.0-2') + '/20' : 'Non noté' }}</div>
+              <div><strong>Statut:</strong> <p-tag [value]="assignment.statut" [severity]="getStatutSeverity(assignment.statut)"></p-tag></div>
+
+              <div class="user-info-line">
+                <strong>Professeur:</strong>
+                <p-avatar [image]="getProfilePictureFullUrl(assignment.professeur?.profilePicture)"
+                          [label]="!assignment.professeur?.profilePicture ? getAvatarLabelForUser(assignment.professeur?.nomProf) : ''"
+                          size="normal" shape="circle" styleClass="me-2 ms-1 user-avatar"></p-avatar>
+                <span>{{ assignment.professeur?.nomProf || 'N/A' }}</span>
+                <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-sm p-button-rounded ms-1"
+                        (click)="openUserProfileModal(assignment.professeur?.idProf)"
+                        pTooltip="Voir profil Professeur" tooltipPosition="top"
+                        [disabled]="!assignment.professeur?.idProf"></button>
+              </div>
+
+              <div class="user-info-line">
+                <strong>Élève:</strong>
+                <p-avatar [image]="getProfilePictureFullUrl(assignment.eleve?.profilePicture)"
+                          [label]="!assignment.eleve?.profilePicture ? getAvatarLabelForUser(assignment.eleve?.nomEleve) : ''"
+                          size="normal" shape="circle" styleClass="me-2 ms-1 user-avatar"></p-avatar>
+                <span>{{ assignment}}</span>
+                <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-sm p-button-rounded ms-1"
+                        (click)="openUserProfileModal(assignment.eleve?.idEleve)"
+                        pTooltip="Voir profil Élève" tooltipPosition="top"
+                        [disabled]="!assignment.eleve?.idEleve"></button>
+              </div>
+
+              <div class="tags-container" *ngIf="assignment.tags && assignment.tags.length > 0">
+                <strong>Tags:</strong>
+                <p-tag *ngFor="let tag of assignment.tags" [value]="tag" styleClass="mr-1 mt-1"></p-tag>
+              </div>
+              <div *ngIf="!assignment.tags || assignment.tags.length === 0"><strong>Tags:</strong> <span>Aucun</span></div>
+
+              <div>
+                <strong>Visibilité:</strong>
+                <i [class]="assignment.visible ? 'pi pi-eye text-green-500' : 'pi pi-eye-slash text-red-500'"
+                   [pTooltip]="assignment.visible ? 'Visible' : 'Caché'"></i>
+              </div>
+              <div>
+                <strong>Verrouillage:</strong>
+                <i [class]="assignment.locked ? 'pi pi-lock text-orange-500' : 'pi pi-lock-open text-green-500'"
+                   [pTooltip]="assignment.locked ? 'Verrouillé' : 'Déverrouillé'"></i>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Exercice" [disabled]="!assignment.exercice">
+            <div class="p-3 exercice-content" [innerHTML]="assignment.exercice | safeHtml">
+              <p *ngIf="!assignment.exercice">Aucune description d'exercice.</p>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+
+        <div class="card-footer p-3 flex justify-content-end gap-2">
+          <button *ngIf="authService.isAdmin()"
+                  pButton type="button" icon="pi pi-pencil"
+                  (click)="openEditModal(assignment)"
+                  class="p-button-sm p-button-info"
+                  pTooltip="Éditer"
+                  [disabled]="isEditDisabled(assignment)"
+                  [pTooltip]="isEditDisabled(assignment) ? 'Verrouillé' : 'Éditer'" tooltipPosition="top">
+          </button>
+          <button *ngIf="authService.isAdmin()"
+                  pButton type="button" icon="pi pi-trash"
+                  (click)="confirmDelete($event, assignment._id)"
+                  class="p-button-sm p-button-danger"
+                  pTooltip="Supprimer" tooltipPosition="top">
+          </button>
+        </div>
+      </div>
+      </div>
+    </ng-template>
+
+
+  </p-dataView>
+
+  <app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
+  <p-confirmPopup></p-confirmPopup>
+</div>

@@ -1,0 +1,107 @@
+<div class="assignment2-container p-3">
+  <p-table
+    [value]="assignments"
+    [lazy]="true" (onLazyLoad)="loadAssignments($event)"
+    [paginator]="true" [rows]="rows" [totalRecords]="totalRecords"
+    paginatorPosition="both" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} assignments"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [loading]="isLoading"
+    dataKey="_id"
+    [tableStyle]="{'min-width': '75rem'}"
+    styleClass="p-datatable-striped p-datatable-gridlines">
+
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-between align-items-center">
+        <h3 class="m-0">Mes Assignments ({{ totalRecords }})</h3>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nom" style="width:20%">Nom <p-sortIcon field="nom"></p-sortIcon></th>
+        <th pSortableColumn="matiere" style="width:15%">Matière <p-sortIcon field="matiere"></p-sortIcon></th>
+        <th pSortableColumn="dateDeRendu" style="width:15%">Date de Rendu <p-sortIcon field="dateDeRendu"></p-sortIcon></th>
+        <th pSortableColumn="note" style="width:10%">Note <p-sortIcon field="note"></p-sortIcon></th>
+        <th pSortableColumn="statut" style="width:10%">Statut <p-sortIcon field="statut"></p-sortIcon></th>
+        <th style="width:15%">Professeur</th>
+        <th style="width:15%">Élève</th>
+        <th style="width:10%">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-assignment>
+      <tr>
+        <td>{{ assignment.nom }}</td>
+        <td>{{ assignment.matiere }}</td>
+        <td>{{ assignment.dateDeRendu | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          {{ assignment.note !== null && assignment.note !== undefined ? (assignment.note | number:'1.0-2') : '-' }}/20
+        </td>
+        <td><p-tag [value]="assignment.statut" [severity]="getStatutSeverity(assignment.statut)"></p-tag></td>
+        <td>
+          <div class="user-info-cell">
+            <p-avatar [image]="getProfilePictureFullUrl(assignment.professeur?.profilePicture)"
+                      [label]="!assignment.professeur?.profilePicture ? getAvatarLabelForUser(assignment.professeur?.nomProf) : ''"
+                      size="normal" shape="circle" styleClass="me-2"></p-avatar>
+            <span>{{ assignment.professeur?.nomProf || 'N/A' }}</span>
+            <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-sm p-button-rounded ms-1"
+                    (click)="openUserProfileModal(assignment.professeur?.idProf)"
+                    pTooltip="Voir profil Professeur" tooltipPosition="top"
+                    [disabled]="!assignment.professeur?.idProf"></button>
+          </div>
+        </td>
+        <td>
+          <div class="user-info-cell">
+            <p-avatar [image]="getProfilePictureFullUrl(assignment.eleve?.profilePicture)"
+                      [label]="!assignment.eleve?.profilePicture ? getAvatarLabelForUser(assignment.eleve?.nomEleve) : ''"
+                      size="normal" shape="circle" styleClass="me-2"></p-avatar>
+            <span>{{ assignment.eleve?.nomEleve || 'N/A' }}</span>
+            <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-sm p-button-rounded ms-1"
+                    (click)="openUserProfileModal(assignment.eleve?.idEleve)"
+                    pTooltip="Voir profil Élève" tooltipPosition="top"
+                    [disabled]="!assignment.eleve?.idEleve"></button>
+          </div>
+        </td>
+        <td>
+          <div class="actions-cell">
+            <button *ngIf="authService.isAdmin()"
+                    pButton type="button" icon="pi pi-pencil"
+                    (click)="openEditModal(assignment)"
+                    class="p-button-sm p-button-info me-2"
+                    pTooltip="Éditer"
+                    [disabled]="isEditDisabled(assignment)"
+                    tooltipPosition="top">
+            </button>
+            <button *ngIf="authService.isAdmin()"
+                    pButton type="button" icon="pi pi-trash"
+                    (click)="confirmDelete($event, assignment._id)"
+                    class="p-button-sm p-button-danger"
+                    pTooltip="Supprimer" tooltipPosition="top">
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="8" class="text-center p-5"> <i class="pi pi-inbox" style="font-size: 3rem;"></i>
+          <p class="mt-2 text-lg">Vous n'avez aucun assignment pour le moment.</p>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="loadingbody">
+      <tr>
+        <td [attr.colspan]="8" class="text-center p-5"> <i class="pi pi-spin pi-spinner" style="font-size: 3rem;"></i>
+          <p class="mt-2 text-lg">Chargement des assignments...</p>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+  <app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
+  <p-confirmPopup></p-confirmPopup>
+</div>

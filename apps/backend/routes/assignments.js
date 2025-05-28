@@ -3,6 +3,74 @@
 const express = require('express');
 const router = express.Router();
 const Assignment = require('../models/Assignment');
+const authMiddleware = require('../secu/auth');
+const mongoose = require('mongoose');
+
+router.get('/my-assignments', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id; // From authMiddleware
+        const isAdmin = req.user.isAdmin;
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        let sortCriteria = {};
+        if (req.query.sortField && req.query.sortOrder) {
+            sortCriteria[req.query.sortField] = parseInt(req.query.sortOrder);
+        } else {
+            sortCriteria = { dateDeRendu: -1 }; // Default sort
+        }
+
+        let queryCriteria = {};
+        if (isAdmin) { // Professor sees assignments they created
+            queryCriteria = { 'professeur.idProf': new mongoose.Types.ObjectId(userId) };
+        } else { // Student sees assignments they are assigned to
+            queryCriteria = { 'eleve.idEleve': new mongoose.Types.ObjectId(userId) };
+        }
+
+        const assignmentsQuery = Assignment.find(queryCriteria)
+            .populate('professeur.idProf', 'nom prenom email profilePicture') // Populate for full prof object
+            .populate('eleve.idEleve', 'nom prenom email profilePicture')     // Populate for full eleve object
+            .sort(sortCriteria)
+            .skip(skip)
+            .limit(limit);
+
+        const assignments = await assignmentsQuery.lean(); // Use lean for plain JS objects
+
+        // Manual population if using lean and populate doesn't give nested profilePicture directly
+        // This step is often needed if the populate path is tricky or you want more control
+        const populatedAssignments = assignments.map(assign => {
+            return {
+                ...assign,
+                professeur: {
+                    idProf: assign.professeur.idProf._id, // or assign.professeur.idProf if already an ID string
+                    nomProf: assign.professeur.idProf.nom ? `${assign.professeur.idProf.prenom} ${assign.professeur.idProf.nom}` : assign.professeur.nomProf,
+                    profilePicture: assign.professeur.idProf.profilePicture
+                },
+                eleve: {
+                    idEleve: assign.eleve.idEleve._id,
+                    nomEleve: assign.eleve.idEleve.nom ? `${assign.eleve.idEleve.prenom} ${assign.eleve.idEleve.nom}` : assign.eleve.nomEleve,
+                    profilePicture: assign.eleve.idEleve.profilePicture
+                }
+            };
+        });
+
+
+        const totalAssignments = await Assignment.countDocuments(queryCriteria);
+
+        res.json({
+            assignments: populatedAssignments,
+            totalPages: Math.ceil(totalAssignments / limit),
+            currentPage: page,
+            totalItems: totalAssignments
+        });
+
+    } catch (error) {
+        console.error("Error fetching 'my assignments':", error);
+        res.status(500).json({ error: "Erreur serveur lors de la récupération de vos assignments." });
+    }
+});
 
 // Récupérer la liste des assignments avec pagination
 router.get('/', async (req, res) => {
@@ -161,5 +229,8 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: "Erreur serveur" });
     }
 });
+
+
+
 
 module.exports = router;

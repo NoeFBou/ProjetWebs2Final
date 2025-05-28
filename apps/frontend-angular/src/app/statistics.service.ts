@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {TreeNode} from "primeng/api";
 
 export interface AssignmentStatusCounts {
   [status: string]: number; // e.g., { "en cours": 10, "terminé": 25 }
@@ -12,6 +13,20 @@ export interface AverageNotePerStudent {
   studentNom: string;
   studentPrenom: string;
   averageNote: number;
+}
+
+export interface OrganizationChartNodeData {
+  id?: string;
+  name: string;
+  title?: string;
+  image?: string | null; // Chemin vers l'image ou null
+}
+
+export interface OrganizationTreeNode extends   TreeNode {
+  data?: OrganizationChartNodeData;
+  type?: 'user' | 'assignment'; // Pour le templating
+  styleClass?: string;
+  children?: OrganizationTreeNode[];
 }
 
 export interface AssignmentsPerProfessor {
@@ -60,6 +75,10 @@ export class StatisticsService {
 
   constructor(private http: HttpClient) { }
 
+  getMyOrganizationChartData(): Observable<OrganizationTreeNode[]> {
+    return this.http.get<OrganizationTreeNode[]>(`${this.baseUrl}/my-organization-chart`);
+    // ou return this.http.get<OrganizationTreeNode[]>(`${this.orgBaseUrl}/my-chart`);
+  }
   getAssignmentStatusCounts(): Observable<AssignmentStatusCounts> {
     return this.http.get<AssignmentStatusCounts>(`${this.baseUrl}/assignments/status-counts`);
   }

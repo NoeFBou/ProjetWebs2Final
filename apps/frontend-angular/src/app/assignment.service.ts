@@ -1,6 +1,6 @@
 //assignment.service.ts
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {forkJoin, Observable, Subscription} from "rxjs";
 import {environment} from "../environments/environment";
 
@@ -101,6 +101,23 @@ export class AssignmentService {
     });
 
     return forkJoin(appel);
+  }
+
+  getMyAssignments(
+    page: number = 1,
+    limit: number = 10,
+    sortField?: string,
+    sortOrder?: number // 1 for asc, -1 for desc
+  ): Observable<PaginatedAssignments> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    if (sortField && sortOrder !== undefined) {
+      params = params.set('sortField', sortField);
+      params = params.set('sortOrder', sortOrder.toString());
+    }
+    return this.http.get<PaginatedAssignments>(`${this.baseApiUrl}/my-assignments`, { params });
   }
 
 }

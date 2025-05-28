@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.componentett.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/importData.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/importData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/routes/assignments.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/assignments.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/routes/stats.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/stats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/statistics.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/statistics.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +62,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/noe/WebstormProjects/ProjetWebs2Final/ProjetWebs2Final/apps/frontend-angular/src/app/assignment2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -72,6 +81,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final\apps\frontend-angular\src\app\assignment2" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final" />
       <recent name="C:\Users\noe\WebstormProjects\ProjetWebs2Final\ProjetWebs2Final\apps" />
@@ -156,7 +168,7 @@
       <workItem from="1748250125350" duration="15478000" />
       <workItem from="1748277611304" duration="4475000" />
       <workItem from="1748333046578" duration="19567000" />
-      <workItem from="1748416174172" duration="11045000" />
+      <workItem from="1748416174172" duration="18305000" />
     </task>
     <servers />
   </component>
@@ -171,6 +183,18 @@
           <line>30</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/apps/backend/routes/assignments.js</url>
+          <line>144</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/apps/backend/routes/assignments.js</url>
+          <line>10</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
