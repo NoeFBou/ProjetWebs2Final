@@ -72,3 +72,42 @@
     color: var(--text-color-secondary); // Icône un peu plus discrète
   }
 }
+// src/app/organisation/organisation.component.scss
+// ... (styles existants pour .p-organizationchart, .node-content, etc.) ...
+
+.node-content {
+  // ... (styles existants) ...
+
+  .avatar-container {
+    width: 60px; // Même taille que p-avatar avant
+    height: 60px;
+    border-radius: 50%; // Pour un avatar circulaire
+    background-color: var(--surface-c); // Couleur de fond pour le fallback des initiales
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; // Important si l'image n'est pas carrée
+    border: 2px solid var(--surface-d); // Optionnel: bordure
+  }
+
+  .node-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Assure que l'image couvre la zone sans être déformée
+  }
+
+  .node-initials-fallback {
+    font-size: 1.8rem; // Taille des initiales
+    color: var(--text-color);
+    font-weight: bold;
+  }
+
+  .node-name {
+    font-size: 0.95rem;
+    margin-top: 0.5rem; // Espace après l'avatar/initiales
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+  }
+
+  // ... (autres styles)
+}

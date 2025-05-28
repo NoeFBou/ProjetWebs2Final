@@ -1,4 +1,129 @@
 // src/app/assignment2/assignment2.component.scss
+:host ::ng-deep { // Use ::ng-deep sparingly or configure ViewEncapsulation.None
+  .p-dataview {
+    .p-dataview-header {
+      background-color: var(--surface-b);
+      border-bottom: 1px solid var(--surface-d);
+    }
+    // Make grid items take full height within their row
+    .p-dataview-content > .grid > div[class*="col-"] {
+      display: flex; // Enable flexbox for children
+      > .assignment-card {
+        width: 100%; // Card takes full width of its column
+        display: flex; // Card itself is a flex container
+        flex-direction: column; // Stack content vertically
+      }
+    }
+  }
+}
+
+.assignment2-container {
+  h3 {
+    color: var(--text-color);
+  }
+}
+
+.assignment-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Make card take full height of its grid cell
+  background-color: var(--surface-a); // Card background
+
+  .card-header {
+    border-bottom: 1px solid var(--surface-d);
+    h5 { margin-bottom: 0.25rem; }
+  }
+
+  .p-tabview.tabview-condensed {
+    flex-grow: 1; // Allow tabview to take available space
+    display: flex;
+    flex-direction: column;
+
+    .p-tabview-nav-container {
+      flex-shrink: 0; /* Prevent nav from shrinking */
+    }
+    .p-tabview-panels {
+      flex-grow: 1;
+      overflow-y: auto; // If content inside panels overflows
+      padding: 0 !important; // Remove default panel padding if details-grid has its own
+    }
+    .p-tabview-nav li .p-tabview-nav-link {
+      padding: 0.65rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr; // Single column for details for simplicity, adjust as needed
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    word-break: break-word; // Prevent long text from breaking layout
+    > div { padding: 3px 0; }
+  }
+
+  .user-info-line {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    .user-avatar {
+      width: 22px !important;
+      height: 22px !important;
+      font-size: 0.75rem !important;
+      background-color: var(--surface-c);
+      color: var(--text-color);
+    }
+    .p-button.p-button-sm.p-button-rounded.p-button-text {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+  }
+
+  .tags-container {
+    margin-top: 0.25rem;
+    p-tag {
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  .exercice-content {
+    max-height: 180px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    word-wrap: break-word;
+    p { margin-bottom: 0.5rem; }
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--surface-d);
+    margin-top: auto; /* Pushes footer to bottom */
+    flex-shrink: 0;
+  }
+}
+
+// PrimeFlex classes would be better for grid system if available
+// Simple fallback for grid column classes if not using PrimeFlex
+.p-dataview-content > .grid { // Assuming this is the direct child after .p-dataview-content
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem; // Negative margin for gutter
+  margin-left: -0.5rem;  // Negative margin for gutter
+}
+
+.col-12, .md\:col-6, .lg\:col-4, .xl\:col-3 {
+  padding-right: 0.5rem; // Gutter
+  padding-left: 0.5rem;  // Gutter
+  box-sizing: border-box;
+}
+
+.col-12 { width: 100%; }
+@media (min-width: 768px) { .md\:col-6 { width: 50%; } }
+@media (min-width: 992px) { .lg\:col-4 { width: 33.3333%; } }
+@media (min-width: 1200px) { .xl\:col-3 { width: 25%; } }
+
+// src/app/assignment2/assignment2.component.scss
 .assignment2-container {
   h3 {
     color: var(--text-color);
@@ -39,35 +164,3 @@
   vertical-align: middle;
   word-break: break-word; // Prevent long text from breaking layout too much
 }
-// src/app/organisation/organisation.component.scss
-// ... (styles existants) ...
-:host ::ng-deep {
-  .p-organizationchart-table { // Conteneur général
-    margin: 0 auto; // Centrer l'arbre si sa largeur est limitée
-  }
-
-  .p-organizationchart-node-content {
-    // Styles communs à tous les nœuds
-  }
-
-  // Styles spécifiques basés sur styleClass (maintenant ajouté par le backend)
-  .professeur-node .p-organizationchart-node-content { // Cible plus spécifique
-    border: 2px solid var(--blue-500); // Exemple de bordure distinctive
-    background-color: var(--blue-50);
-  }
-  .current-user .p-organizationchart-node-content { // Pour le nœud racine
-    box-shadow: 0 0 10px var(--primary-color);
-  }
-  .eleve-node .p-organizationchart-node-content {
-    border: 2px solid var(--green-500);
-    background-color: var(--green-50);
-  }
-  .assignment-node .p-organizationchart-node-content {
-    border: 2px solid var(--orange-500);
-    background-color: var(--orange-50);
-    min-width: 120px; // Les assignments peuvent être plus petits
-    padding: 0.75rem 0.5rem;
-  }
-}
-
-// ... (styles pour .node-content, .node-avatar, etc. restent pertinents) ...

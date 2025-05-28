@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.componentett.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/routes/assignments.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/assignments.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/routes/stats.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/stats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/statistics.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/statistics.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +162,7 @@
       <workItem from="1748250125350" duration="15478000" />
       <workItem from="1748277611304" duration="4475000" />
       <workItem from="1748333046578" duration="19567000" />
-      <workItem from="1748416174172" duration="18305000" />
+      <workItem from="1748416174172" duration="19360000" />
     </task>
     <servers />
   </component>
