@@ -1,9 +1,11 @@
 # Projet Web
-Projet finale réalisé dans le cadre du cours de web du second semestre de mon master 1, est une application web full-stack en Node.js/Angular qui gère la création, la consultation, la modification et la suppression d’assignments. L’application intègre un système d’authentification sécurisé et propose une interface qui permet à des administrateurs et des utilisateurs de consulter et d’interagir avec les assignments.
+Ce projet final, réalisé dans le cadre du cours de web du second semestre de mon master 1, est une application web full-stack en Node.js/Angular qui gère la création, la consultation, la modification et la suppression d’assignments. L’application intègre un système d’authentification sécurisé et propose une interface qui permet à des administrateurs et des utilisateurs de consulter et d’interagir avec les assignments.
 
 
 ## Lien vers le projet hébergé
-Le projet est hébergé sur Render, vous pouvez le consulter à l'adresse suivante : [https://web-project-assignments.onrender.com](https://web-project-assignments.onrender.com)
+Le projet est hébergé sur Render, vous pouvez le consulter à l'adresse suivante : [https://projetwebs2final-1.onrender.com](https://projetwebs2final-1.onrender.com)
+Le back-end est accessible à l'adresse : [https://projetwebs2final.onrender.com](https://projetwebs2final.onrender.com)
+Attention, le back-end peut prendre un peu de temps à démarrer la première fois que vous accédez au site. Vous pouvez le "réveiller" et voir son état en accédant à l'URL du Back-end.
 
 
 ## Description du Projet
