@@ -6,16 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/statistics.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/statistics.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/environments/environment.prod.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/environments/environment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +164,7 @@
       <workItem from="1748416174172" duration="22711000" />
       <workItem from="1748508040113" duration="43000" />
       <workItem from="1748769036550" duration="9890000" />
-      <workItem from="1748780069495" duration="12723000" />
+      <workItem from="1748780069495" duration="14924000" />
     </task>
     <servers />
   </component>
