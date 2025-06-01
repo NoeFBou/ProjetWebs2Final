@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/routes/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/register-modal/register-modal.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +166,7 @@
       <workItem from="1748416174172" duration="22711000" />
       <workItem from="1748508040113" duration="43000" />
       <workItem from="1748769036550" duration="9890000" />
-      <workItem from="1748780069495" duration="4173000" />
+      <workItem from="1748780069495" duration="4803000" />
     </task>
     <servers />
   </component>

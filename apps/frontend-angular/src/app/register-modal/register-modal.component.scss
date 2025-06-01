@@ -1,2 +1,89 @@
-.error { color: red; margin-top: 0.5rem; }
-.success { color: green; margin-top: 0.5rem; }
+// src/app/register-modal/register-modal.component.scss
+
+// Augmenter la largeur du dialogue si nécessaire
+:host ::ng-deep .register-dialog {
+  width: 50vw; // Ou une valeur fixe comme 700px
+  max-width: 750px;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+  }
+
+  .p-dialog-content {
+    min-height: 400px; // Pour donner de l'espace au contenu du stepper
+  }
+}
+
+.stepper-container {
+  padding: 1rem 0;
+}
+
+.step-content {
+  padding: 1.5rem 0.5rem;
+  min-height: 250px; // Pour éviter que le modal ne change de taille brusquement
+  display: flex;
+  flex-direction: column;
+
+  h5 {
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--surface-d);
+    padding-bottom: 0.5rem;
+  }
+
+  .formgrid .field label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 500;
+  }
+
+  .p-inputtext, .p-dropdown, .p-calendar { // S'assurer qu'ils prennent la largeur
+    width: 100%;
+  }
+}
+
+.current-profile-pic-preview {
+  width: 120px !important;
+  height: 120px !important;
+  font-size: 3rem !important;
+  border: 2px solid var(--surface-c);
+}
+.default-avatar-preview {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+.recap-card {
+  .p-card-body { padding: 0; }
+  .p-card-content { padding: 1.5rem; }
+
+  .profile-content {
+    align-items: flex-start;
+  }
+  .profile-avatar {
+    width: 100px !important;
+    height: 100px !important;
+    font-size: 2.5rem !important;
+  }
+  .user-details-recap p {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    strong {
+      color: var(--text-color-secondary);
+      min-width: 80px;
+      display: inline-block;
+    }
+  }
+}
+
+.p-error { // Style pour le message d'erreur global en bas
+  font-weight: bold;
+}
+
+// Ajustement des boutons du footer
+:host ::ng-deep .p-dialog-footer {
+  display: flex;
+  justify-content: space-between; // Aligner les boutons
+  .p-button-text {
+    color: var(--text-color-secondary);
+  }
+}

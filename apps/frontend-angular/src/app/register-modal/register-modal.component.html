@@ -1,36 +1,107 @@
-<p-dialog header="Créer un compte" [(visible)]="display" [modal]="true" [closable]="false" [style]="{'width': '30vw'}">
-  <form (ngSubmit)="onSubmit()">
-    <div class="p-fluid">
-      <div class="p-field pt-2">
-        <label for="regNom">Nom</label>
-        <input id="regNom" type="text" [(ngModel)]="nom" name="nom" required class="p-inputtext" />
+<p-dialog header="Créer un compte" [(visible)]="display" [modal]="true" [closable]="true" (onHide)="resetForm()" styleClass="register-dialog">
+  <div class="stepper-container">
+    <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="true" styleClass="mb-4"></p-steps>
+
+    <form #registrationForm="ngForm" (ngSubmit)="onSubmit()">
+      <div *ngIf="activeIndex === 0" class="step-content p-fluid">
+        <h5 class="mb-3">Étape 1: Vos Informations</h5>
+        <div class="formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label for="regNom">Nom *</label>
+            <input id="regNom" type="text" pInputText [(ngModel)]="nom" name="nom" required />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="regPrenom">Prénom *</label>
+            <input id="regPrenom" type="text" pInputText [(ngModel)]="prenom" name="prenom" required />
+          </div>
+          <div class="field col-12">
+            <label for="regEmail">Email *</label>
+            <input id="regEmail" type="email" pInputText [(ngModel)]="email" name="email" required email />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="regPassword">Mot de passe *</label>
+            <input id="regPassword" type="password" pInputText [(ngModel)]="password" name="password" required minlength="6" />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="confirmPassword">Confirmer le mot de passe *</label>
+            <input id="confirmPassword" type="password" pInputText [(ngModel)]="confirmPassword" name="confirmPassword" required />
+          </div>
+          <div class="field-checkbox col-12 mt-2">
+            <p-checkbox name="isAdmin" [(ngModel)]="isAdmin" binary="true" inputId="regIsAdmin"></p-checkbox>
+            <label for="regIsAdmin" class="ms-2">Compte Administrateur/Professeur</label>
+          </div>
+        </div>
       </div>
-      <div class="p-field pt-2">
-        <label for="regPrenom">Prénom</label>
-        <input id="regPrenom" type="text" [(ngModel)]="prenom" name="prenom" required class="p-inputtext" />
+
+      <div *ngIf="activeIndex === 1" class="step-content">
+        <h5 class="mb-3">Étape 2: Photo de Profil (Optionnel)</h5>
+        <div class="flex flex-column align-items-center">
+          <p-avatar
+            *ngIf="profilePicturePreviewUrl"
+            [image]="profilePicturePreviewUrl"
+            size="xlarge"
+            shape="circle"
+            styleClass="mb-3 current-profile-pic-preview">
+          </p-avatar>
+          <p-avatar
+            *ngIf="!profilePicturePreviewUrl"
+            [label]="getAvatarLabel()"
+            size="xlarge"
+            shape="circle"
+            styleClass="mb-3 current-profile-pic-preview default-avatar-preview">
+          </p-avatar>
+
+          <p-fileUpload
+            name="profilePicUpload"
+            mode="basic"
+            accept="image/*"
+            maxFileSize="1000000"
+            chooseLabel="Choisir une photo"
+            chooseIcon="pi pi-image"
+            (onSelect)="onFileSelect($event)"
+            (onClear)="onFileRemove()"
+            [auto]="false"
+            invalidFileSizeMessageSummary="{0}: Fichier trop volumineux,"
+            invalidFileSizeMessageDetail="Taille max. autorisée: {0}."
+            invalidFileTypeMessageSummary="{0}: Type de fichier invalide,"
+            invalidFileTypeMessageDetail="Seuls les types suivants sont autorisés: {0}.">
+          </p-fileUpload>
+          <small *ngIf="profilePictureFile" class="mt-2">Fichier sélectionné: {{ profilePictureFile.name }}</small>
+        </div>
       </div>
-      <div class="p-field pt-2">
-        <label for="regEmail">User Name</label>
-        <input id="regEmail" type="email" [(ngModel)]="email" name="email" required class="p-inputtext" />
+
+      <div *ngIf="activeIndex === 2" class="step-content">
+        <h5 class="mb-3">Étape 3: Récapitulatif</h5>
+        <p-card styleClass="recap-card">
+          <ng-template pTemplate="content">
+            <div class="profile-content grid">
+              <div class="col-12 md:col-4 text-center">
+                <p-avatar
+                  [image]="profilePicturePreviewUrl"
+                  [label]="!profilePicturePreviewUrl ? getAvatarLabel() : ''"
+                  size="xlarge" shape="circle" styleClass="profile-avatar mb-2">
+                </p-avatar>
+                <div *ngIf="!profilePicturePreviewUrl" class="text-sm text-muted">(Photo par défaut)</div>
+                <div *ngIf="profilePicturePreviewUrl" class="text-sm text-muted">(Aperçu photo)</div>
+              </div>
+              <div class="col-12 md:col-8 user-details-recap">
+                <p><strong>Nom:</strong> {{ nom }}</p>
+                <p><strong>Prénom:</strong> {{ prenom }}</p>
+                <p><strong>Email:</strong> {{ email }}</p>
+                <p><strong>Rôle:</strong> {{ isAdmin ? 'Professeur (Admin)' : 'Élève' }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
       </div>
-      <div class="p-field pt-2">
-        <label for="regPassword">Mot de passe</label>
-        <input id="regPassword" type="password" [(ngModel)]="password" name="password" required class="p-inputtext" />
-      </div>
-      <div class="p-field pt-2">
-        <label for="confirmPassword">Confirmer le mot de passe</label>
-        <input id="confirmPassword" type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required class="p-inputtext" />
-      </div>
-      <div class="p-field pt-3">
-        <p-checkbox name="isAdmin" [(ngModel)]="isAdmin" binary="true" ></p-checkbox>
-        <label  for="isAdmin">Admin</label>
-      </div>
-      <div class="p-field" style="margin-top: 1rem;">
-        <button type="submit" pButton label="S'inscrire" class="pt-mr-2"></button>
-        <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-secondary "></button>
-      </div>
-      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-      <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
-    </div>
-  </form>
+
+      <div *ngIf="errorMessage" class="p-error mt-3 text-center">{{ errorMessage }}</div>
+
+    </form>
+  </div> <ng-template pTemplate="footer">
+  <p-button label="Annuler" icon="pi pi-times" (click)="hide()" styleClass="p-button-text"></p-button>
+  <p-button label="Précédent" icon="pi pi-arrow-left" (click)="prevStep()" [disabled]="activeIndex === 0" styleClass="p-button-secondary"></p-button>
+  <p-button *ngIf="activeIndex < stepItems.length - 1" label="Suivant" icon="pi pi-arrow-right" iconPos="right" (click)="nextStep()"></p-button>
+  <p-button *ngIf="activeIndex === stepItems.length - 1" label="Créer le compte" icon="pi pi-check" (click)="onSubmit()" [disabled]="!registrationForm.form.valid && activeIndex === 0"></p-button>
+</ng-template>
 </p-dialog>

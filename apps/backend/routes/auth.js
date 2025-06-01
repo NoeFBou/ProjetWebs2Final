@@ -5,6 +5,29 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const authMiddleware = require('../secu/auth');
 
+//
+router.post('/register', async (req, res) => {
+    try {
+        const { email, password, isAdmin, nom, prenom } = req.body;
+        if (!nom || !prenom || !email || !password) { // Validation de base
+            return res.status(400).json({ error: "Tous les champs obligatoires n'ont pas été fournis." });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, password: hashedPassword, isAdmin: isAdmin || false, nom, prenom });
+        await newUser.save();
+        res.status(201).json({
+            message: "Utilisateur créé avec succès",
+            userId: newUser._id
+        });
+    } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ error: "Cet email est déjà utilisé." });
+        }
+        console.error(error);
+        res.status(500).json({ error: "Erreur serveur lors de l'inscription" });
+    }
+});
+
 // Route d'inscription
 router.post('/register', async (req, res) => {
     try {
