@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const authMiddleware = require('../secu/auth');
 
-//
 router.post('/register', async (req, res) => {
     try {
         const { email, password, isAdmin, nom, prenom } = req.body;

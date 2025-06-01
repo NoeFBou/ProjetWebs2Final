@@ -6,10 +6,7 @@ const Assignment = require('../models/Assignment');
 const User = require('../models/User');
 const authMiddleware = require('../secu/auth'); // Assuming you want to protect these routes
 
-// Middleware for all routes in this file (optional)
-// router.use(authMiddleware);
 
-// GET /api/stats/assignments/status-counts
 router.get('/assignments/status-counts', authMiddleware, async (req, res) => {
     try {
         const counts = await Assignment.aggregate([
@@ -149,6 +146,7 @@ router.get('/my-organization-chart', authMiddleware, async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors de la récupération des données de l'organigramme." });
     }
 });
+
 // GET /api/stats/assignments/average-note-per-student
 router.get('/assignments/average-note-per-student', authMiddleware, async (req, res) => {
     try {
@@ -378,7 +376,6 @@ router.get('/assignments/trend-by-due-date', authMiddleware, async (req, res) =>
     }
 });
 
-// 2. Distribution des Notes des Assignments (Histogramme/Graphique à Barres)
 // GET /api/stats/assignments/notes-distribution
 router.get('/assignments/notes-distribution', authMiddleware, async (req, res) => {
     try {
@@ -433,7 +430,6 @@ router.get('/assignments/notes-distribution', authMiddleware, async (req, res) =
     }
 });
 
-// 3. Répartition des Statuts d'Assignments par Professeur (Graphique à Barres Empilées)
 // GET /api/stats/professors/assignment-status-breakdown
 router.get('/professors/assignment-status-breakdown', authMiddleware, async (req, res) => {
     try {

@@ -33,7 +33,6 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 });
 
-// You might also want an endpoint to get a single user by ID (excluding password)
 router.get('/:id', authMiddleware, async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-password'); // Only exclude password
@@ -141,6 +140,5 @@ router.post('/:userId/profile-picture', authMiddleware, uploadProfilePic.single(
         res.status(500).json({ error: 'Erreur serveur lors de la mise à jour de la photo.' });
     }
 });
-
 
 module.exports = router;
