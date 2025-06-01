@@ -72,13 +72,12 @@
                     pTooltip="Éditer"
                     [disabled]="isEditDisabled(assignment)"
                     tooltipPosition="top">
-            </button>
+                </button>
             <button *ngIf="authService.isAdmin()"
                     pButton type="button" icon="pi pi-trash"
                     (click)="confirmDelete($event, assignment._id)"
-                    class="p-button-sm p-button-danger"
-                    pTooltip="Supprimer" tooltipPosition="top">
-            </button>
+                    class="p-button-sm p-button-danger" pTooltip="Supprimer" tooltipPosition="top">
+               </button>
           </div>
         </td>
       </tr>
