@@ -72,26 +72,107 @@ router.get('/my-assignments', authMiddleware, async (req, res) => {
     }
 });
 
-// Récupérer la liste des assignments avec pagination
+router.get('/distinct/tags', async (req, res) => {
+    try {
+        const tags = await Assignment.distinct('tags');
+        res.json(tags.filter(tag => tag !== null && tag !== ''));
+    } catch (error) { res.status(500).json({ error: 'Erreur serveur' }); }
+});
+
+router.get('/distinct/matieres', async (req, res) => {
+    try {
+        const matieres = await Assignment.distinct('matiere');
+        res.json(matieres.filter(m => m !== null && m !== ''));
+    } catch (error) { res.status(500).json({ error: 'Erreur serveur' }); }
+});
+
+
 router.get('/', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
+        const limit = parseInt(req.query.limit) || 20;
+        const sortField = req.query.sortField || 'dateDeRendu';
+        const sortOrder = parseInt(req.query.sortOrder) || -1;
 
-        const assignments = await Assignment.aggregate([
-            { $sort: { dateDeRendu: -1 } }, // Example sort
+        const {
+            nom,
+            dateDeRenduStart, dateDeRenduEnd,
+            selectedTags,
+            minNote, maxNote,
+            locked,
+            selectedMatieres,
+            selectedProfesseurIds,
+            selectedEleveIds,
+            selectedStatuts,
+            exerciceKeywords
+        } = req.query;
+
+        const filterQuery = {};
+        if (nom) filterQuery.nom = { $regex: nom, $options: 'i' };
+
+        if (dateDeRenduStart && dateDeRenduEnd) {
+            filterQuery.dateDeRendu = {
+                $gte: new Date(dateDeRenduStart),
+                $lte: new Date(dateDeRenduEnd)
+            };
+        } else if (dateDeRenduStart) {
+            filterQuery.dateDeRendu = { $gte: new Date(dateDeRenduStart) };
+        } else if (dateDeRenduEnd) {
+            filterQuery.dateDeRendu = { $lte: new Date(dateDeRenduEnd) };
+        }
+
+        if (selectedTags) filterQuery.tags = { $in: selectedTags.split(',') };
+
+        if (minNote || maxNote) {
+            filterQuery.note = {};
+            if (minNote) filterQuery.note.$gte = parseFloat(minNote);
+            if (maxNote) filterQuery.note.$lte = parseFloat(maxNote);
+        }
+
+        if (locked !== undefined && locked !== 'null' && locked !== '') {
+            filterQuery.locked = (locked === 'true');
+        }
+
+        if (selectedMatieres) filterQuery.matiere = { $in: selectedMatieres.split(',') };
+
+        if (selectedProfesseurIds) {
+            filterQuery['professeur.idProf'] = {
+                $in: selectedProfesseurIds.split(',').map(id => new mongoose.Types.ObjectId(id))
+            };
+        }
+        if (selectedEleveIds) {
+            filterQuery['eleve.idEleve'] = {
+                $in: selectedEleveIds.split(',').map(id => new mongoose.Types.ObjectId(id))
+            };
+        }
+        if (selectedStatuts) filterQuery.statut = { $in: selectedStatuts.split(',') };
+
+        if (exerciceKeywords) {
+            //un des mots
+            const keywordsArray = exerciceKeywords.split(',').map(kw => new RegExp(kw.trim(), 'i'));
+            //filterQuery.exercice = { $in: keywordsArray };
+            //tout
+            filterQuery.$and = exerciceKeywords.split(',').map(kw => ({ exercice: { $regex: kw.trim(), $options: 'i' } }));
+        }
+
+        const skip = (page - 1) * limit;
+        let sortCriteria = {};
+        sortCriteria[sortField] = sortOrder;
+
+        const aggregationPipeline = [
+            { $match: filterQuery },
+            { $sort: sortCriteria },
             { $skip: skip },
             { $limit: limit },
-            { // Lookup for Professor
+            {
                 $lookup: {
-                    from: "users", // your users collection name
+                    from: "users",
                     localField: "professeur.idProf",
                     foreignField: "_id",
                     as: "professeurDetailsArr"
                 }
             },
-            { // Lookup for Eleve
+            {
                 $lookup: {
                     from: "users",
                     localField: "eleve.idEleve",
@@ -99,38 +180,31 @@ router.get('/', async (req, res) => {
                     as: "eleveDetailsArr"
                 }
             },
-            { // Unwind the arrays created by $lookup (assuming one prof/eleve per assignment)
-                $unwind: { path: "$professeurDetailsArr", preserveNullAndEmptyArrays: true }
-            },
+            { $unwind: { path: "$professeurDetailsArr", preserveNullAndEmptyArrays: true } },
+            { $unwind: { path: "$eleveDetailsArr", preserveNullAndEmptyArrays: true } },
             {
-                $unwind: { path: "$eleveDetailsArr", preserveNullAndEmptyArrays: true }
-            },
-            { // Project the desired fields, including profile pictures
                 $project: {
-                    // Include all original Assignment fields
                     nom: 1, matiere: 1, exercice: 1, note: 1, tags: 1, statut: 1,
                     dateDeRendu: 1, visible: 1, locked: 1,
-                    // Original professeur/eleve objects (containing IDs and denormalized names)
                     "professeur.idProf": 1,
-                    "professeur.nomProf": 1, // This is the denormalized name
+                    "professeur.nomProf": 1,
                     "eleve.idEleve": 1,
-                    "eleve.nomEleve": 1,   // This is the denormalized name
-                    // Add profile picture from the looked-up user documents
+                    "eleve.nomEleve": 1,
                     "professeur.profilePicture": "$professeurDetailsArr.profilePicture",
                     "eleve.profilePicture": "$eleveDetailsArr.profilePicture",
-                    // You can also overwrite nomProf/nomEleve with fresh data if needed:
                     // "professeur.nomProfFresh": { $concat: ["$professeurDetailsArr.prenom", " ", "$professeurDetailsArr.nom"] },
                     // "eleve.nomEleveFresh": { $concat: ["$eleveDetailsArr.prenom", " ", "$eleveDetailsArr.nom"] },
                 }
             }
-        ]);
+        ];
 
-        const totalAssignments = await Assignment.countDocuments();
-
+        const assignments = await Assignment.aggregate(aggregationPipeline);
+        const totalAssignments = await Assignment.countDocuments(filterQuery);
         res.json({
             assignments,
             totalPages: Math.ceil(totalAssignments / limit),
-            currentPage: page
+            currentPage: page,
+            totalItems: totalAssignments
         });
     } catch (error) {
         console.error(error);

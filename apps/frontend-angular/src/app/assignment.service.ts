@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {forkJoin, Observable, Subscription} from "rxjs";
 import {environment} from "../environments/environment";
+import { FilterCriteria } from './filter/filter.component';
 
 export interface ProfesseurInfo {
   idProf: string;
@@ -15,11 +16,13 @@ export interface EleveInfo {
   nomEleve: string;
   profilePicture?: string;
 }
-export interface PaginatedAssignments { // You can move this to a shared models file
+export interface PaginatedAssignments {
   assignments: Assignment[];
   totalPages: number;
   currentPage: number;
+  totalItems: number;
 }
+
 export interface Assignment {
   _id?: string; // MongoDB's ID, optional for new assignments before saving
   nom: string;
@@ -48,6 +51,74 @@ export class AssignmentService {
   getAssignments(page: number = 1, limit: number = 10): Observable<PaginatedAssignments> { // Update return type
     return this.http.get<PaginatedAssignments>(`${this.baseApiUrl}?page=${page}&limit=${limit}`);
   }
+  getDistinctTags(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseApiUrl}/distinct/tags`);
+  }
+
+  getDistinctMatieres(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseApiUrl}/distinct/matieres`);
+  }
+  getAssignmentsfiltre(
+    page: number = 1,
+    limit: number = 10,
+    filters?: FilterCriteria,
+    sortField?: string,
+    sortOrder?: number
+  ): Observable<PaginatedAssignments> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    if (sortField && sortOrder !== undefined) {
+      params = params.set('sortField', sortField);
+      params = params.set('sortOrder', sortOrder.toString());
+    }
+
+    if (filters) {
+      if (filters.nom) params = params.set('nom', filters.nom);
+
+      if (filters.dateDeRenduRange && filters.dateDeRenduRange.length === 2) {
+        if (filters.dateDeRenduRange[0]) {
+          params = params.set('dateDeRenduStart', new Date(filters.dateDeRenduRange[0]).toISOString());
+        }
+        if (filters.dateDeRenduRange[1]) {
+          params = params.set('dateDeRenduEnd', new Date(filters.dateDeRenduRange[1]).toISOString());
+        }
+      }
+      if (filters.selectedTags && filters.selectedTags.length > 0) {
+        params = params.set('selectedTags', filters.selectedTags.join(','));
+      }
+      if (filters.noteRange) {
+        params = params.set('minNote', filters.noteRange[0].toString());
+        params = params.set('maxNote', filters.noteRange[1].toString());
+      }
+      if (filters.locked !== null && filters.locked !== undefined) {
+        params = params.set('locked', String(filters.locked));
+      }
+      if (filters.selectedMatieres && filters.selectedMatieres.length > 0) {
+        params = params.set('selectedMatieres', filters.selectedMatieres.join(','));
+      }
+      if (filters.selectedProfesseurIds && filters.selectedProfesseurIds.length > 0) {
+        params = params.set('selectedProfesseurIds', filters.selectedProfesseurIds.join(','));
+      }
+      if (filters.selectedEleveIds && filters.selectedEleveIds.length > 0) {
+        params = params.set('selectedEleveIds', filters.selectedEleveIds.join(','));
+      }
+      if (filters.selectedStatuts && filters.selectedStatuts.length > 0) {
+        params = params.set('selectedStatuts', filters.selectedStatuts.join(','));
+      }
+      if (filters.exerciceKeywords && filters.exerciceKeywords.length > 0) {
+        params = params.set('exerciceKeywords', filters.exerciceKeywords.join(','));
+      }
+    }
+
+    return this.http.get<PaginatedAssignments>(this.baseApiUrl, { params });
+  }
+
+
+
+
+
 
   addAssignment(assignment: Assignment): Observable<Assignment> {
     // Ensure dateDeRendu is in a format the backend expects, or convert to ISO string

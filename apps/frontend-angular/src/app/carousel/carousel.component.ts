@@ -20,6 +20,7 @@ import {environment} from "../../environments/environment";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {UserProfileViewModalComponent} from "../user-profile-view-modal/user-profile-view-modal.component";
 import {AvatarModule} from "primeng/avatar";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 @Pipe({
   name: 'safeHtml',
@@ -35,6 +36,7 @@ export interface PaginatedAssignments {
   assignments: Assignment[];
   totalPages: number;
   currentPage: number;
+  totalItems: number;
 }
 @Component({
   selector: 'app-carousel',
@@ -49,7 +51,7 @@ export interface PaginatedAssignments {
     SafeHtmlPipe,
     TooltipModule,
     SplitterModule,
-    PaginatorModule, EditAssignmentModalComponent, ConfirmPopupModule, ToastModule, AvatarModule],
+    PaginatorModule, EditAssignmentModalComponent, ConfirmPopupModule, ToastModule, AvatarModule, ProgressSpinnerModule],
 
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
@@ -58,10 +60,14 @@ export class CarouselComponent implements OnInit {
   assignments: Assignment[] = [];
   filteredAssignments: Assignment[] = [];
   responsiveOptions: any[] | undefined;
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalAssignmentsFromServer: number = 0;
+  isLoading: boolean = false;
 
   @ViewChild('editModal', { static: true }) editModal!: EditAssignmentModalComponent;
   protected page: number = 0; // Current page for pagination display
-  private currentUser: DecodedToken | null;
+  private currentUser: DecodedToken | null | undefined;
   dialogRef: DynamicDialogRef | undefined;
   serverBaseUrl = environment.serverBaseUrl || '';
 
@@ -72,7 +78,7 @@ export class CarouselComponent implements OnInit {
     private messageService: MessageService,
     public dialogService: DialogService
   ) {
-    this.currentUser = this.authService.getCurrentUser();
+   // this.currentUser = this.authService.getCurrentUser();
   }
   isEditDisabled(assignment: Assignment): boolean {
     if (!assignment.locked) {
@@ -85,16 +91,39 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadAssignments();
+    this.fetchAssignments();
+    this.currentUser = this.authService.getCurrentUser();
 
     // Responsive options for the carousel can remain the same
     this.responsiveOptions = [
-      { breakpoint: '1400px', numVisible: 3, numScroll: 1 }, // Adjusted for potentially more content
+      { breakpoint: '1400px', numVisible: 4, numScroll: 1 },
       { breakpoint: '1199px', numVisible: 2, numScroll: 1 },
       { breakpoint: '767px', numVisible: 1, numScroll: 1 }
     ];
   }
-
+  fetchAssignments(): void {
+    this.isLoading = true;
+    this.assignmentService.getAssignmentsfiltre(
+      this.currentPage,
+      this.itemsPerPage,
+      this.currentFilterCriteria
+    ).subscribe({
+      next: (data: PaginatedAssignments) => {
+        console.log("Assignments data received from server:", data);
+        this.assignments = data.assignments;
+        this.filteredAssignments = data.assignments;
+        this.totalAssignmentsFromServer = data.totalItems;
+        this.page = 0;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des assignments', error);
+        this.messageService.add({severity:'error', summary:'Erreur de chargement', detail: 'Impossible de récupérer les devoirs.'});
+        this.isLoading = false;
+      }
+    });
+  }
+/*
   loadAssignments(): void {
     this.assignmentService.getAssignments(1, 10000).subscribe({ // Consider actual pagination
       next: (data: PaginatedAssignments) => {
@@ -115,7 +144,7 @@ export class CarouselComponent implements OnInit {
         console.error('Erreur lors du chargement des assignments', error);
       }
     });
-  }
+  }*/
 /*
   deleteAssignment(id: string | undefined): void { // id is now _id (string)
     if (!id) return;
@@ -138,6 +167,19 @@ export class CarouselComponent implements OnInit {
   // Store current filter criteria to re-apply after delete/update
   private currentFilterCriteria: FilterCriteria = {};
 
+  applyFilter(criteria: FilterCriteria): void {
+    this.currentFilterCriteria = criteria;
+    this.currentPage = 1;
+    this.fetchAssignments();
+  }
+
+  onPaginatorPageChange(event: any): void {
+    this.currentPage = event.page + 1;
+    this.itemsPerPage = event.rows;
+    this.fetchAssignments();
+  }
+
+  /*
   applyFilter(criteria: FilterCriteria): void {
     this.filteredAssignments = this.assignments.filter(item => {
       let match = true;
@@ -233,7 +275,7 @@ export class CarouselComponent implements OnInit {
     });
     this.page = 0; // Reset to first page of carousel after filtering
   }
-
+*/
 
   openEditModal(assignment: Assignment): void {
     if (this.authService.isAdmin()) {
@@ -264,6 +306,16 @@ export class CarouselComponent implements OnInit {
     return Math.ceil(this.filteredAssignments.length / numVisible);
   }
 
+  get totalPagesForDisplay(): number {
+    if (this.totalAssignmentsFromServer === 0 || this.itemsPerPage === 0) return 0;
+    return Math.ceil(this.totalAssignmentsFromServer / this.itemsPerPage);
+  }
+
+  pageChangeCarousel(event: any) {
+    // event.first = index du premier item affiché dans le lot actuel
+    // event.rows = nombre d'items par "vue" du carrousel (numVisible)
+    this.page = event.page; // event.page est l'index de la "vue" actuelle du carrousel (0-indexed)
+  }
 
   getStatutSeverity(statut: any) {
     switch (statut) {
@@ -341,4 +393,6 @@ export class CarouselComponent implements OnInit {
     }
     return undefined;
   }
+
+  protected readonly Math = Math;
 }

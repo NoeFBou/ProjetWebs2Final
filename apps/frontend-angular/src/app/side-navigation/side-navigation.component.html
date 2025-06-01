@@ -1,31 +1,7 @@
 <nav class="side-nav" [class.collapsed]="isCollapsed">
   <ul class="list-unstyled">
     <li class="mb-2">
-      <a routerLink="/accueil" class="btn btn-info w-100">
-        <span *ngIf="!isCollapsed">Accueil</span>
-      </a>
-    </li>
-
-    <li class="mb-2">
-      <a routerLink="/assignment1" class="btn btn-info w-100">
-        <span *ngIf="!isCollapsed">Assignments 1</span>
-      </a>
-    </li>
-
-    <li class="mb-2">
-      <a routerLink="/assignment2" class="btn btn-info w-100">
-        <span *ngIf="!isCollapsed">Assignments 2</span>
-      </a>
-    </li>
-    <li class="mb-2">
-      <a routerLink="/organisation" class="btn btn-info w-100">
-        <span *ngIf="!isCollapsed">Organisation</span>
-      </a>
-    </li>
-
-
-    <li class="mb-2">
-      <button (click)="toggleCollapse()" class="btn btn-secondary w-100">
+      <div (click)="toggleCollapse()" class="btn btn-secondary w-100">
         <ng-container *ngIf="isCollapsed; else expandedIcon">
           <img ngSrc="../../assets/collapse-right-svgrepo-com.svg" alt="Étendre" width="20" height="20">
         </ng-container>
@@ -35,20 +11,47 @@
         <span *ngIf="!isCollapsed">
           {{ isCollapsed ? 'Étendre' : 'Réduire' }}
         </span>
-      </button>
+      </div>
+    </li>
+    <li class="mb-2">
+      <a routerLink="/accueil" class="btn btn-info w-100">
+        <span *ngIf="!isCollapsed">Accueil</span>
+      </a>
     </li>
 
     <li class="mb-2">
-      <button (click)="logout()" class="btn btn-danger w-100"> <img ngSrc="../../assets/logout-svgrepo-com.svg" alt="Déconnexion" width="20" height="20">
+      <a routerLink="/assignment1" class="btn btn-info w-100">
+        <span *ngIf="!isCollapsed">Assignments</span>
+      </a>
+    </li>
+
+    <li class="mb-2">
+      <a routerLink="/assignment2" class="btn btn-info w-100">
+        <span *ngIf="!isCollapsed">Mes Assignments</span>
+      </a>
+    </li>
+    <li class="mb-2">
+      <a routerLink="/organisation" class="btn btn-info w-100">
+        <span *ngIf="!isCollapsed">Organisation</span>
+      </a>
+    </li>
+
+
+
+
+    <li class="mb-2">
+      <div (click)="logout()" class="btn btn-danger w-100">
+        <img ngSrc="../../assets/logout-svgrepo-com.svg" alt="Déconnexion" width="20" height="20">
         <span *ngIf="!isCollapsed">Déconnexion</span>
-      </button>
+      </div>
     </li>
 
-    <li class="mb-2" *ngIf="authService.isAdmin()"> <button (click)="openAddAssignmentModal()" class="btn btn-success w-100"> <img ngSrc="../../assets/add-square-svgrepo-com.svg" alt="Ajouter un Assignment" width="20" height="20">
-      <span *ngIf="!isCollapsed">Ajouter un Assignment</span>
-    </button>
+    <li class="mb-2" *ngIf="authService.isAdmin()">
+      <div (click)="openAddAssignmentModal()" class="btn btn-success w-100">
+        <img ngSrc="../../assets/add-square-svgrepo-com.svg" alt="Ajouter un Assignment" width="20" height="20">
+        <span *ngIf="!isCollapsed">Ajouter un Assignment</span>
+      </div>
     </li>
 
-    <li class="mb-2" *ngIf="authService.isAdmin()"> <app-import-assignment></app-import-assignment> </li>
   </ul>
 </nav>

@@ -6,13 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="710576e9-3ae7-4689-864d-123704b28fba" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment2/assignment2.componentett.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/home/home.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/organisation/organisation.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/routes/assignments.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/routes/assignments.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/assignment.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/carousel/carousel.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/edit-assignment-modal/edit-assignment-modal.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/filter/filter.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/frontend-angular/src/app/side-navigation/side-navigation.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +169,7 @@
       <workItem from="1748333046578" duration="19567000" />
       <workItem from="1748416174172" duration="22711000" />
       <workItem from="1748508040113" duration="43000" />
-      <workItem from="1748769036550" duration="2424000" />
+      <workItem from="1748769036550" duration="6519000" />
     </task>
     <servers />
   </component>
@@ -182,11 +183,6 @@
           <url>file://$PROJECT_DIR$/apps/backend/routes/users.js</url>
           <line>30</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/apps/backend/routes/assignments.js</url>
-          <line>144</line>
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/apps/backend/routes/assignments.js</url>

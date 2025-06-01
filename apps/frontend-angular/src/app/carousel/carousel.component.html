@@ -1,12 +1,22 @@
 <app-filter (filterChange)="applyFilter($event)"></app-filter>
-
+<p-paginator
+  (onPageChange)="onPaginatorPageChange($event)"
+  [rows]="itemsPerPage"
+  [totalRecords]="totalAssignmentsFromServer"
+  [rowsPerPageOptions]="[3, 5, 10, 20, 50, 100, 500 ]"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} devoirs">
+</p-paginator>
+<div *ngIf="isLoading" class="loading-spinner">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <p-carousel
   [value]="filteredAssignments"
   [numVisible]="responsiveOptions ? responsiveOptions[0].numVisible : 3"
   [numScroll]="responsiveOptions ? responsiveOptions[0].numScroll : 1"
-  [circular]="filteredAssignments.length > (responsiveOptions && responsiveOptions[0].numVisible ? responsiveOptions[0].numVisible : 3)"
+  [circular]="filteredAssignments.length > (responsiveOptions && responsiveOptions[0].numVisible ? 3 : 3)"
   [responsiveOptions]="responsiveOptions"
-  [showIndicators]="filteredAssignments.length > (responsiveOptions && responsiveOptions[0].numVisible ? responsiveOptions[0].numVisible : 3)"
+  [showIndicators]="filteredAssignments.length > (responsiveOptions && responsiveOptions[0].numVisible ? 3 : 3)"
   (onPage)="pageChange($event)"
   styleClass="custom-carousel">
   <ng-template let-assignment pTemplate="item">
@@ -102,8 +112,11 @@
 </p-carousel>
 <app-edit-assignment-modal #editModal (assignmentUpdated)="onAssignmentUpdated($event)"></app-edit-assignment-modal>
 
-<div class="pagination-info text-center mt-3" *ngIf="filteredAssignments.length > 0">
-  Page {{ page + 1 }} / {{ totalPages }}
+<div class="pagination-info text-center mt-3" *ngIf="filteredAssignments.length > 0 && totalAssignmentsFromServer > 0">
+  Page de données {{ currentPage }} / {{ totalPagesForDisplay }}
+  <span *ngIf="filteredAssignments.length < totalAssignmentsFromServer">
+    (Carrousel: Vue {{ page + 1 }})
+  </span>
 </div>
 
 <p-confirmPopup></p-confirmPopup>

@@ -89,25 +89,16 @@ export class FilterComponent implements OnInit {
   loadFilterOptions(): void {
     this.isLoadingOptions = true;
     forkJoin({
-      assignments: this.assignmentService.getAssignments(1, 10000), // Fetch all for options; consider a dedicated endpoint for distinct values
+      // Remplacer la récupération de tous les assignments pour les tags/matières
+      tags: this.assignmentService.getDistinctTags(),
+      matieres: this.assignmentService.getDistinctMatieres(),
       professeurs: this.userService.getUsers({ isAdmin: true }),
       eleves: this.userService.getUsers({ isAdmin: false })
     }).pipe(
       map(results => {
-        const uniqueTags = new Set<string>();
-        const uniqueMatieres = new Set<string>();
-        results.assignments.assignments.forEach(assignment => {
-          if (assignment.tags) {
-            assignment.tags.forEach(tag => uniqueTags.add(tag));
-          }
-          if (assignment.matiere) {
-            uniqueMatieres.add(assignment.matiere);
-          }
-        });
-
         return {
-          tags: Array.from(uniqueTags).map(tag => ({ label: tag, value: tag })),
-          matieres: Array.from(uniqueMatieres).map(matiere => ({ label: matiere, value: matiere })),
+          tags: results.tags.map(tag => ({ label: tag, value: tag })),
+          matieres: results.matieres.map(matiere => ({ label: matiere, value: matiere })),
           professeurs: results.professeurs.map(p => ({ _id: p._id, fullName: `${p.prenom} ${p.nom}` })),
           eleves: results.eleves.map(e => ({ _id: e._id, fullName: `${e.prenom} ${e.nom}` }))
         };
