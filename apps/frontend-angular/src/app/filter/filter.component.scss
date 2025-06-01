@@ -1,67 +1,82 @@
+$filter-bg-color: #4fc698;
+$filter-label-color: #ffffff;
+$select-button-highlight-bg: #3B82F6;
+$select-button-highlight-text: #ffffff;
+$select-button-default-bg: #ffffff;
+$select-button-default-text: #4B5563;
+$select-button-border-color: #D1D5DB;
+
 .filter-container {
-  padding: 2rem;
-  border: 1px solid #ccc;
+  padding: 1.5rem;
+  border: 1px solid darken($filter-bg-color, 10%);
   border-radius: 8px;
   margin-bottom: 1rem;
-  background-color: #4fc698;
-  color: #ffffff;
-}
+  background-color: $filter-bg-color;
+  color: $filter-label-color;
 
-.filter-container .field {
-  margin-bottom: 1rem;
-}
-
-.filter-container label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.filter-container .field p-slider {
-  margin-top: 0.5rem;
-}
-
-.filter-container .grid.formgrid .field.col-6 {
-  flex-direction: row;
-  align-items: center;
-
-  label {
-    margin-bottom: 0;
-    margin-right: 0.75em;
-    white-space: nowrap;
-  }
-
-  input[pInputText],
-  p-calendar,
-  p-multiSelect,
-  p-slider,
-  p-selectButton,
-  p-chips {
-    flex: 1;
-    min-width: 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .filter-container .grid.formgrid .field.md\:col-6 {
-    flex-direction: row;
-    align-items: center;
+  .field {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
 
     label {
-      margin-bottom: 0;
-      margin-right: 0.75em;
-      white-space: nowrap;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: $filter-label-color;
+      text-align: center;
     }
+  }
 
-    input[pInputText],
-    p-calendar,
-    p-multiSelect,
-    p-slider,
-    p-selectButton,
-    p-chips {
-      flex: 1;
-      min-width: 0;
+  .custom-slider-full-width {
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ::ng-deep .select-button-custom.p-selectbutton .p-button {
+    flex-grow: 1;
+
+    &.p-highlight {
+      background-color: $select-button-highlight-bg;
+      border-color: $select-button-highlight-bg;
+      color: $select-button-highlight-text;
+      &:hover {
+        background-color: darken($select-button-highlight-bg, 5%);
+        border-color: darken($select-button-highlight-bg, 5%);
+      }
     }
+    &:not(.p-highlight) {
+      background-color: $select-button-default-bg;
+      color: $select-button-default-text;
+      border-color: $select-button-border-color;
+      &:hover {
+        background-color: darken($select-button-default-bg, 5%);
+      }
+    }
+  }
+
+  .reset-filter-button.p-button-outlined {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: $filter-label-color;
+    border-color: $filter-label-color;
+
+    &:enabled:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: $filter-label-color;
+      border-color: $filter-label-color;
+    }
+    .pi {
+      color: $filter-label-color;
+    }
+  }
+
+  ::ng-deep .p-calendar.w-full,
+  ::ng-deep .p-multiselect.w-full,
+  ::ng-deep .p-chips.w-full,
+  input[pInputText].w-full {
+    width: 100%;
   }
 }

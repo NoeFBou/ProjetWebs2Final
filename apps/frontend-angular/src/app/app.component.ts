@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {LoginComponentComponent} from "./login-component/login-component.component";
 import {AuthServiceService} from "./auth-service.service";
-import {CommonModule, NgClass, NgIf, NgStyle} from '@angular/common';
-import {ButtonDirective} from "primeng/button";
+import {CommonModule, NgIf, NgStyle} from '@angular/common';
 import {SideNavigationComponent} from "./side-navigation/side-navigation.component";
 import {ToastModule} from "primeng/toast";
 

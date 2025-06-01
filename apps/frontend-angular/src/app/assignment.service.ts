@@ -1,7 +1,6 @@
-//assignment.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {forkJoin, Observable, Subscription} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import {environment} from "../environments/environment";
 import { FilterCriteria } from './filter/filter.component';
 
@@ -24,11 +23,11 @@ export interface PaginatedAssignments {
 }
 
 export interface Assignment {
-  _id?: string; // MongoDB's ID, optional for new assignments before saving
+  _id?: string;
   nom: string;
   matiere: string;
   exercice?: string;
-  note?: number; // float between 0 and 20
+  note?: number;
   tags?: string[];
   statut: 'en cours' | 'terminé' | 'en attente';
   dateDeRendu: Date;

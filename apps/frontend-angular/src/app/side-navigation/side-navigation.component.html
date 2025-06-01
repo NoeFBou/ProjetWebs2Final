@@ -47,23 +47,17 @@
         <span *ngIf="!isCollapsed">Organisation</span>
       </a>
     </li>
-
-
-
-
-    <li class="nav-item mb-2">
-      <button (click)="logout()" class="btn nav-link w-100 p-2 logout-btn" [pTooltip]="isCollapsed ? 'Déconnexion' : ''" tooltipPosition="right">
-        <i class="pi pi-sign-out me-2"></i>
-        <span *ngIf="!isCollapsed">Déconnexion</span>
-      </button>
-    </li>
-
     <li class="nav-item mb-2" *ngIf="authService.isAdmin()">
       <button (click)="openAddAssignmentModal()" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? 'Ajouter Assignment' : ''" tooltipPosition="right">
         <i class="pi pi-file-plus me-2"></i>
         <span *ngIf="!isCollapsed">Ajouter Assignment</span>
       </button>
     </li>
-
+    <li class="nav-item mb-2">
+      <button (click)="logout()" class="btn nav-link w-100 p-2 logout-btn" [pTooltip]="isCollapsed ? 'Déconnexion' : ''" tooltipPosition="right">
+        <i class="pi pi-sign-out me-2"></i>
+        <span *ngIf="!isCollapsed">Déconnexion</span>
+      </button>
+    </li>
   </ul>
 </nav>

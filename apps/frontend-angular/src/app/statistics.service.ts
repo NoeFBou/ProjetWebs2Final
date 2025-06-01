@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {TreeNode} from "primeng/api";
 
 export interface AssignmentStatusCounts {
-  [status: string]: number; // e.g., { "en cours": 10, "terminé": 25 }
+  [status: string]: number;
 }
 
 export interface AverageNotePerStudent {
@@ -19,7 +19,7 @@ export interface OrganizationChartNodeData {
   id?: string;
   name: string;
   title?: string;
-  image?: string | null; // Chemin vers l'image ou null
+  image?: string | null;
 }
 
 export interface OrganizationTreeNode extends   TreeNode {
@@ -36,8 +36,8 @@ export interface AssignmentsPerProfessor {
   assignmentCount: number;
 }
 
-export interface AssignmentDatePoint { // For scatter plot of individual assignments
-  dateDeRendu: string; // Or Date
+export interface AssignmentDatePoint {
+  dateDeRendu: string;
   note: number;
   nom: string;
 }
@@ -48,12 +48,12 @@ export interface CountPerMatiere {
 }
 
 export interface AssignmentTrendPoint {
-  date: string; // "YYYY-MM"
+  date: string;
   count: number;
 }
 
 export interface NoteDistributionPoint {
-  range: string; // "0-5", "5-10", etc.
+  range: string;
   count: number;
 }
 
@@ -61,7 +61,7 @@ export interface ProfessorStatusBreakdown {
   professorId: string;
   professorNom: string;
   professorPrenom: string;
-  statuses: { // dynamically keyed object
+  statuses: {
     "en cours"?: number;
     "terminé"?: number;
     "en attente"?: number;
@@ -84,7 +84,6 @@ export class StatisticsService {
 
   getMyOrganizationChartData(): Observable<OrganizationTreeNode[]> {
     return this.http.get<OrganizationTreeNode[]>(`${this.baseUrl}/my-organization-chart`);
-    // ou return this.http.get<OrganizationTreeNode[]>(`${this.orgBaseUrl}/my-chart`);
   }
 
   getAverageNotesTrendByDueDate(): Observable<AverageNoteTrendPoint[]> {
@@ -103,7 +102,7 @@ export class StatisticsService {
     return this.http.get<AssignmentsPerProfessor[]>(`${this.baseUrl}/assignments/count-per-professor`);
   }
 
-  getAssignmentsByDate(): Observable<AssignmentDatePoint[]> { // For scatter
+  getAssignmentsByDate(): Observable<AssignmentDatePoint[]> {
     return this.http.get<AssignmentDatePoint[]>(`${this.baseUrl}/assignments/by-date`);
   }
 
