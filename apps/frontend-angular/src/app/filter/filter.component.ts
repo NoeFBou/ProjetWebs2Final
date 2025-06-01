@@ -13,16 +13,16 @@ import {forkJoin, map} from "rxjs";
 import {FocusTrapModule} from "primeng/focustrap";
 
 export interface FilterCriteria {
-  nom?: string; // Keep if you still want to filter by assignment name
-  dateDeRenduRange?: Date[]; // For p-calendar [startDate, endDate]
-  selectedTags?: string[];    // For p-multiSelect
-  noteRange?: number[];       // For p-slider [minNote, maxNote]
-  locked?: boolean | null;    // null for 'Any', true for 'Locked', false for 'Unlocked'
-  selectedMatieres?: string[];// For p-multiSelect
-  selectedProfesseurIds?: string[]; // For p-multiSelect (User IDs)
-  selectedEleveIds?: string[];    // For p-multiSelect (User IDs)
-  selectedStatuts?: string[]; // For p-selectButton (multiple)
-  exerciceKeywords?: string[];// For p-chips
+  nom?: string;
+  dateDeRenduRange?: Date[];
+  selectedTags?: string[];
+  noteRange?: number[];
+  locked?: boolean | null;
+  selectedMatieres?: string[];
+  selectedProfesseurIds?: string[];
+  selectedEleveIds?: string[];
+  selectedStatuts?: string[];
+  exerciceKeywords?: string[];
 }
 
 interface DisplayUser {
@@ -50,11 +50,10 @@ interface DisplayUser {
 export class FilterComponent implements OnInit {
 
   criteria: FilterCriteria = {
-    noteRange: [0, 20], // Default note range
-    locked: null // Default to 'Any'
+    noteRange: [0, 20],
+    locked: null
   };
 
-  // Options for dropdowns/multiselects
   allTags: { label: string, value: string }[] = [];
   allMatieres: { label: string, value: string }[] = [];
   allProfesseurs: DisplayUser[] = [];
@@ -67,7 +66,7 @@ export class FilterComponent implements OnInit {
   ];
 
   lockedOptions: { label: string, value: boolean | null }[] = [
-    { label: 'Tous', value: null }, // 'Any' state
+    { label: 'Tous', value: null },
     { label: 'Verrouillé', value: true },
     { label: 'Déverrouillé', value: false }
   ];
@@ -88,7 +87,6 @@ export class FilterComponent implements OnInit {
   loadFilterOptions(): void {
     this.isLoadingOptions = true;
     forkJoin({
-      // Remplacer la récupération de tous les assignments pour les tags/matières
       tags: this.assignmentService.getDistinctTags(),
       matieres: this.assignmentService.getDistinctMatieres(),
       professeurs: this.userService.getUsers({ isAdmin: true }),
@@ -113,24 +111,21 @@ export class FilterComponent implements OnInit {
       error: (err) => {
         console.error("Erreur lors du chargement des options de filtre:", err);
         this.isLoadingOptions = false;
-        // Handle error (e.g., show a message to the user)
       }
     });
   }
 
   onFilterChange(): void {
-    // Create a deep copy to avoid issues with object references if criteria is modified elsewhere
     const criteriaToEmit = JSON.parse(JSON.stringify(this.criteria));
     this.filterChange.emit(criteriaToEmit);
   }
 
   resetFilters(): void {
     this.criteria = {
-      noteRange: [0, 20], // Reset to default
-      locked: null // Reset to default 'Any'
+      noteRange: [0, 20],
+      locked: null
     };
-    // To clear p-calendar range, set to an empty array or [null, null]
-    this.criteria.dateDeRenduRange = undefined; // Or []
+    this.criteria.dateDeRenduRange = undefined;
     this.onFilterChange();
   }
 }

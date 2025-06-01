@@ -128,7 +128,6 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
         }));
         this.isLoadingUsers = false;
         this.usersLoaded = true;
-        // Now that users are loaded, try to set selected users again if assignmentCopy is available
         if (this.assignmentCopy) {
           this.setSelectedUsers();
         }
@@ -148,7 +147,6 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
 
   show(): void {
     this.display = true;
-    // Re-initialize form fields when modal is shown, in case assignment input was set before ngOnInit or users loaded
     if (this.assignmentCopy) {
       this.initializeFormFields();
     }
@@ -164,7 +162,6 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
       return;
     }
 
-    // Update assignmentCopy with values from PrimeNG component models
     this.assignmentCopy.dateDeRendu = this.dateDeRenduModel;
 
     if (this.selectedTeacher && this.selectedTeacher._id) {
@@ -189,7 +186,6 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
 
     this.assignmentCopy.note = Number(this.assignmentCopy.note);
 
-    // Tags, nom, matiere, exercice, statut, locked, visible are already updated via [(ngModel)]="assignmentCopy.X"
 
     console.log("Assignment à mettre à jour :", this.assignmentCopy);
 
@@ -201,7 +197,6 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
       },
       error: (error) => {
         console.error("Erreur lors de la mise à jour", error);
-     //   alert(`Erreur lors de la mise à jour: ${error.error?.error || error.message}`);
         this.messageService.add({severity:'error', summary: 'Erreur', detail: `La mise à jour a échoué: ${error.error?.error || error.message}`});
 
       }
@@ -218,15 +213,9 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
   onMatiereChange(event: any) {
     const typedValue = event.value;
 
-    // If the typed value is not already in matieresOptions (by value)
-    // and it's a new string entry (not one of the objects from the list)
     if (typeof typedValue === 'string' && !this.matieresOptions.some(option => option.value === typedValue)) {
-      // Option 1: Just use the typed string value (already handled by ngModel)
-      // this.assignment.matiere is already updated.
 
-      // Option 2: Add it to the options list for future selection in this modal instance (optional)
       this.matieresOptions.push({ label: typedValue, value: typedValue });
-      // Note: This won't persist it globally unless you have a service for managing matières.
       console.log('Nouvelle matière saisie:', typedValue);
     }
   }
