@@ -1,14 +1,52 @@
+$theme-header-bg: #f1673d;
+$theme-header-text: #ffffff;
+$theme-primary-action-bg: #07ffd2;
+$theme-primary-action-text: #212529;
+$theme-secondary-action-color: #f1673d;
+$theme-status-selected-bg: #28a745;
+
+$theme-border-light: #dee2e6;
+$theme-text-secondary: #6c757d;
+$theme-text-primary: #212529;
+$theme-header-bg: #f1673d;
+$theme-header-text: #ffffff;
+$theme-secondary-action-color: #f1673d;
+
+:host ::ng-deep .user-profile-dialog {
+
+}
+
 :host ::ng-deep .user-profile-card {
+  .p-card-header {
+    background-color: $theme-header-bg;
+    color: $theme-header-text;
+    padding: 1rem 1.5rem;
+
+    .p-card-title {
+      color: inherit;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+  }
+
   .p-card-body {
     padding: 0;
   }
+
   .p-card-content {
     padding: 1.5rem;
   }
+
   .p-card-footer {
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--surface-border);
     text-align: right;
+
+    .p-button.p-button-text {
+      color: $theme-secondary-action-color;
+      &:hover {
+      }
+    }
   }
 }
 
@@ -17,12 +55,11 @@
 }
 
 .profile-avatar {
-  width: 120px ;
-  height: 120px ;
-  font-size: 3rem ;
-  background-color: var(--primary-color);
-  color: var(--primary-color-text);
-  border: 3px solid var(--surface-border);
+  width: 120px;
+  height: 120px;
+  font-size: 3rem;
+  border: 3px solid var(--surface-card);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .avatar-subtext {
@@ -30,25 +67,34 @@
   color: var(--text-color-secondary);
 }
 
-.user-details p {
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-  strong {
-    color: var(--text-color-secondary);
-    min-width: 80px;
-    display: inline-block;
+.user-details {
+  p {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    strong {
+      color: var(--text-color-secondary);
+      min-width: 90px;
+      display: inline-block;
+      font-weight: 600;
+    }
   }
 }
 
 .p-fileupload {
+  ::ng-deep .p-fileupload-buttonbar {
+    .p-button {
+    }
+  }
   ::ng-deep .p-fileupload-content {
     padding: 1rem;
     border: 1px dashed var(--surface-d);
     border-radius: var(--border-radius);
+    background-color: var(--surface-a);
   }
   ::ng-deep .p-fileupload-empty {
     padding: 2rem;
     color: var(--text-color-secondary);
+    text-align: center;
   }
 }
 
@@ -57,9 +103,9 @@
 .mb-3 { margin-bottom: 1rem; }
 .mt-4 { margin-top: 1.5rem; }
 
-.grid { display: grid; gap: 1rem; }
+.grid { display: grid; gap: 1.5rem; }
 .col-12 { grid-column: span 12 / span 12; }
-@media (min-width: 768px) { /* md */
+@media (min-width: 768px) {
   .md\:col-4 { grid-column: span 4 / span 4; }
   .md\:col-8 { grid-column: span 8 / span 8; }
 }

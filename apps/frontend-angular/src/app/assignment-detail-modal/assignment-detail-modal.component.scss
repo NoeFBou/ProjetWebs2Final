@@ -1,6 +1,17 @@
-:host ::ng-deep .p-dialog .p-dialog-header {
+$theme-header-bg: #f1673d;
+$theme-header-text: #ffffff;
+$theme-secondary-action-color: #f1673d;
+$theme-header-bg: #f1673d;
+$theme-header-text: #ffffff;
+$theme-primary-action-bg: #07ffd2;
+$theme-primary-action-text: #212529;
+$theme-secondary-action-color: #f1673d;
+$theme-status-selected-bg: #28a745;
 
-}
+$theme-border-light: #dee2e6;
+$theme-text-secondary: #6c757d;
+$theme-text-primary: #212529;
+
 
 :host ::ng-deep .p-dialog .p-dialog-content {
   padding: 0;
@@ -11,7 +22,34 @@
   .p-card {
     box-shadow: none;
     border-radius: 0;
+    height: 100%;
   }
+
+  .p-card-title {
+    background-color: $theme-header-bg;
+    color: $theme-header-text;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      color: inherit;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .p-tag {
+    }
+  }
+
+  .p-card-subtitle {
+    padding: 0.75rem 1.25rem;
+    background-color: lighten($theme-header-bg, 5%);
+    color: $theme-header-text;
+    font-style: italic;
+    border-bottom: 1px solid darken($theme-header-bg, 5%);
+  }
+
   .p-card-body {
     padding: 0;
   }
@@ -21,6 +59,11 @@
   .p-card-footer {
     padding: 1rem 1.25rem;
     border-top: 1px solid var(--surface-border);
+    text-align: right;
+
+    .p-button.p-button-text {
+      color: $theme-secondary-action-color;
+    }
   }
 }
 
@@ -31,15 +74,13 @@
 }
 
 .detail-item {
-  display: flex;
-  flex-direction: column;
   padding-bottom: 0.5rem;
 
   .detail-label {
     font-weight: 600;
     color: var(--text-color-secondary);
     font-size: 0.875rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
 
   .detail-value {
@@ -54,9 +95,10 @@
   }
 
   .detail-avatar {
-    width: 32px ;
-    height: 32px ;
-    font-size: 1rem ;
+    width: 36px ;
+    height: 36px ;
+    font-size: 1.1rem ;
+    border: 1px solid var(--surface-d)
   }
 
   &.detail-full-width {
@@ -64,14 +106,14 @@
   }
 
   .tags-list p-tag {
-    margin-right: 0.25rem;
-    margin-bottom: 0.25rem;
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
   }
 
   i[class^="pi-"] {
     font-size: 1.1rem;
     vertical-align: middle;
-    margin-right: 0.3rem;
+    margin-right: 0.4rem;
   }
 }
 
@@ -81,7 +123,8 @@
   border-radius: var(--border-radius);
   max-height: 250px;
   overflow-y: auto;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.6;
-  p { margin-bottom: 0.5rem; }
+  padding: 1rem;
+  p { margin-bottom: 0.75rem; }
 }
