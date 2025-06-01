@@ -21,6 +21,9 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {UserProfileViewModalComponent} from "../user-profile-view-modal/user-profile-view-modal.component";
 import {AvatarModule} from "primeng/avatar";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {
+  AssignmentDetailModalComponent
+} from "../assignment-detail-modal/assignment-detail-modal.component";
 
 @Pipe({
   name: 'safeHtml',
@@ -69,6 +72,8 @@ export class CarouselComponent implements OnInit {
   protected page: number = 0; // Current page for pagination display
   private currentUser: DecodedToken | null | undefined;
   dialogRef: DynamicDialogRef | undefined;
+  detailDialogRef: DynamicDialogRef | undefined;
+
   serverBaseUrl = environment.serverBaseUrl || '';
 
   constructor(
@@ -392,6 +397,19 @@ export class CarouselComponent implements OnInit {
       return `${this.serverBaseUrl}/uploads/profile-pictures/${profilePicture}`;
     }
     return undefined;
+  }
+
+  openAssignmentDetailModal(assignment: Assignment): void {
+    this.detailDialogRef = this.dialogService.open(AssignmentDetailModalComponent, {
+      header: `Détails de l'Assignment: ${assignment.nom}`,
+      width: '70%', // Ou une taille fixe comme '800px'
+      contentStyle: {"max-height": "85vh", "overflow": "auto"},
+      baseZIndex: 10000,
+      maximizable: true,
+      data: { // Passer l'objet assignment complet
+        assignment: assignment
+      }
+    });
   }
 
   protected readonly Math = Math;

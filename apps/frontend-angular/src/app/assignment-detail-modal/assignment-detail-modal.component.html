@@ -1,0 +1,86 @@
+<div class="assignment-detail-dialog" *ngIf="assignment">
+  <div >
+    ttdtdtd
+  </div>
+  <p-card styleClass="h-full">
+    <ng-template pTemplate="title">
+      <div class="flex justify-content-between align-items-center">
+        <span>{{ assignment.nom }}</span>
+        <p-tag [value]="assignment.statut" [severity]="getStatutSeverity(assignment.statut)"></p-tag>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      {{ assignment.matiere }}
+    </ng-template>
+    <ng-template pTemplate="content">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">Date de Rendu:</span>
+          <span class="detail-value">{{ assignment.dateDeRendu | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Note:</span>
+          <span class="detail-value">
+            {{ assignment.note !== undefined ? (assignment.note | number:'1.0-2') + '/20' : 'Non noté' }}
+          </span>
+        </div>
+        <div class="detail-item user-detail-item">
+          <span class="detail-label">Professeur:</span>
+          <div class="user-info">
+            <p-avatar
+              [image]="getProfilePictureFullUrl(assignment.professeur.profilePicture)" [label]="!assignment.professeur.profilePicture ? getAvatarLabelForUser(assignment.professeur.nomProf) : ''" size="normal" shape="circle" styleClass="me-2 detail-avatar">
+            </p-avatar>
+            <span class="detail-value">{{ assignment.professeur.nomProf || 'N/A' }}</span> </div>
+        </div>
+
+        <div class="detail-item user-detail-item">
+          <span class="detail-label">Élève:</span>
+          <div class="user-info">
+            <p-avatar
+              [image]="getProfilePictureFullUrl(assignment.eleve.profilePicture)" [label]="!assignment.eleve.profilePicture ? getAvatarLabelForUser(assignment.eleve.nomEleve) : ''" size="normal" shape="circle" styleClass="me-2 detail-avatar">
+            </p-avatar>
+            <span class="detail-value">{{ assignment.eleve.nomEleve || 'N/A' }}</span> </div>
+        </div>
+        <div class="detail-item detail-full-width" *ngIf="assignment.tags && assignment.tags.length > 0">
+          <span class="detail-label">Tags:</span>
+          <div class="detail-value tags-list">
+            <p-tag *ngFor="let tag of assignment.tags" [value]="tag" styleClass="me-1 mb-1"></p-tag>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Visible:</span>
+          <span class="detail-value">
+            <i [class]="assignment.visible ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500'"
+               [pTooltip]="assignment.visible ? 'Oui' : 'Non'"></i> {{ assignment.visible ? 'Oui' : 'Non' }}
+          </span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Verrouillé:</span>
+          <span class="detail-value">
+             <i [class]="assignment.locked ? 'pi pi-lock text-orange-500' : 'pi pi-lock-open text-green-500'"
+                [pTooltip]="assignment.locked ? 'Oui' : 'Non'"></i> {{ assignment.locked ? 'Oui' : 'Non' }}
+          </span>
+        </div>
+      </div>
+      <div *ngIf="assignment.exercice" class="mt-4">
+        <h6 class="detail-label">Description / Exercice:</h6>
+        <div class="exercice-display p-3 surface-100 border-round" [innerHTML]="assignment.exercice | safeHtml">
+        </div>
+      </div>
+      <div *ngIf="!assignment.exercice" class="mt-4 text-muted">
+        <h6 class="detail-label">Description / Exercice:</h6>
+        Aucune description.
+      </div>
+      <div *ngIf="!assignment.exercice" class="mt-4 text-muted">
+        <h6 class="detail-label">Description / Exercice:</h6>
+        Aucune description.
+      </div>
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <p-button label="Fermer" icon="pi pi-times" (click)="closeDialog()" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-card>
+</div>

@@ -65,6 +65,12 @@
         </td>
         <td>
           <div class="actions-cell">
+            <button pButton type="button" icon="pi pi-eye"
+                    (click)="openAssignmentDetailModal(assignment)"
+                    class="p-button-sm p-button-secondary me-2"
+                    pTooltip="Voir Détails" tooltipPosition="top">
+            </button>
+
             <button *ngIf="authService.isAdmin()"
                     pButton type="button" icon="pi pi-pencil"
                     (click)="openEditModal(assignment)"

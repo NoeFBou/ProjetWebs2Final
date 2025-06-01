@@ -1,0 +1,92 @@
+// src/app/assignment-detail-modal/assignment-detail-modal.component.scss
+:host ::ng-deep .p-dialog .p-dialog-header {
+  // Si vous voulez un header plus discret pour le dialog dynamique
+  // padding: 0.75rem 1.25rem;
+  // .p-dialog-title {
+  //   font-size: 1.1rem;
+  // }
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding: 0; // La carte gérera le padding
+  background-color: var(--surface-ground); // Assortir au fond si besoin
+}
+
+.assignment-detail-dialog {
+  .p-card {
+    box-shadow: none; // Pas d'ombre si c'est dans un dialog
+    border-radius: 0; // Pas de coins arrondis si c'est dans un dialog sans padding
+  }
+  .p-card-body {
+    padding: 0;
+  }
+  .p-card-content {
+    padding: 1.25rem; // Padding interne pour le contenu
+  }
+  .p-card-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--surface-border);
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem;
+
+  .detail-label {
+    font-weight: 600;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .detail-value {
+    font-size: 1rem;
+    color: var(--text-color);
+    word-break: break-word;
+  }
+
+  &.user-detail-item .user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .detail-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1rem !important;
+  }
+
+  &.detail-full-width {
+    grid-column: 1 / -1;
+  }
+
+  .tags-list p-tag {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  i[class^="pi-"] { // Styles pour les icônes de statut
+    font-size: 1.1rem;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+  }
+}
+
+.exercice-display {
+  background-color: var(--surface-section);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  max-height: 250px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  p { margin-bottom: 0.5rem; }
+}

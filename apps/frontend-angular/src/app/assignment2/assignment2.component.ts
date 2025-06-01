@@ -23,6 +23,7 @@ import { SafeHtmlPipe } from '../carousel/carousel.component'; // Assuming SafeH
 import { environment } from '../../environments/environment';
 import { DataViewModule } from 'primeng/dataview';
 import {TableModule} from "primeng/table";
+import {AssignmentDetailModalComponent} from "../assignment-detail-modal/assignment-detail-modal.component";
 
 @Component({
   selector: 'app-assignment2',
@@ -63,6 +64,7 @@ export class Assignment2Component implements OnInit, OnDestroy {
   private currentUser: DecodedToken | null;
   private dialogRef: DynamicDialogRef | undefined;
   serverBaseUrl = environment.serverBaseUrl || '';
+  detailDialogRef: DynamicDialogRef | undefined;
 
   constructor(
     private assignmentService: AssignmentService,
@@ -217,5 +219,18 @@ export class Assignment2Component implements OnInit, OnDestroy {
       case 'en attente': return 'warning';
       default: return 'secondary';
     }
+  }
+
+  openAssignmentDetailModal(assignment: Assignment): void {
+    this.detailDialogRef = this.dialogService.open(AssignmentDetailModalComponent, {
+      header: `Détails: ${assignment.nom}`,
+      width: '70%',
+      contentStyle: {"max-height": "85vh", "overflow": "auto"},
+      baseZIndex: 10000,
+      maximizable: true,
+      data: {
+        assignment: assignment
+      }
+    });
   }
 }

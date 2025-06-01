@@ -87,6 +87,11 @@
           </p-tabView>
         </div>
         <div class="card-footer mt-auto">
+          <button pButton type="button" icon="pi pi-eye"
+                  (click)="openAssignmentDetailModal(assignment)"
+                  class="p-button-sm p-button-secondary"
+                  pTooltip="Voir Détails" tooltipPosition="top">
+          </button>
           <button *ngIf="authService.isAdmin()" pButton
                   type="button"
                   icon="pi pi-pencil"
