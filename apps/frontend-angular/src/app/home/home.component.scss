@@ -1,70 +1,55 @@
-// Import PrimeFlex if not already globally available or if you want to be explicit
-// @import "primeflex/primeflex.css"; // Uncomment if needed
-
 :host {
-  display: block; // Ensures the component takes up block-level space
+  display: block;
 }
 
 .dashboard-container {
   h2 {
     font-size: 1.8rem;
-    color: var(--surface-700); // Use theme variables if possible
+    color: var(--surface-700);
   }
 }
 
-// Ensure cards in the same row stretch to the same height
 .grid {
-  > [class*="col-"] { // Targets direct children columns of a .grid
-    display: flex; // Allows p-card to stretch
+  > [class*="col-"] {
+    display: flex;
     flex-direction: column;
 
     p-card {
       display: flex;
       flex-direction: column;
-      flex-grow: 1; // Makes the card fill the column height
+      flex-grow: 1;
 
-      // Ensure the content area of the card can grow
       ::ng-deep .p-card-content {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        justify-content: center; // Centers chart vertically if it's smaller than the content area
+        justify-content: center;
       }
 
-      // Style for the chart itself to ensure it's responsive within the card
       p-chart {
-        display: block; // Or flex, depending on desired internal alignment
+        display: block;
         width: 100%;
-        // max-height: 300px; // You can set a max-height if needed
       }
     }
   }
 }
 
-// Optional: Add some subtle styling to the cards
 p-card {
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05); // Softer shadow
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 
   ::ng-deep .p-card-title {
-    font-size: 1.1rem; // Slightly adjust card title size
+    font-size: 1.1rem;
     font-weight: 600;
   }
 }
 
-// Center loading/no-data messages more robustly
 .loading-placeholder,
 .no-data-placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 250px; // Give a minimum height to avoid layout shifts
+  min-height: 250px;
   color: var(--text-color-secondary);
   font-style: italic;
 }
-
-// If you have specific height requirements for charts (can also be done via [height] input)
-// Example:
-// .p-chart[height="300px"] {
-//   min-height: 300px; // Ensure it respects the height
-// }

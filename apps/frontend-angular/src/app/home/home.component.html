@@ -6,7 +6,6 @@
   </div>
 
 <div class="grid ">
-    <div class="row">
       <div class="field col-6 mt-4">
         <p-card header="Statut des Assignments" styleClass="h-full">
           <div *ngIf="isLoadingStatus" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
@@ -21,9 +20,7 @@
           <div *ngIf="!isLoadingAssignmentsPerMatiere && !assignmentsPerMatiereData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
         </p-card>
       </div>
-    </div>
 
-    <div class="row">
 
       <div class="field col-6 mt-4">
         <p-card header="Tendance des Assignments (par date de rendu)" styleClass="h-full">
@@ -39,9 +36,7 @@
           <div *ngIf="!isLoadingAssignmentsPerProf && !assignmentsPerProfData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
         </p-card>
       </div>
-    </div>
 
-    <div class="row">
 
       <div class="field col-6 mt-4">
         <p-card header="Distribution des Notes" styleClass="h-full">
@@ -58,9 +53,7 @@
           <div *ngIf="!isLoadingAvgNotes && !avgNotePerStudentData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
         </p-card>
       </div>
-    </div>
 
-    <div class="row">
       <div class="field col-6 mt-4">
         <p-card header="Répartition Statuts par Professeur" styleClass="h-full">
           <div *ngIf="isLoadingProfBreakdown" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
@@ -75,5 +68,6 @@
           <div *ngIf="!isLoadingAvgNotesTrend && !avgNotesTrendData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
       </p-card>
     </div>
-  </div>
+
+</div>
 </div>

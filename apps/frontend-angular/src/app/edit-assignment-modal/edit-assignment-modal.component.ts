@@ -8,7 +8,7 @@ import {CheckboxModule} from "primeng/checkbox";
 import {forkJoin} from "rxjs";
 import {UserService} from "../user.service";
 import {User} from "../auth-service.service";
-import {DropdownChangeEvent, DropdownModule} from "primeng/dropdown";
+import { DropdownModule} from "primeng/dropdown";
 import {EditorModule} from "primeng/editor";
 import {CalendarModule} from "primeng/calendar";
 import {ChipsModule} from "primeng/chips";
@@ -18,7 +18,7 @@ import {ToggleButtonModule} from "primeng/togglebutton";
 import {MessageService} from "primeng/api";
 
 
-interface DisplayUser extends User { // Interface for dropdown display
+interface DisplayUser extends User {
   fullName: string;
 }
 @Component({
@@ -43,9 +43,7 @@ interface DisplayUser extends User { // Interface for dropdown display
 })
 export class EditAssignmentModalComponent implements OnInit, OnChanges {
   display: boolean = false;
-  assignmentCopy!: Assignment; // Will hold a copy of the assignment to edit
-
-  // Properties for PrimeNG components
+  assignmentCopy!: Assignment;
   dateDeRenduModel!: Date;
   allTeachers: DisplayUser[] = [];
   allStudents: DisplayUser[] = [];
@@ -72,7 +70,6 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
 
   @Input() set assignment(value: Assignment | undefined) {
     if (value) {
-      // Create a deep copy to avoid modifying the original object directly
       this.assignmentCopy = JSON.parse(JSON.stringify(value));
       this.initializeFormFields();
     }
@@ -89,24 +86,19 @@ export class EditAssignmentModalComponent implements OnInit, OnChanges {
     this.loadUsersForSelection();
   }
 
+
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes['assignment'] && changes['assignment'].currentValue) {
-    // This logic is now handled by the setter of the @Input() assignment
-    // }
   }
 
   initializeFormFields(): void {
     if (!this.assignmentCopy) return;
 
     this.dateDeRenduModel = new Date(this.assignmentCopy.dateDeRendu);
-    // Ensure tags is an array
     this.assignmentCopy.tags = Array.isArray(this.assignmentCopy.tags) ? this.assignmentCopy.tags : [];
 
-    // If users are already loaded, set selected teacher/student
     if (this.usersLoaded) {
       this.setSelectedUsers();
     }
-    // If users are not loaded yet, setSelectedUsers will be called in loadUsersForSelection callback
   }
 
   setSelectedUsers(): void {

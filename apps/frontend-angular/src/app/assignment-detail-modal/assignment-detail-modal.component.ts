@@ -1,10 +1,8 @@
 import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
-import { CommonModule, DatePipe,DecimalPipe } from '@angular/common'; // Import DatePipe
+import { CommonModule, DatePipe,DecimalPipe } from '@angular/common';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { Assignment } from '../assignment.service'; // Votre interface Assignment
+import { Assignment } from '../assignment.service';
 import { environment } from '../../environments/environment';
-
-// PrimeNG Modules for display
 import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
 import { TagModule } from 'primeng/tag';
@@ -53,7 +51,6 @@ export class AssignmentDetailModalComponent implements OnInit {
     if (this.config.data && this.config.data.assignment) {
       this.assignment = this.config.data.assignment;
     } else {
-      // Gérer le cas où l'assignment n'est pas passé, peut-être fermer le modal
       console.error("Aucun assignment fourni au modal de détails.");
       this.ref.close();
     }

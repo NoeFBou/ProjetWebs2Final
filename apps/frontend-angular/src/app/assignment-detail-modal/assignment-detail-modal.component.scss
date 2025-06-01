@@ -1,27 +1,22 @@
-// src/app/assignment-detail-modal/assignment-detail-modal.component.scss
 :host ::ng-deep .p-dialog .p-dialog-header {
-  // Si vous voulez un header plus discret pour le dialog dynamique
-  // padding: 0.75rem 1.25rem;
-  // .p-dialog-title {
-  //   font-size: 1.1rem;
-  // }
+
 }
 
 :host ::ng-deep .p-dialog .p-dialog-content {
-  padding: 0; // La carte gérera le padding
-  background-color: var(--surface-ground); // Assortir au fond si besoin
+  padding: 0;
+  background-color: var(--surface-ground);
 }
 
 .assignment-detail-dialog {
   .p-card {
-    box-shadow: none; // Pas d'ombre si c'est dans un dialog
-    border-radius: 0; // Pas de coins arrondis si c'est dans un dialog sans padding
+    box-shadow: none;
+    border-radius: 0;
   }
   .p-card-body {
     padding: 0;
   }
   .p-card-content {
-    padding: 1.25rem; // Padding interne pour le contenu
+    padding: 1.25rem;
   }
   .p-card-footer {
     padding: 1rem 1.25rem;
@@ -59,9 +54,9 @@
   }
 
   .detail-avatar {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 1rem !important;
+    width: 32px ;
+    height: 32px ;
+    font-size: 1rem ;
   }
 
   &.detail-full-width {
@@ -73,7 +68,7 @@
     margin-bottom: 0.25rem;
   }
 
-  i[class^="pi-"] { // Styles pour les icônes de statut
+  i[class^="pi-"] {
     font-size: 1.1rem;
     vertical-align: middle;
     margin-right: 0.3rem;

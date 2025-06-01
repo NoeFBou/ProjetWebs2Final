@@ -25,7 +25,7 @@ export class OrganisationComponent implements OnInit {
   chartData: OrganizationTreeNode[] = [];
   isLoading: boolean = true;
   currentUser: DecodedToken | null;
-  serverBaseUrl = environment.serverBaseUrl || ''; // Pour les images
+  serverBaseUrl = environment.serverBaseUrl || '';
   isAdmin: boolean;
 
   constructor(
@@ -61,8 +61,8 @@ export class OrganisationComponent implements OnInit {
   }
 
   addStylingAndProcessImage(node: OrganizationTreeNode, level: number): OrganizationTreeNode {
-    if (node.type === 'user' && node.data && node.data.image && !node.data.image.startsWith('http')) { //
-      node.data.image = `${this.serverBaseUrl}${node.data.image}`; //
+    if (node.type === 'user' && node.data && node.data.image && !node.data.image.startsWith('http')) {
+      node.data.image = `${this.serverBaseUrl}${node.data.image}`;
     }
   //  console.log(`Image URL pour ${node.data?.name}: ${node.data?.image}`);
 
@@ -74,7 +74,7 @@ export class OrganisationComponent implements OnInit {
    node.styleClass = styleClass;
 
     if (node.children && node.children.length > 0) {
-      node.children = node.children.map(child => this.addStylingAndProcessImage(child, level + 1)); //
+      node.children = node.children.map(child => this.addStylingAndProcessImage(child, level + 1));
     }
 
     return node;
@@ -89,6 +89,6 @@ export class OrganisationComponent implements OnInit {
       const nomInitial = parts.length > 1 && parts[parts.length -1] ? parts[parts.length -1][0].toUpperCase() : '';
       return prenomInitial + nomInitial;
     }
-    return '??'; //
+    return '??';
   }
 }

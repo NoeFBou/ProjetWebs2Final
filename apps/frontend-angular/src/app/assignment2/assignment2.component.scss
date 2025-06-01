@@ -1,17 +1,15 @@
-// src/app/assignment2/assignment2.component.scss
-:host ::ng-deep { // Use ::ng-deep sparingly or configure ViewEncapsulation.None
+:host ::ng-deep {
   .p-dataview {
     .p-dataview-header {
       background-color: var(--surface-b);
       border-bottom: 1px solid var(--surface-d);
     }
-    // Make grid items take full height within their row
     .p-dataview-content > .grid > div[class*="col-"] {
-      display: flex; // Enable flexbox for children
+      display: flex;
       > .assignment-card {
-        width: 100%; // Card takes full width of its column
-        display: flex; // Card itself is a flex container
-        flex-direction: column; // Stack content vertically
+        width: 100%;
+        display: flex;
+        flex-direction: column;
       }
     }
   }

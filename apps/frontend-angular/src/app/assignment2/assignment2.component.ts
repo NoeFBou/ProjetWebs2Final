@@ -2,24 +2,20 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {CommonModule, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { Assignment, AssignmentService, PaginatedAssignments } from '../assignment.service';
+import { Assignment, AssignmentService } from '../assignment.service';
 import { AuthServiceService, DecodedToken } from '../auth-service.service';
-import { EditAssignmentModalComponent } from '../edit-assignment-modal/edit-assignment-modal.component'; // For opening edit modal
+import { EditAssignmentModalComponent } from '../edit-assignment-modal/edit-assignment-modal.component';
 import { UserProfileViewModalComponent } from '../user-profile-view-modal/user-profile-view-modal.component';
-
-// PrimeNG Modules
 import { DropdownModule } from 'primeng/dropdown';
-import {ButtonDirective, ButtonModule} from 'primeng/button';
+import {ButtonDirective} from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator'; // For DataView paginator
-import { CardModule } from 'primeng/card'; // If you want to wrap cards in p-card
-import { SafeHtmlPipe } from '../carousel/carousel.component'; // Assuming SafeHtmlPipe is in carousel or shared
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
 import { environment } from '../../environments/environment';
 import { DataViewModule } from 'primeng/dataview';
 import {TableModule} from "primeng/table";
@@ -52,12 +48,10 @@ export class Assignment2Component implements OnInit, OnDestroy {
 
   assignments: Assignment[] = [];
   totalRecords: number = 0;
-  rows: number = 10; // Items per page for table
-  first: number = 0; // First record index for paginator
-
-  // Sorting state for server-side sorting
-  sortField: string = 'dateDeRendu'; // Default sort field
-  sortOrder: number = -1; // Default sort order (descending, -1 for PrimeNG)
+  rows: number = 10;
+  first: number = 0;
+  sortField: string = 'dateDeRendu';
+  sortOrder: number = -1;
 
   isLoading: boolean = true;
   private subscriptions = new Subscription();
@@ -77,19 +71,16 @@ export class Assignment2Component implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Initial load driven by table's lazy load or directly if not lazy
     //this.loadAssignments({ first: this.first, rows: this.rows, sortField: this.sortField, sortOrder: this.sortOrder });
   }
 
-  // Called by p-table's (onLazyLoad) event
-  loadAssignments(event: any): void { // PrimeNG's LazyLoadEvent or custom
+  loadAssignments(event: any): void {
     this.isLoading = true;
     this.first = event.first || 0;
     this.rows = event.rows || 10;
 
     const page = Math.floor(this.first / this.rows) + 1;
 
-    // Use sortField and sortOrder from the event if provided by p-table column sorting
     this.sortField = event.sortField || this.sortField;
     this.sortOrder = event.sortOrder || this.sortOrder;
 
@@ -110,11 +101,7 @@ export class Assignment2Component implements OnInit, OnDestroy {
     );
   }
 
-  // If using global sort dropdown (user example had one, but p-table headers are more common)
-  // onSortChange(event: any) { ... } // Removed for column sorting focus
-
-  // --- Methods copied/adapted from CarouselComponent ---
-  getAvatarLabelForUser(name: string | undefined): string { /* ... same as before ... */
+  getAvatarLabelForUser(name: string | undefined): string {
     if (name) {
       const parts = name.split(' ');
       const prenomInitial = parts[0] ? parts[0][0].toUpperCase() : '';
@@ -128,7 +115,7 @@ export class Assignment2Component implements OnInit, OnDestroy {
 
 
 
-  isEditDisabled(assignment: Assignment): boolean { /* ... same as before ... */
+  isEditDisabled(assignment: Assignment): boolean {
     if (!assignment.locked) return false;
     if (this.currentUser && this.currentUser.isAdmin) {
       return this.currentUser.id !== assignment.professeur?.idProf;
@@ -136,7 +123,7 @@ export class Assignment2Component implements OnInit, OnDestroy {
     return true;
   }
 
-  openEditModal(assignment: Assignment): void { /* ... same as before ... */
+  openEditModal(assignment: Assignment): void {
     if (this.editModal) {
       this.editModal.assignment = assignment;
       this.editModal.show();
@@ -145,35 +132,33 @@ export class Assignment2Component implements OnInit, OnDestroy {
     }
   }
 
-  onAssignmentUpdated(updatedAssignment: Assignment): void { /* ... same as before, but might need to reload table data for sort/page consistency ... */
+  onAssignmentUpdated(updatedAssignment: Assignment): void {
     const index = this.assignments.findIndex(a => a._id === updatedAssignment._id);
     if (index !== -1) {
       this.assignments[index] = updatedAssignment;
-      this.assignments = [...this.assignments]; // Trigger change detection for table
+      this.assignments = [...this.assignments];
       this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Assignment mis à jour.'});
-      // Consider reloading current page of table to reflect potential sort order changes
       // this.loadAssignments({ first: this.first, rows: this.rows, sortField: this.sortField, sortOrder: this.sortOrder });
     }
   }
 
-  confirmDelete(event: Event, assignmentId: string | undefined): void { /* ... same as before ... */
+  confirmDelete(event: Event, assignmentId: string | undefined): void {
     if (!assignmentId) return;
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Voulez-vous vraiment supprimer cet assignment ?',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Oui', rejectLabel: 'Non',
-      accept: () => this.deleteAssignmentInternal(assignmentId), // Renamed to avoid conflict if global deleteAssignment exists
+      accept: () => this.deleteAssignmentInternal(assignmentId),
       reject: () => this.messageService.add({severity:'info', summary:'Annulé', detail:'Suppression annulée.'})
     });
   }
 
-  private deleteAssignmentInternal(id: string): void { /* ... same as before ... */
+  private deleteAssignmentInternal(id: string): void {
     this.subscriptions.add(
       this.assignmentService.deleteAssignment(id).subscribe({
         next: () => {
           this.messageService.add({severity:'success', summary:'Succès', detail:'Assignment supprimé.'});
-          // Reload data, accounting for potential page change
           const currentFirstRecord = this.first;
           const currentPageRecordCount = this.assignments.length;
           if (currentPageRecordCount === 1 && this.first > 0) {
@@ -189,7 +174,7 @@ export class Assignment2Component implements OnInit, OnDestroy {
     );
   }
 
-  openUserProfileModal(userId: string | undefined): void { /* ... same as before ... */
+  openUserProfileModal(userId: string | undefined): void {
     if (!userId) return;
     this.dialogRef = this.dialogService.open(UserProfileViewModalComponent, {
       header: 'Détails du Profil Utilisateur',

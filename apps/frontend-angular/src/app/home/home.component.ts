@@ -73,14 +73,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadProfessorStatusBreakdown();
     this.loadAverageNotesTrend();
 
-    // Basic chart options (can be customized further)
     const commonOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: {
           labels: {
-            color: '#495057' // Example color
+            color: '#495057'
           }
         }
       },
@@ -153,7 +152,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       scales: {
         x: { ...commonOptions.scales.x, title: { display: true, text: 'Mois de Rendu'} },
-        y: { ...commonOptions.scales.y, title: { display: true, text: 'Note Moyenne'}, min:0, max: 20 } // Echelle de 0 à 20 pour les notes
+        y: { ...commonOptions.scales.y, title: { display: true, text: 'Note Moyenne'}, min:0, max: 20 }
       }
     };
   }
@@ -225,7 +224,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             borderColor: 'rgba(255, 99, 132, 1)',
             pointRadius: 5,
             pointHoverRadius: 7
-            // showLine: false, // if you want pure scatter, not line
           }]
         };
         this.isLoadingDateScatter = false;
@@ -258,9 +256,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           datasets: [{
             label: 'Assignments à Rendre',
             data: data.map(item => item.count),
-            fill: true, // Remplir la zone sous la ligne
+            fill: true,
             borderColor: '#42A5F5',
-            tension: 0.4, // Courber la ligne
+            tension: 0.4,
             backgroundColor: 'rgba(66,165,245,0.2)'
           }]
         };
@@ -294,11 +292,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.statsService.getProfessorAssignmentStatusBreakdown().subscribe(data => {
         const labels = data.map(p => `${p.professorPrenom} ${p.professorNom}`);
-        // Définir les couleurs pour chaque statut
+
         const statusColors = {
-          'en cours': 'rgba(255, 159, 64, 0.7)', // Orange
-          'terminé': 'rgba(75, 192, 192, 0.7)',  // Green/Teal
-          'en attente': 'rgba(255, 205, 86, 0.7)' // Yellow
+          'en cours': 'rgba(255, 159, 64, 0.7)',
+          'terminé': 'rgba(75, 192, 192, 0.7)',
+          'en attente': 'rgba(255, 205, 86, 0.7)'
         };
         const borderColors = {
           'en cours': 'rgb(255, 159, 64)',
@@ -307,7 +305,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         };
 
         const datasets = ['en cours', 'terminé', 'en attente'].map(statusKey => ({
-          label: statusKey.charAt(0).toUpperCase() + statusKey.slice(1), // Capitalize
+          label: statusKey.charAt(0).toUpperCase() + statusKey.slice(1),
           data: data.map(p => p.statuses[statusKey as keyof typeof p.statuses] || 0),
           backgroundColor: statusColors[statusKey as keyof typeof statusColors],
           borderColor: borderColors[statusKey as keyof typeof borderColors],
