@@ -26,12 +26,15 @@ export class OrganisationComponent implements OnInit {
   isLoading: boolean = true;
   currentUser: DecodedToken | null;
   serverBaseUrl = environment.serverBaseUrl || ''; // Pour les images
+  isAdmin: boolean;
 
   constructor(
-    private statsService: StatisticsService, // ou OrganizationService
+    private statsService: StatisticsService,
     private authService: AuthServiceService
   ) {
     this.currentUser = this.authService.getCurrentUser();
+    this.isAdmin = this.authService.isAdmin();
+
   }
 
   ngOnInit(): void {
@@ -42,42 +45,50 @@ export class OrganisationComponent implements OnInit {
     this.isLoading = true;
     this.statsService.getMyOrganizationChartData().subscribe({
       next: (data) => {
-        this.chartData = this.preprocessChartData(data);
+        this.chartData = this.processNodesRecursively(data);
         this.isLoading = false;
-        console.log(this.chartData);
+        console.log("Chart data processed:", this.chartData);
       },
       error: (err) => {
         console.error("Erreur chargement données organigramme:", err);
         this.isLoading = false;
-        // Afficher un message d'erreur à l'utilisateur
       }
     });
   }
 
-  // S'assurer que les chemins d'images sont corrects et complets
-  preprocessChartData(nodes: OrganizationTreeNode[]): OrganizationTreeNode[] {
-    const processNode = (node: OrganizationTreeNode) => {
-      if (node.type === 'user' && node.data && node.data.image && !node.data.image.startsWith('http')) {
-        node.data.image = `${this.serverBaseUrl}${node.data.image}`;
-      }
-      // @ts-ignore
-      console.log(`Image URL pour ${node.data.name}: ${node.data.image}`); // Log pour débogage
-
-      if (node.children) {
-        node.children.forEach(processNode);
-      }
-      return node;
-    };
-    return nodes.map(rootNode => processNode(rootNode));
+  processNodesRecursively(nodes: OrganizationTreeNode[]): OrganizationTreeNode[] {
+    return nodes.map(node => this.addStylingAndProcessImage(node, 0));
   }
 
+  addStylingAndProcessImage(node: OrganizationTreeNode, level: number): OrganizationTreeNode {
+    if (node.type === 'user' && node.data && node.data.image && !node.data.image.startsWith('http')) { //
+      node.data.image = `${this.serverBaseUrl}${node.data.image}`; //
+    }
+  //  console.log(`Image URL pour ${node.data?.name}: ${node.data?.image}`);
+
+    let styleClass = `level-${level}-node`;
+    if (level >= 3) {
+      styleClass = `level-default-node`;
+    }
+    //node.styleClass = node.styleClass ? `${node.styleClass} ${styleClass}` : styleClass;
+   node.styleClass = styleClass;
+
+    if (node.children && node.children.length > 0) {
+      node.children = node.children.map(child => this.addStylingAndProcessImage(child, level + 1)); //
+    }
+
+    return node;
+  }
+
+
   getAvatarLabel(name: string | undefined): string {
+    console.log("test")
     if (name) {
       const parts = name.split(' ');
       const prenomInitial = parts[0] ? parts[0][0].toUpperCase() : '';
       const nomInitial = parts.length > 1 && parts[parts.length -1] ? parts[parts.length -1][0].toUpperCase() : '';
       return prenomInitial + nomInitial;
     }
-    return '??';
+    return '??'; //
   }
 }

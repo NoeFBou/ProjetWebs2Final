@@ -1,37 +1,49 @@
 <nav class="side-nav" [class.collapsed]="isCollapsed">
   <ul class="list-unstyled">
-    <li class="mb-2">
-      <div (click)="toggleCollapse()" class="btn btn-secondary w-100">
-        <ng-container *ngIf="isCollapsed; else expandedIcon">
-          <img ngSrc="../../assets/collapse-right-svgrepo-com.svg" alt="Étendre" width="20" height="20">
-        </ng-container>
-        <ng-template #expandedIcon>
-          <img ngSrc="../../assets/collapse-left-svgrepo-com.svg" alt="Réduire" width="20" height="20">
-        </ng-template>
-        <span *ngIf="!isCollapsed">
-          {{ isCollapsed ? 'Étendre' : 'Réduire' }}
-        </span>
+    <li class="nav-item mt-auto mb-2"> <button (click)="toggleCollapse()" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? (isCollapsed ? 'Étendre' : 'Réduire') : ''" tooltipPosition="right">
+      <i [class]="isCollapsed ? 'pi pi-arrow-right' : 'pi pi-arrow-left'" class="me-2"></i>
+      <span *ngIf="!isCollapsed">{{ isCollapsed ? 'Étendre' : 'Réduire' }}</span>
+    </button>
+    </li>
+
+    <li class="user-info-section mb-3" *ngIf="currentUser">
+      <div class="flex align-items-center p-2" [pTooltip]="!isCollapsed ? '' : userFullName + ' (' + userRole + ')'" tooltipPosition="right">
+        <p-avatar
+          [image]="userProfilePictureUrl"
+          [label]="!userProfilePictureUrl ? getAvatarLabel() : ''"
+          size="large"
+          shape="circle"
+          styleClass="user-avatar">
+        </p-avatar>
+        <div class="user-details ms-2" *ngIf="!isCollapsed">
+          <span class="font-bold d-block ">{{ userFullName }}</span>
+          <small class="text-muted d-block">{{ userRole }}</small>
+        </div>
       </div>
     </li>
     <li class="mb-2">
-      <a routerLink="/accueil" class="btn btn-info w-100">
+      <a routerLink="/accueil" routerLinkActive="active-link" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? 'Accueil' : ''" tooltipPosition="right">
+        <i class="pi pi-home me-2"></i>
         <span *ngIf="!isCollapsed">Accueil</span>
       </a>
     </li>
 
     <li class="mb-2">
-      <a routerLink="/assignment1" class="btn btn-info w-100">
+      <a routerLink="/assignment1" routerLinkActive="active-link" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? 'Assignments (Carousel)' : ''" tooltipPosition="right">
+        <i class="pi pi-briefcase me-2"></i>
         <span *ngIf="!isCollapsed">Assignments</span>
       </a>
     </li>
 
     <li class="mb-2">
-      <a routerLink="/assignment2" class="btn btn-info w-100">
+      <a routerLink="/assignment2" routerLinkActive="active-link" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? 'Mes Assignments (Table)' : ''" tooltipPosition="right">
+        <i class="pi pi-folder-open me-2"></i>
         <span *ngIf="!isCollapsed">Mes Assignments</span>
       </a>
     </li>
     <li class="mb-2">
-      <a routerLink="/organisation" class="btn btn-info w-100">
+      <a routerLink="/organisation" routerLinkActive="active-link" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? 'Organisation' : ''" tooltipPosition="right">
+        <i class="pi pi-sitemap me-2"></i>
         <span *ngIf="!isCollapsed">Organisation</span>
       </a>
     </li>
@@ -39,18 +51,18 @@
 
 
 
-    <li class="mb-2">
-      <div (click)="logout()" class="btn btn-danger w-100">
-        <img ngSrc="../../assets/logout-svgrepo-com.svg" alt="Déconnexion" width="20" height="20">
+    <li class="nav-item mb-2">
+      <button (click)="logout()" class="btn nav-link w-100 p-2 logout-btn" [pTooltip]="isCollapsed ? 'Déconnexion' : ''" tooltipPosition="right">
+        <i class="pi pi-sign-out me-2"></i>
         <span *ngIf="!isCollapsed">Déconnexion</span>
-      </div>
+      </button>
     </li>
 
-    <li class="mb-2" *ngIf="authService.isAdmin()">
-      <div (click)="openAddAssignmentModal()" class="btn btn-success w-100">
-        <img ngSrc="../../assets/add-square-svgrepo-com.svg" alt="Ajouter un Assignment" width="20" height="20">
-        <span *ngIf="!isCollapsed">Ajouter un Assignment</span>
-      </div>
+    <li class="nav-item mb-2" *ngIf="authService.isAdmin()">
+      <button (click)="openAddAssignmentModal()" class="btn nav-link w-100 p-2" [pTooltip]="isCollapsed ? 'Ajouter Assignment' : ''" tooltipPosition="right">
+        <i class="pi pi-file-plus me-2"></i>
+        <span *ngIf="!isCollapsed">Ajouter Assignment</span>
+      </button>
     </li>
 
   </ul>

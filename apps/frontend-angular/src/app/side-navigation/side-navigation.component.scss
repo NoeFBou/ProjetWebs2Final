@@ -1,55 +1,126 @@
+$sidebar-bg-color: #2c3e50;
+$sidebar-text-color: #ecf0f1;
+$sidebar-icon-color: #ffffff;
+$sidebar-hover-bg: #717171;
+$sidebar-active-bg: #f1673d;
+$sidebar-active-text: #ecf0f1;
+$sidebar-collapsed-width: 80px;
+$sidebar-expanded-width: 250px;
+
 .side-nav {
-  width:200px;
-  height: 100vh;
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  transition: width 0.3s ease;
-  padding: 10px;
-  box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
-}
+  bottom: 0;
+  width: $sidebar-expanded-width;
+  background-color: $sidebar-bg-color;
+  padding: 1rem 0.5rem;
+  transition: width 0.3s ease-in-out;
+  border-right: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
 
-.side-nav button i {
-  color: #000; /* couleur noire */
-  font-size: 1.5rem; /* éventuellement ajuster la taille */
-}
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+    .user-info-section .user-details {
+      display: none;
+    }
+    .nav-link span {
+      display: none;
+    }
+    .nav-link i {
+      margin-right: 0 !important;
+      font-size: 1.25rem;
+    }
+    .nav-divider {
+      display: none;
+    }
+  }
 
+  ul.list-unstyled {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 
-/* Quand la sidebar est réduite */
-.side-nav.collapsed {
-  width: 60px;
-}
+  .user-info-section {
+    .user-avatar {
+      border: 2px solid var(--surface-c);
+      width: 48px !important;
+      height: 48px !important;
+      font-size: 1.5rem !important; // Pour le label
+    }
+    .user-details {
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      .font-bold { color: #dee2e6 }
+      .text-muted { font-size: 1rem; color: #dee2e6; }
+    }
+    .p-tooltip .p-tooltip-text { // Style pour infobulle
+      font-size: 0.85rem;
+    }
+  }
 
-/* Style de la liste de navigation */
-.side-nav ul {
-  list-style: none;
-  padding: 0;
-}
+  .nav-item {
+    width: 100%;
+  }
 
-.side-nav li {
-  margin: 10px 0;
-}
+  .nav-link {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    color: $sidebar-text-color;
+    border-radius: 0.25rem;
+    background-color: transparent;
+    border: none;
+    font-size: 0.95rem;
 
-.side-nav a {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
+    &:hover, &:focus {
+      background-color: $sidebar-hover-bg;
+      color: darken($sidebar-text-color, 10%);
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
+    }
 
-.side-nav a:hover {
-  background-color: rgba(236, 240, 241, 0.2);
-}
+    &.active-link {
+      background-color: $sidebar-active-bg;
+      color: $sidebar-active-text;
+      i {
+        color: $sidebar-active-text;
+      }
+    }
 
-button {
-  background: none;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  margin-bottom: 10px;
-  font-size: 16px;
+    i {
+      font-size: 1.1rem;
+      color: $sidebar-icon-color;
+      min-width: 24px;
+      text-align: center;
+    }
+  }
+  .nav-divider {
+    height: 1px;
+    background-color: #dee2e6;
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto;
+  }
+
+  .logout-btn {
+    &:hover, &:focus {
+      background-color: lighten(red, 40%);
+      color: darken(red, 10%);
+      i { color: darken(red, 10%); }
+    }
+  }
+
+  .import-component-style {
+    margin-top: 0.5rem;
+  }
+
 }

@@ -1,10 +1,128 @@
+$level-0-bg: #4A90E2; // Bleu clair
+$level-0-text: #FFFFFF;
+$level-0-border: darken($level-0-bg, 10%);
+
+$level-1-bg: #50E3C2;
+$level-1-text: #212529;
+$level-1-border: darken($level-1-bg, 10%);
+
+$level-2-bg: #F5A623; // Orange
+$level-2-text: #FFFFFF;
+$level-2-border: darken($level-2-bg, 10%);
+$level-default-bg: #E9ECEF;
+$level-default-text: #495057;
+$level-default-border: darken($level-default-bg, 10%);
+
 :host ::ng-deep {
   .p-organizationchart {
-    overflow-x: auto !important;
+    overflow-x: auto;
     padding-bottom: 1rem;
 
     .p-organizationchart-table {
-
+      margin: 0 auto;
     }
+
+    .p-organizationchart-node-content {
+    }
+    .p-organizationchart-line-down {
+      border-left: 2px solid #adb5bd ;
+    }
+
+    .p-organizationchart-line-right {
+      border-top: 2px solid #adb5bd ;
+    }
+
+    .node-content {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      min-width: 180px; /
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      }
+
+      .node-avatar {
+        border: 2px solid transparent;
+        transition: border-color 0.3s;
+      }
+      .node-name { font-size: 0.95rem; }
+      .node-title { font-size: 0.8rem; }
+      .node-image-url, .node-no-image { font-size: 0.7rem; opacity: 0.8; }
+
+
+      &.level-0-node {
+        background-color: $level-0-bg;
+        color: $level-0-text;
+        border: 2px solid $level-0-border;
+        .node-name, .node-title, small, .pi { color: $level-0-text; }
+        .node-avatar { border-color: $level-0-text; }
+        .node-image-url small { color: lighten($level-0-text, 15%); }
+        .node-no-image small { color: lighten($level-0-text, 5%); font-style: italic; }
+      }
+
+      &.level-1-node {
+        background-color: $level-1-bg;
+        color: $level-1-text;
+        border: 2px solid $level-1-border;
+        .node-name, .node-title, small, .pi { color: $level-1-text; }
+        .node-avatar { border-color: $level-1-border; }
+        .node-image-url small { color: darken($level-1-text, 15%); }
+        .node-no-image small { color: darken($level-1-text, 5%); font-style: italic; }
+      }
+
+      &.level-2-node {
+        background-color: $level-2-bg;
+        color: $level-2-text;
+        border: 2px solid $level-2-border;
+        .node-name, .node-title, small, .pi { color: $level-2-text; }
+        .node-avatar { border-color: $level-2-text; }
+        .node-image-url small { color: lighten($level-2-text, 15%); }
+        .node-no-image small { color: lighten($level-2-text, 5%); font-style: italic; }
+      }
+
+      &.level-default-node {
+        background-color: $level-default-bg;
+        color: $level-default-text;
+        border: 2px solid $level-default-border;
+        .node-name, .node-title, small, .pi { color: $level-default-text; }
+        .node-avatar { border-color: $level-default-border; }
+        .node-image-url small { color: darken($level-default-text, 15%); }
+        .node-no-image small { color: darken($level-default-text, 5%); font-style: italic; }
+      }
+    }
+  }
+}
+
+.legend-container {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  h5 {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+
+    .legend-color {
+      width: 18px;
+      height: 18px;  
+      border-radius: 4px;
+      margin-right: 10px;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    & .level-0-bg { background-color: $level-0-bg; }
+    & .level-1-bg { background-color: $level-1-bg; }
+    & .level-2-bg { background-color: $level-2-bg; }
+    & .level-default-bg { background-color: $level-default-bg; }
   }
 }

@@ -23,9 +23,7 @@ ok -> confirmpopup pour suprression ok
 -> FileUpload pour uploader des fichiers
 -> pour afficher le texte p-panel des assignements
 
-stepper import { StepsModule } from 'primeng/steps';
 detail info
-info personne connecté
 
 
 
@@ -43,12 +41,9 @@ onglet eleve
 - onglet avec ses assignements
 - onglets avec des tables/arbres
 
-assignement  doit avoir un eleve, un professeur , une note une mateire , un exercice(facultatif) un ou plusieur tag (facultatif) un status (en cours, terminé, en attente) une date de rendu, un status visible et status locked
 -> facturation pour les eleves pour augmenter les notes
 
-maintenant je voudrais modifier le formulaire pour creer les utilisateur en ajoutant un stepper en 3 etapes
-1 les informations
-2 la photo
-3 rusumer des inforamtions comme user-profile-view-modal.component
+super ca marche maintenant je voudrais afficher dans la sidebar les information de la personne connecté (nom prenon photo, fonction (elelve ou professeeur)
+sir la side bar est deplyé juste la photo
 
-maintenant je voudrais un boutton à coté des boutton editer supprimer des assignement qui ouvre un dialog qui affiche toutes informations de cette assignement (il doit etre accessible pour tout le monde)
+

@@ -23,8 +23,8 @@ export interface OrganizationChartNodeData {
 }
 
 export interface OrganizationTreeNode extends   TreeNode {
-  data?: OrganizationChartNodeData;
-  type?: 'user' | 'assignment'; // Pour le templating
+  data?: any;
+  type?: any;
   styleClass?: string;
   children?: OrganizationTreeNode[];
 }
