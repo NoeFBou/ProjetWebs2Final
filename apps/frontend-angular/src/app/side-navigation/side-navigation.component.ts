@@ -5,7 +5,7 @@ import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {ButtonDirective} from "primeng/button";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {Assignment, AssignmentService} from "../assignment.service";
-import {ImportAssignmentComponent} from "../import-assignment/import-assignment.component";
+//import {ImportAssignmentComponent} from "../import-assignment/import-assignment.component";
 import {RouterLink, RouterModule} from "@angular/router";
 
 @Component({
@@ -16,8 +16,8 @@ import {RouterLink, RouterModule} from "@angular/router";
     RouterLink,
     NgIf,
     RouterModule ,
-    NgOptimizedImage,
-    ImportAssignmentComponent
+    NgOptimizedImage
+
   ],
   styleUrls: ['./side-navigation.component.scss']
 })
@@ -25,7 +25,6 @@ export class SideNavigationComponent implements OnInit {
   isCollapsed: boolean = false;
   assignments: Assignment[] = [];
 
-  // Émission de l'état vers le composant parent
   @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(protected authService: AuthServiceService, private modalService: NgbModal,private assignmentService: AssignmentService) {}
 

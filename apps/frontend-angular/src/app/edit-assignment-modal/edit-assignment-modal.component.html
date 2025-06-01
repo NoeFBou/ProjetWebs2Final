@@ -1,4 +1,4 @@
-<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="true" (onHide)="hide()" [style]="{'width': '70vw', 'max-width': '900px'}">
+<p-dialog header="Éditer l'Assignment" [(visible)]="display" [modal]="true" [closable]="true" (onHide)="hide()" [style]="{'width': '70vw', 'max-width': '900px'}" styleClass="edit-assignment-dialog">
   <ng-container *ngIf="assignmentCopy">
     <form #editAssignmentForm="ngForm" (ngSubmit)="onSubmit()">
       <div class="modal-body p-fluid">
@@ -21,7 +21,6 @@
               optionValue="value"
               styleClass="w-full"
               [editable]="true" (onChange)="onMatiereChange($event)" required>
-              >
             </p-dropdown>
           </div>
 
@@ -103,7 +102,7 @@
             <label for="edit-note">Note (0-20)</label>
             <div class=" align-items-center">
               <p-slider [(ngModel)]="assignmentCopy.note" name="note" [min]="0" [max]="20" [step]="0.5" styleClass="w-full me-2"></p-slider>
-              <span class="ms-2 me-2" style="min-width: 30px;">{{ assignmentCopy.note || 0 }}</span>
+              <span class="ms-2 me-2" style="min-width: 30px;">{{ assignmentCopy.note != null ? assignmentCopy.note : 0 }}</span>
               <button pButton type="button" icon="pi pi-bolt" (click)="generateRandomNote()" class="p-button-sm p-button-outlined" pTooltip="Générer note aléatoire"></button>
             </div>
           </div>
@@ -117,6 +116,7 @@
               [(ngModel)]="assignmentCopy.statut"
               optionLabel="label"
               optionValue="value"
+              styleClass="w-full"
               required>
             </p-selectButton>
           </div>
@@ -150,7 +150,8 @@
           </div>
         </div>
       </div>
-      <div class="p-dialog-footer"> <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-text"></button>
+      <div class="p-dialog-footer">
+        <button type="button" pButton label="Annuler" (click)="hide()" class="p-button-text"></button>
         <button type="submit" pButton label="Sauvegarder" class="p-button-primary" [disabled]="!editAssignmentForm.form.valid || isLoadingUsers"></button>
       </div>
     </form>

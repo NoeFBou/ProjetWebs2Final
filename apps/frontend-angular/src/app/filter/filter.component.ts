@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import {Assignment, AssignmentService} from "../assignment.service";
+import {AssignmentService} from "../assignment.service";
 import {CalendarModule} from "primeng/calendar";
 import {MultiSelectModule} from "primeng/multiselect";
 import {SliderModule} from "primeng/slider";

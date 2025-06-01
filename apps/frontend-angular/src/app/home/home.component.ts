@@ -56,6 +56,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoadingNotesDist: boolean = true;
   isLoadingProfBreakdown: boolean = true;
 
+  avgNotesTrendData: any;
+  avgNotesTrendOptions: any;
+  isLoadingAvgNotesTrend: boolean = true;
+
   constructor(private statsService: StatisticsService) {}
 
   ngOnInit(): void {
@@ -67,6 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadAssignmentTrend();
     this.loadNoteDistribution();
     this.loadProfessorStatusBreakdown();
+    this.loadAverageNotesTrend();
 
     // Basic chart options (can be customized further)
     const commonOptions = {
@@ -122,6 +127,35 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
     this.assignmentStatusOptions = pieDonutOptions;
     this.assignmentsPerMatiereOptions = pieDonutOptions;
+    this.avgNotesTrendOptions = {
+      ...commonOptions,
+      plugins: {
+        legend: { display: true, position: 'top' },
+        title: { display: true, text: 'Tendance des Notes Moyennes par Mois de Rendu' },
+        tooltip: {
+          callbacks: {
+            label: function(context: any) {
+              let label = context.dataset.label || '';
+              if (label) {
+                label += ': ';
+              }
+              if (context.parsed.y !== null) {
+                label += context.parsed.y.toFixed(2);
+              }
+              const pointData = context.dataset.originalData[context.dataIndex];
+              if (pointData && pointData.assignmentCount) {
+                label += ` (${pointData.assignmentCount} assignments)`;
+              }
+              return label;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ...commonOptions.scales.x, title: { display: true, text: 'Mois de Rendu'} },
+        y: { ...commonOptions.scales.y, title: { display: true, text: 'Note Moyenne'}, min:0, max: 20 } // Echelle de 0 à 20 pour les notes
+      }
+    };
   }
 
   loadAssignmentStatusCounts(): void {
@@ -253,6 +287,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
+
+
   loadProfessorStatusBreakdown(): void {
     this.isLoadingProfBreakdown = true;
     this.subscriptions.add(
@@ -283,6 +319,29 @@ export class HomeComponent implements OnInit, OnDestroy {
       }, () => this.isLoadingProfBreakdown = false)
     );
   }
+
+  loadAverageNotesTrend(): void {
+    this.isLoadingAvgNotesTrend = true;
+    this.subscriptions.add(
+      this.statsService.getAverageNotesTrendByDueDate().subscribe(data => {
+        this.avgNotesTrendData = {
+          labels: data.map(item => item.date),
+          datasets: [{
+            label: 'Note Moyenne',
+            data: data.map(item => item.averageNote),
+            originalData: data,
+            fill: false,
+            borderColor: '#FF6384',
+            tension: 0.1
+          }]
+        };
+        this.isLoadingAvgNotesTrend = false;
+      }, () => {
+        this.isLoadingAvgNotesTrend = false;
+      })
+    );
+  }
+
 
 
   ngOnDestroy(): void {

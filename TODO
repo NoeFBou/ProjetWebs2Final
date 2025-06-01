@@ -23,6 +23,12 @@ ok -> confirmpopup pour suprression ok
 -> FileUpload pour uploader des fichiers
 -> pour afficher le texte p-panel des assignements
 
+stepper
+detail info
+
+
+
+
 
 onglet prof
 - accueil avec stat

@@ -1,30 +1,27 @@
 // add-assignment-modal.component.scss
 
-// Variables (optional, but good for consistency)
-$primary-color: #007bff; // Example primary color
-$label-color: #495057;
-$border-color: #dee2e6;
-$input-bg: #fff;
-$input-focus-border-color: #80bdff;
-$modal-padding: 1.5rem;
+// Variables thématiques (optionnel, mais aide à la cohérence si vous les réutilisez)
+$header-bg-color: #f1673d;
+$header-text-color: #ffffff;
+$primary-action-color: #07ffd2;
+$primary-action-text-color: #212529; // Texte foncé pour contraste sur fond clair
+$status-selected-color: #28a745; // Vert pour p-selectButton
 
-// Host context for ng-bootstrap modal adjustments (if needed, often not necessary for content)
-// :host ::ng-deep .modal-dialog {
-//   // You can set max-width here if size:'xl' is not enough, but 'size' option is preferred
-// }
-
-// Style the modal content provided in the component's template
+// Styles pour le modal Bootstrap (appliqués aux classes Bootstrap)
 .modal-header {
-  background-color: #f8f9fa; // A light background for the header
-  border-bottom: 1px solid $border-color;
-  padding: calc($modal-padding / 1.5);
+  background-color: $header-bg-color;
+  color: $header-text-color;
+  border-bottom: 1px solid darken($header-bg-color, 10%); // Bordure un peu plus foncée
+  padding: 1rem 1.5rem; // Ajustement du padding si besoin
 
   .modal-title {
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: 600; // Cohérence avec edit-modal
+    color: inherit; // Hérite de $header-text-color
   }
 
   .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%); // Rend l'icône de fermeture blanche (pour Bootstrap 5)
     &:focus {
       box-shadow: none;
     }
@@ -32,13 +29,13 @@ $modal-padding: 1.5rem;
 }
 
 .modal-body {
-  padding: $modal-padding;
-  background-color: #fff; // Ensure a clean background
+  padding: 1.5rem; // Padding général du corps du modal
+  background-color: #fff;
 
   .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // Responsive columns
-    gap: 1.25rem 1.5rem; // Row and column gap
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // Colonnes responsives
+    gap: 1.5rem; // Espacement cohérent
   }
 
   .form-group {
@@ -47,84 +44,112 @@ $modal-padding: 1.5rem;
 
     label {
       margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: $label-color;
+      font-weight: bold; // Cohérence avec edit-modal
+      color: #495057; // Couleur de label standard
       font-size: 0.9rem;
-    }
-
-    // PrimeNG component full width adjustments if ::ng-deep is needed
-    // Usually, styleClass="w-full" on the component itself is enough.
-    // Example for p-dropdown, p-calendar, etc.
-    // ::ng-deep .p-dropdown, ::ng-deep .p-calendar, ::ng-deep .p-chips {
-    //   width: 100%;
-    // }
-
-    .p-editor {
-      border: 1px solid $border-color;
-      border-radius: 4px;
-    }
-
-    .p-slider {
-      margin-top: 0.5rem; // Add some space for slider
-    }
-
-
-
-    .d-flex.align-items-center { // For slider and random button
-      gap: 0.5rem; // Space between slider, value, button
-    }
-
-    .p-selectButton .p-button { // Style selectButton items
-      font-size: 0.85rem;
-    }
-    .p-toggleButton{
-      font-size: 0.85rem;
-    }
-    .note-slider-container {
-      width: 100%; // Ensure the container takes full width
-      .p-slider.flex-grow-1 { // Target the slider within this container
-        width: auto; // Allow slider to grow
-        flex-grow: 1 !important; // Make it take available space
-      }
-    }
-
-    .note-display {
-      min-width: 45px; // Adjusted for better display
-      text-align: center; // Centered
-      font-weight: 500;
-      background-color: #f8f9fa;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      border: 1px solid #dee2e6;
     }
   }
 
   .form-group-full-width {
-    grid-column: 1 / -1; // Make this item span all columns in the grid
+    grid-column: 1 / -1; // S'étend sur toutes les colonnes
+  }
+
+  // Styles pour le conteneur du slider de note et son affichage (conservés et adaptés de votre original)
+  .note-slider-container {
+    width: 100%; // S'assure que le conteneur prend toute la largeur
+    display: flex; // Assure l'alignement correct avec le span et le bouton
+    align-items: center;
+    gap: 0.75rem; // Espacement entre slider, valeur, et bouton
+
+    // PrimeNG slider specific styling inside this container
+    // La classe .flex-grow-1 est sur le p-slider dans le HTML
+    ::ng-deep .p-slider.flex-grow-1 {
+      flex-grow: 1 !important; // Permet au slider de prendre l'espace disponible
+      width: auto; // Nécessaire quand flex-grow est utilisé
+    }
+  }
+
+  .note-display {
+    min-width: 45px; // Largeur min pour l'affichage de la note
+    text-align: center; // Texte centré
+    font-weight: 500; //
+    background-color: #f8f9fa; // Fond léger
+    padding: 0.35rem 0.6rem; // Padding ajusté
+    border-radius: 4px; // Bords arrondis
+    border: 1px solid #dee2e6; // Bordure standard
   }
 }
 
 .modal-footer {
-  padding: calc($modal-padding / 1.5);
-  background-color: #f8f9fa;
-  border-top: 1px solid $border-color;
+  padding: 1rem 1.5rem; // Padding ajusté
+  background-color: #f8f9fa; // Fond gris clair standard
+  border-top: 1px solid #dee2e6; // Bordure supérieure
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem; // Space between footer buttons
+  justify-content: flex-end; // Boutons à droite
+  gap: 0.75rem; // Espacement entre les boutons du footer
 
-  .btn {
+  .btn.btn-primary { // Bouton "Ajouter Assignment"
+    background-color: $primary-action-color;
+    border-color: $primary-action-color;
+    color: $primary-action-text-color;
     font-weight: 500;
-    padding: 0.5rem 1rem;
+
+    &:hover {
+      background-color: darken($primary-action-color, 8%);
+      border-color: darken($primary-action-color, 8%);
+    }
+    &:disabled {
+      // Styles Bootstrap par défaut pour désactivé, ou personnalisez ici
+    }
+  }
+
+  .btn.btn-outline-secondary { // Bouton "Annuler"
+    color: $header-bg-color; // Couleur du texte du thème principal
+    border-color: $header-bg-color; // Couleur de la bordure du thème
+    font-weight: 500;
+
+    &:hover {
+      background-color: $header-bg-color;
+      color: $header-text-color; // Texte blanc au survol
+    }
   }
 }
 
-// Specific overrides for PrimeNG components if w-full is not enough or for custom look
-// These should generally be avoided if component properties can achieve the same.
-// Use with caution as ::ng-deep pierces encapsulation.
-// :host ::ng-deep .p-inputtext {
-//   border-color: $border-color;
-//   &:focus {
-//     border-color: $input-focus-border-color;
-//     box-shadow: 0 0 0 0.2rem rgba($input-focus-border-color, 0.25);
-//   }
-// }
+// Styles spécifiques aux composants PrimeNG dans ce modal
+// Utilisation de :host et ::ng-deep pour s'assurer que les styles s'appliquent
+// correctement à travers l'encapsulation des composants.
+:host {
+  // Pour que les composants PrimeNG comme p-dropdown, p-calendar, etc., prennent toute la largeur
+  // lorsque la classe 'w-full' leur est appliquée via styleClass.
+  ::ng-deep .p-component.w-full {
+    width: 100% !important;
+  }
+
+  // Style pour p-selectButton (boutons de statut)
+  ::ng-deep .p-selectbutton {
+    &.w-full .p-button { // S'assure que les boutons à l'intérieur s'étendent si p-selectButton a w-full
+      flex-grow: 1;
+    }
+    .p-button.p-highlight { // Style pour l'option sélectionnée
+      background-color: $status-selected-color;
+      border-color: $status-selected-color;
+      color: #ffffff;
+
+      &:hover {
+        background-color: darken($status-selected-color, 8%);
+        border-color: darken($status-selected-color, 8%);
+      }
+    }
+  }
+
+  // Style pour p-editor (peut être ajusté si nécessaire)
+  ::ng-deep .p-editor {
+    border: 1px solid #dee2e6; // Bordure standard
+    border-radius: 4px; // Bords arrondis
+  }
+
+  // Ajustement pour p-toggleButton si un style spécifique est voulu (autre que w-9rem du HTML)
+  // ::ng-deep .p-toggleButton.w-9rem {
+  //   // ...
+  // }
+}

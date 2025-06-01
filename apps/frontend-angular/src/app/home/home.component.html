@@ -24,13 +24,7 @@
     </div>
 
     <div class="row">
-      <div class="field col-6 mt-4">
-        <p-card header="Assignments par Professeur" styleClass="h-full">
-          <div *ngIf="isLoadingAssignmentsPerProf" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
-          <p-chart *ngIf="!isLoadingAssignmentsPerProf && assignmentsPerProfData" type="bar" [data]="assignmentsPerProfData" [options]="assignmentsPerProfOptions" height="300px"></p-chart>
-          <div *ngIf="!isLoadingAssignmentsPerProf && !assignmentsPerProfData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
-        </p-card>
-      </div>
+
       <div class="field col-6 mt-4">
         <p-card header="Tendance des Assignments (par date de rendu)" styleClass="h-full">
           <div *ngIf="isLoadingTrend" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
@@ -38,9 +32,17 @@
           <div *ngIf="!isLoadingTrend && !assignmentTrendData" class="text-center text-muted p-3">Aucune donnée.</div>
         </p-card>
       </div>
+      <div class="field col-6 mt-4">
+        <p-card header="Assignments par Professeur" styleClass="h-full">
+          <div *ngIf="isLoadingAssignmentsPerProf" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
+          <p-chart *ngIf="!isLoadingAssignmentsPerProf && assignmentsPerProfData" type="bar" [data]="assignmentsPerProfData" [options]="assignmentsPerProfOptions" height="300px"></p-chart>
+          <div *ngIf="!isLoadingAssignmentsPerProf && !assignmentsPerProfData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
+        </p-card>
+      </div>
     </div>
 
     <div class="row">
+
       <div class="field col-6 mt-4">
         <p-card header="Distribution des Notes" styleClass="h-full">
           <div *ngIf="isLoadingNotesDist" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
@@ -66,14 +68,12 @@
           <div *ngIf="!isLoadingProfBreakdown && !profStatusBreakdownData" class="text-center text-muted p-3">Aucune donnée.</div>
         </p-card>
       </div>
-      <div class="field col-6 mt-4">
-        <p-card header="Assignments: Note vs Date de Rendu" styleClass="h-full">
-          <div *ngIf="isLoadingDateScatter" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
-          <p-chart *ngIf="!isLoadingDateScatter && assignmentDateScatterData" type="scatter" [data]="assignmentDateScatterData" [options]="assignmentDateScatterOptions" height="400px"></p-chart>
-          <div *ngIf="!isLoadingDateScatter && !assignmentDateScatterData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
-        </p-card>
-      </div>
+    <div class="field col-6 mt-4">
+        <p-card header="Tendance des Notes Moyennes (par mois de rendu)" styleClass="h-full">
+          <div *ngIf="isLoadingAvgNotesTrend" class="text-center p-3">Chargement... <i class="pi pi-spin pi-spinner"></i></div>
+          <p-chart *ngIf="!isLoadingAvgNotesTrend && avgNotesTrendData" type="line" [data]="avgNotesTrendData" [options]="avgNotesTrendOptions" height="400px"></p-chart>
+          <div *ngIf="!isLoadingAvgNotesTrend && !avgNotesTrendData" class="text-center text-muted p-3">Aucune donnée disponible.</div>
+      </p-card>
     </div>
-
   </div>
 </div>

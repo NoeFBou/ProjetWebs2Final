@@ -101,7 +101,9 @@
 
       <div class="form-group">
         <label for="note">Note (0-20)</label>
-        <div class="d-flex align-items-center note-slider-container"> <p-slider [(ngModel)]="assignment.note" name="note" [min]="0" [max]="20" [step]="0.5" class="flex-grow-1 me-2"></p-slider> <span class="ms-2 me-2 note-display">{{ assignment.note !== null && assignment.note !== undefined ? assignment.note : 'N/A' }}</span>
+        <div class="d-flex align-items-center note-slider-container">
+          <p-slider [(ngModel)]="assignment.note" name="note" [min]="0" [max]="20" [step]="0.5" class="flex-grow-1 me-2"></p-slider>
+          <span class="ms-2 me-2 note-display">{{ assignment.note !== null && assignment.note !== undefined ? assignment.note : 'N/A' }}</span>
           <button pButton type="button" icon="pi pi-bolt" (click)="generateRandomNote()" class="p-button-sm p-button-outlined" pTooltip="Générer une note aléatoire" tooltipPosition="top"></button>
         </div>
       </div>
@@ -115,6 +117,7 @@
           [(ngModel)]="assignment.statut"
           optionLabel="label"
           optionValue="value"
+          styleClass="w-full"
           required>
         </p-selectButton>
       </div>

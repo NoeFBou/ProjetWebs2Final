@@ -202,15 +202,56 @@ router.get('/assignments/average-note-per-student', authMiddleware, async (req, 
     }
 });
 
+router.get('/assignments/average-notes-trend-by-due-date', authMiddleware, async (req, res) => {
+    try {
+        const trend = await Assignment.aggregate([
+            {
+                $match: {
+                    dateDeRendu: { $ne: null },
+                    note: { $ne: null, $exists: true }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        year: { $year: '$dateDeRendu' },
+                        month: { $month: '$dateDeRendu' }
+                    },
+                    averageNote: { $avg: '$note' },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    date: {
+                        $concat: [
+                            { $toString: '$_id.year' },
+                            "-",
+                            { $cond: [ { $lt: [ "$_id.month", 10 ] }, { $concat: [ "0", { $toString: "$_id.month" } ] }, { $toString: "$_id.month" } ] }
+                        ]
+                    },
+                    averageNote: { $round: ['$averageNote', 2] },
+                    assignmentCount: '$count'
+                }
+            },
+            { $sort: { date: 1 } }
+        ]);
+        res.json(trend);
+    } catch (error) {
+        console.error("Error fetching average notes trend by due date:", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+
 // GET /api/stats/assignments/count-per-professor
 router.get('/assignments/count-per-professor', authMiddleware, async (req, res) => {
     try {
         const assignmentsPerProfessor = await Assignment.aggregate([
             {
                 $group: {
-                    _id: '$professeur.idProf', // Group by professor ID
+                    _id: '$professeur.idProf',
                     assignmentCount: { $sum: 1 },
-                    // Keep one instance of professor details
                     nomProf: { $first: '$professeur.nomProf' }
                 }
             },
@@ -234,12 +275,11 @@ router.get('/assignments/count-per-professor', authMiddleware, async (req, res) 
                     professorId: '$_id',
                     professorNom: '$professorDetails.nom',
                     professorPrenom: '$professorDetails.prenom',
-                    // professorFullName: '$nomProf', // If using denormalized name
                     assignmentCount: 1
                 }
             },
             {
-                $sort: { assignmentCount: -1 } // Optional
+                $sort: { assignmentCount: -1 }
             }
         ]);
         res.json(assignmentsPerProfessor);

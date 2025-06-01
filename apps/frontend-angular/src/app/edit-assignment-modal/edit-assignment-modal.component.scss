@@ -1,46 +1,102 @@
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem; /* Add some padding to modal body content */
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-.form-group label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-.form-group-full-width {
-  grid-column: 1 / -1; /* Make this item span all columns */
-}
-.w-full .p-component, .w-full > .p-component {
-  width: 100% !important;
-}
-.p-slider.w-full {
-  flex: 1;
-}
-/* Adjust footer if buttons are inside the form */
-.p-dialog .p-dialog-footer {
-  padding-top: 1rem;
-  border-top: 1px solid #dee2e6;
+:host {
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+  }
+
+  .form-group-full-width {
+    grid-column: 1 / -1;
+  }
+
+
+  ::ng-deep .p-component.w-full {
+    width: 100%
+  }
+
+  .d-flex.align-items-center {
+    ::ng-deep p-slider.w-full {
+      flex: 1;
+    }
+  }
+
+
+  ::ng-deep .p-selectbutton {
+    &.w-full .p-button {
+      flex-grow: 1;
+    }
+    .p-button.p-highlight {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+      }
+    }
+  }
 }
 
-::ng-deep .p-dialog .p-dialog-header {
-  background-color: #f8f9fa;
-  color: #212529;
-  border-bottom: 1px solid #dee2e6;
-}
+::ng-deep .edit-assignment-dialog {
+  &.p-dialog {
+    .p-dialog-header {
+      background-color: #f1673d;
+      color: #ffffff;
 
-::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
-  font-weight: 600;
-}
+      .p-dialog-title {
+        font-weight: 600;
+        color: inherit;
+      }
 
-::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
-  color: #6c757d;
-  &:hover, &:focus {
-    color: #000000;
-    background-color: #e9ecef;
+      .p-dialog-header-icon {
+        color: #ffffff;
+        &:hover,
+        &:focus {
+          color: #eeeeee;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+
+    .p-dialog-content {
+
+    }
+
+    .p-dialog-footer {
+      padding-top: 1rem;
+      border-top: 1px solid #dee2e6;
+      background-color: #f9f9f9;
+
+      .p-button.p-button-primary {
+        background-color: #07ffd2;
+        border-color: #07ffd2;
+        color: #212529;
+
+        &:enabled:hover {
+          background-color: darken(#07ffd2, 8%);
+          border-color: darken(#07ffd2, 8%);
+        }
+      }
+
+      .p-button.p-button-text {
+        color: #f1673d;
+        &:hover {
+          background-color: rgba(#f1673d, 0.1);
+        }
+      }
+    }
   }
 }

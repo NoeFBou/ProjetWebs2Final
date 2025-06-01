@@ -67,18 +67,30 @@ export interface ProfessorStatusBreakdown {
     "en attente"?: number;
   };
 }
+export interface AverageNoteTrendPoint {
+  date: string;
+  averageNote: number;
+  assignmentCount: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticsService {
-  private baseUrl = environment.apiUrl + '/stats'; // Base URL for stats endpoints
+  private baseUrl = environment.apiUrl + '/stats';
 
   constructor(private http: HttpClient) { }
+
 
   getMyOrganizationChartData(): Observable<OrganizationTreeNode[]> {
     return this.http.get<OrganizationTreeNode[]>(`${this.baseUrl}/my-organization-chart`);
     // ou return this.http.get<OrganizationTreeNode[]>(`${this.orgBaseUrl}/my-chart`);
   }
+
+  getAverageNotesTrendByDueDate(): Observable<AverageNoteTrendPoint[]> {
+    return this.http.get<AverageNoteTrendPoint[]>(`${this.baseUrl}/assignments/average-notes-trend-by-due-date`);
+  }
+
   getAssignmentStatusCounts(): Observable<AssignmentStatusCounts> {
     return this.http.get<AssignmentStatusCounts>(`${this.baseUrl}/assignments/status-counts`);
   }

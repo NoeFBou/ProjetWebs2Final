@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../environments/environment";
 
-// In auth-service.service.ts or a shared model file
 export interface User {
   _id: string;
   nom: string;
@@ -66,7 +65,7 @@ export class AuthServiceService {
     return false;
   }
 
-  getCurrentUser(): DecodedToken | null { // You might have a method like this
+  getCurrentUser(): DecodedToken | null {
     const token = this.getToken();
     if (token) {
       try {

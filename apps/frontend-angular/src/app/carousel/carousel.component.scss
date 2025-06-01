@@ -156,12 +156,11 @@ p-link { // This seems to be a custom component or typo for <a>. If it's PrimeNG
   background-color: transparent; // Ensure it doesn't override card body color
 }
 
-// Ensure PrimeNG button styles in footer are not overridden negatively
 .assignment-card .card-footer .p-button {
-  margin-left: 0.5rem; // Consistent with previous .me-2
+  margin-left: 0.5rem;
 }
 .assignment-card .card-footer .p-button-sm {
-  padding: 0.4rem 0.8rem; // Adjust if needed
+  padding: 0.4rem 0.8rem;
 }
 
 .user-info-line {

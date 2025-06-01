@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {CarouselComponent} from "./carousel/carousel.component";
-import {AddAssignmentModalComponent} from "./add-assignment-modal/add-assignment-modal.component";
 import {LoginComponentComponent} from "./login-component/login-component.component";
 import {AuthServiceService} from "./auth-service.service";
 import {CommonModule, NgClass, NgIf, NgStyle} from '@angular/common';
@@ -15,7 +13,7 @@ import {ToastModule} from "primeng/toast";
   standalone: true,
   imports: [RouterOutlet,
     CommonModule,
-    RouterOutlet, LoginComponentComponent, NgIf, ButtonDirective, SideNavigationComponent, NgStyle, NgClass, ToastModule],
+    RouterOutlet, LoginComponentComponent, NgIf,  SideNavigationComponent, NgStyle,  ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

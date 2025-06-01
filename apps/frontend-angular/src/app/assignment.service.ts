@@ -48,9 +48,11 @@ export class AssignmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAssignments(page: number = 1, limit: number = 10): Observable<PaginatedAssignments> { // Update return type
+  //old
+  getAssignments(page: number = 1, limit: number = 10): Observable<PaginatedAssignments> {
     return this.http.get<PaginatedAssignments>(`${this.baseApiUrl}?page=${page}&limit=${limit}`);
   }
+
   getDistinctTags(): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseApiUrl}/distinct/tags`);
   }
@@ -58,6 +60,7 @@ export class AssignmentService {
   getDistinctMatieres(): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseApiUrl}/distinct/matieres`);
   }
+
   getAssignmentsfiltre(
     page: number = 1,
     limit: number = 10,
@@ -115,25 +118,19 @@ export class AssignmentService {
     return this.http.get<PaginatedAssignments>(this.baseApiUrl, { params });
   }
 
-
-
-
-
-
   addAssignment(assignment: Assignment): Observable<Assignment> {
-    // Ensure dateDeRendu is in a format the backend expects, or convert to ISO string
     const assignmentToSend = {
       ...assignment,
-      dateDeRendu: new Date(assignment.dateDeRendu).toISOString() // Or ensure it's already a Date
+      dateDeRendu: new Date(assignment.dateDeRendu).toISOString()
     };
     return this.http.post<Assignment>(this.baseApiUrl, assignmentToSend);
   }
 
-  deleteAssignment(id: string): Observable<any> { // id is now string (_id)
+  deleteAssignment(id: string): Observable<any> {
     return this.http.delete(`${this.baseApiUrl}/${id}`);
   }
 
-  updateAssignment(id: string | undefined, assignment: Assignment): Observable<Assignment> { // id is now string (_id)
+  updateAssignment(id: string | undefined, assignment: Assignment): Observable<Assignment> {
     if (!id) {
       throw new Error("ID is required for updating assignment");
     }
@@ -144,6 +141,8 @@ export class AssignmentService {
     return this.http.put<Assignment>(`${this.baseApiUrl}/${id}`, assignmentToSend);
   }
 
+
+ // old
   peuplerBD(bdInitialAssignments : any): Observable<readonly unknown[]> {
     let appel: Observable<Assignment>[] = [];
 
@@ -159,11 +158,11 @@ export class AssignmentService {
         visible: true,
         locked: false,
         professeur: {
-          idProf: "prof123", // Example ID, replace with actual logic to get professor ID
+          idProf: "prof123",
           nomProf: "Professeur Exemple"
         },
         eleve: {
-          idEleve: "eleve123", // Example ID, replace with actual logic to get student ID
+          idEleve: "eleve123",
           nomEleve: "Élève Exemple"
         }
       }
@@ -174,11 +173,12 @@ export class AssignmentService {
     return forkJoin(appel);
   }
 
+
   getMyAssignments(
     page: number = 1,
     limit: number = 10,
     sortField?: string,
-    sortOrder?: number // 1 for asc, -1 for desc
+    sortOrder?: number
   ): Observable<PaginatedAssignments> {
     let params = new HttpParams()
       .set('page', page.toString())
