@@ -1,4 +1,4 @@
-$level-0-bg: #4A90E2; // Bleu clair
+$level-0-bg: #4A90E2;
 $level-0-text: #FFFFFF;
 $level-0-border: darken($level-0-bg, 10%);
 
@@ -6,7 +6,7 @@ $level-1-bg: #50E3C2;
 $level-1-text: #212529;
 $level-1-border: darken($level-1-bg, 10%);
 
-$level-2-bg: #F5A623; // Orange
+$level-2-bg: #F5A623;
 $level-2-text: #FFFFFF;
 $level-2-border: darken($level-2-bg, 10%);
 $level-default-bg: #E9ECEF;
@@ -35,7 +35,7 @@ $level-default-border: darken($level-default-bg, 10%);
     .node-content {
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      min-width: 180px; /
+      min-width: 180px;
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
       &:hover {
@@ -114,7 +114,7 @@ $level-default-border: darken($level-default-bg, 10%);
 
     .legend-color {
       width: 18px;
-      height: 18px;  
+      height: 18px;
       border-radius: 4px;
       margin-right: 10px;
       border: 1px solid rgba(0,0,0,0.2);

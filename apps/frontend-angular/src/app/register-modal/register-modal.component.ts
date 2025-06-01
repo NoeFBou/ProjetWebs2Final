@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {DialogModule} from "primeng/dialog";
 import {NgIf} from "@angular/common";
-import {Button, ButtonDirective} from "primeng/button";
+import {Button} from "primeng/button";
 import {CheckboxModule} from "primeng/checkbox";
 import {environment} from "../../environments/environment";
 import {MenuItem, MessageService} from "primeng/api";
@@ -20,7 +20,6 @@ import {CardModule} from "primeng/card";
     FormsModule,
     DialogModule,
     NgIf,
-    ButtonDirective,
     CheckboxModule,
     Button,
     StepsModule,
@@ -35,7 +34,6 @@ import {CardModule} from "primeng/card";
 })export class RegisterModalComponent {
   display: boolean = false;
 
-  // Étape 1: Informations
   nom: string = '';
   prenom: string = '';
   email: string = '';
@@ -43,26 +41,21 @@ import {CardModule} from "primeng/card";
   confirmPassword: string = '';
   isAdmin: boolean = false;
 
-  // Étape 2: Photo
   profilePictureFile: File | null = null;
   // @ts-ignore
   profilePicturePreviewUrl: string | undefined  = null;
 
-  // Stepper
   stepItems: MenuItem[];
   activeIndex: number = 0;
 
-  // Messages
   errorMessage: string = '';
-  // successMessage: string = ''; // Sera géré par Toast
 
-  // Utilisateur créé (pour l'upload de photo)
   createdUserId: string | null = null;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
-    private authService: AuthServiceService // Pour obtenir le token si nécessaire pour l'upload
+    private authService: AuthServiceService
   ) {
     this.stepItems = [
       { label: 'Informations', command: (event: any) => this.activeIndex = 0 },
@@ -96,7 +89,7 @@ import {CardModule} from "primeng/card";
   }
 
   nextStep(): void {
-    if (this.activeIndex === 0) { // Validation avant de passer de l'étape 1 à 2
+    if (this.activeIndex === 0) {
       if (!this.nom || !this.prenom || !this.email || !this.password || !this.confirmPassword) {
         this.errorMessage = "Veuillez remplir tous les champs obligatoires.";
         this.messageService.add({ severity: 'warn', summary: 'Validation', detail: this.errorMessage });
@@ -108,21 +101,19 @@ import {CardModule} from "primeng/card";
         return;
       }
     }
-    // Si l'étape 2 (photo) est optionnelle, on pourrait permettre de sauter
-    this.errorMessage = ''; // Clear error message
+    this.errorMessage = '';
     if (this.activeIndex < this.stepItems.length - 1) {
       this.activeIndex++;
     }
   }
 
   prevStep(): void {
-    this.errorMessage = ''; // Clear error message
+    this.errorMessage = '';
     if (this.activeIndex > 0) {
       this.activeIndex--;
     }
   }
 
-  // Gestion de la sélection de fichier pour p-fileUpload (mode basique pour aperçu)
   onFileSelect(event: any): void {
     if (event.files && event.files.length > 0) {
       this.profilePictureFile = event.files[0];
@@ -139,7 +130,6 @@ import {CardModule} from "primeng/card";
     this.profilePicturePreviewUrl = undefined;
   }
 
-  // Pour le p-avatar dans le récapitulatif
   getAvatarLabel(): string {
     const prenomInitial = this.prenom ? this.prenom[0].toUpperCase() : '';
     const nomInitial = this.nom ? this.nom[0].toUpperCase() : '';
@@ -147,13 +137,12 @@ import {CardModule} from "primeng/card";
   }
 
   async onSubmit(): Promise<void> {
-    if (this.activeIndex !== 2) { // S'assurer qu'on est à la dernière étape
+    if (this.activeIndex !== 2) {
       this.messageService.add({ severity: 'warn', summary: 'Action requise', detail: 'Veuillez compléter toutes les étapes.'});
       return;
     }
     this.errorMessage = '';
 
-    // 1. Enregistrer les informations utilisateur
     this.http.post<any>(`${environment.apiUrl}/register`, {
       nom: this.nom,
       prenom: this.prenom,
@@ -162,12 +151,10 @@ import {CardModule} from "primeng/card";
       isAdmin: this.isAdmin
     }).subscribe({
       next: async (response) => {
-        this.createdUserId = response.userId; // Récupérer l'ID de l'utilisateur créé
+        this.createdUserId = response.userId;
 
-        // 2. Si une photo a été sélectionnée et l'utilisateur créé, uploader la photo
         if (this.profilePictureFile && this.createdUserId) {
           await this.uploadProfilePicture(this.createdUserId, this.profilePictureFile);
-          // Le message de succès final sera affiché après la tentative d'upload
         } else {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: response.message || "Utilisateur créé avec succès." });
           setTimeout(() => this.hide(), 2000);
@@ -180,17 +167,15 @@ import {CardModule} from "primeng/card";
     });
   }
 
-  // Méthode pour uploader la photo après création de l'utilisateur
   private async uploadProfilePicture(userId: string, file: File): Promise<void> {
     const formData: FormData = new FormData();
     formData.append('profilePic', file, file.name);
 
-    const token = this.authService.getToken(); // Obtenir le token JWT pour l'authentification
+    const token = this.authService.getToken();
     let headers = new HttpHeaders();
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-    // 'Content-Type' n'est pas nécessaire, le navigateur le définit pour FormData
 
     try {
       const uploadResponse = await this.http.post<any>(`${environment.apiUrl}/users/${userId}/profile-picture`, formData, { headers }).toPromise();
@@ -199,7 +184,7 @@ import {CardModule} from "primeng/card";
     } catch (uploadError: any) {
       console.error("Erreur upload photo:", uploadError);
       this.messageService.add({ severity: 'warn', summary: 'Info Utilisateur', detail: "Utilisateur créé, mais échec de l'upload de la photo de profil. Vous pourrez la modifier plus tard." });
-      setTimeout(() => this.hide(), 3000); // Fermer après un délai plus long pour lire le message
+      setTimeout(() => this.hide(), 3000);
     }
   }
 }

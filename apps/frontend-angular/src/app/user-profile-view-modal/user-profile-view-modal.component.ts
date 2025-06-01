@@ -29,7 +29,7 @@ export class UserProfileViewModalComponent implements OnInit {
   profilePictureUrl: string | undefined = undefined;
   uploadUrl: string = '';
   canEditProfilePic: boolean = false;
-  serverBaseUrl = environment.serverBaseUrl || ''; // For constructing image URLs, ensure this exists in your environment files
+  serverBaseUrl = environment.serverBaseUrl || '';
   @ViewChild('fileUploader') fileUploader!: FileUpload;
   constructor(
     public ref: DynamicDialogRef,
@@ -67,17 +67,16 @@ export class UserProfileViewModalComponent implements OnInit {
         console.error("Error fetching user data for modal:", err);
         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de charger les données utilisateur.' });
         this.isLoading = false;
-        this.ref.close(); // Close modal on error
+        this.ref.close();
       }
     });
   }
 
   updateProfilePictureUrl(): void {
     if (this.user && this.user.profilePicture) {
-      // Add a timestamp to break browser cache when picture is updated
       this.profilePictureUrl = `${this.serverBaseUrl}/uploads/profile-pictures/${this.user.profilePicture}?t=${new Date().getTime()}`;
     } else {
-      this.profilePictureUrl = undefined; // Or path to a default avatar
+      this.profilePictureUrl = undefined;
     }
   }
 
@@ -90,13 +89,12 @@ export class UserProfileViewModalComponent implements OnInit {
     return '??';
   }
 
-  // Custom upload handler for p-fileUpload
   customUploadHandler(event: FileUploadHandlerEvent): void {
     const file = event.files[0];
     if (!file) return;
 
     const formData: FormData = new FormData();
-    formData.append('profilePic', file, file.name); // 'profilePic' must match backend multer field name
+    formData.append('profilePic', file, file.name);
 
     const token = this.authService.getToken();
     if (!token) {
@@ -108,21 +106,17 @@ export class UserProfileViewModalComponent implements OnInit {
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
-      // 'Content-Type' is not needed; browser sets it for FormData
     });
 
     this.http.post<{ message: string, filePath: string, filename: string }>(this.uploadUrl, formData, { headers, reportProgress: true, observe: 'events' })
       .subscribe({
-        next: (httpEvent: any) => { // Using any for httpEvent due to observe:'events'
-          if (httpEvent.type === 1 /* UploadProgress */) {
-            // You can update progress bar here if p-fileUpload doesn't do it automatically with custom upload
-            // const progress = Math.round(100 * httpEvent.loaded / httpEvent.total);
-            // console.log(`Progress: ${progress}%`);
-          } else if (httpEvent.type === 4 /* Response */) {
+        next: (httpEvent: any) => {
+          if (httpEvent.type === 1 ) {
+          } else if (httpEvent.type === 4 ) {
             if (this.user) {
-              this.user.profilePicture = httpEvent.body.filename; // Update user model
+              this.user.profilePicture = httpEvent.body.filename;
             }
-            this.updateProfilePictureUrl(); // Refresh displayed image
+            this.updateProfilePictureUrl();
             this.messageService.add({ severity: 'success', summary: 'Succès', detail: httpEvent.body.message });
             this.fileUploader.clear()
           }
@@ -141,14 +135,14 @@ export class UserProfileViewModalComponent implements OnInit {
       });
   }
 
-  onUploadError(event: any): void { // Fallback if customUploadHandler has an issue not caught
+  onUploadError(event: any): void {
     const xhr = event.xhr;
     let errorMsg = 'Échec de l\'upload.';
     if (xhr && xhr.responseText) {
       try {
         const err = JSON.parse(xhr.responseText);
         errorMsg = err.error || err.message || errorMsg;
-      } catch (e) { /* Ignore parse error */ }
+      } catch (e) {  }
     }
     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: errorMsg });
   }

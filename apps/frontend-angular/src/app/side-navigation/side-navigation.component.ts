@@ -1,11 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {AddAssignmentModalComponent} from "../add-assignment-modal/add-assignment-modal.component";
 import {AuthServiceService, DecodedToken} from "../auth-service.service";
-import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
-import {ButtonDirective} from "primeng/button";
-import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
-import {Assignment, AssignmentService} from "../assignment.service";
-//import {ImportAssignmentComponent} from "../import-assignment/import-assignment.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import { NgIf} from "@angular/common";
 import {RouterLink, RouterModule} from "@angular/router";
 import {AvatarModule} from "primeng/avatar";
 import {TooltipModule} from "primeng/tooltip";

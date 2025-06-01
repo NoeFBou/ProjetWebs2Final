@@ -1,8 +1,5 @@
-// src/app/register-modal/register-modal.component.scss
-
-// Augmenter la largeur du dialogue si nécessaire
 :host ::ng-deep .register-dialog {
-  width: 50vw; // Ou une valeur fixe comme 700px
+  width: 50vw;
   max-width: 750px;
 
   @media (max-width: 768px) {
@@ -10,7 +7,7 @@
   }
 
   .p-dialog-content {
-    min-height: 400px; // Pour donner de l'espace au contenu du stepper
+    min-height: 400px;
   }
 }
 
@@ -20,7 +17,7 @@
 
 .step-content {
   padding: 1.5rem 0.5rem;
-  min-height: 250px; // Pour éviter que le modal ne change de taille brusquement
+  min-height: 250px;
   display: flex;
   flex-direction: column;
 
@@ -36,7 +33,7 @@
     font-weight: 500;
   }
 
-  .p-inputtext, .p-dropdown, .p-calendar { // S'assurer qu'ils prennent la largeur
+  .p-inputtext, .p-dropdown, .p-calendar {
     width: 100%;
   }
 }
@@ -75,14 +72,13 @@
   }
 }
 
-.p-error { // Style pour le message d'erreur global en bas
+.p-error {
   font-weight: bold;
 }
 
-// Ajustement des boutons du footer
 :host ::ng-deep .p-dialog-footer {
   display: flex;
-  justify-content: space-between; // Aligner les boutons
+  justify-content: space-between;
   .p-button-text {
     color: var(--text-color-secondary);
   }
