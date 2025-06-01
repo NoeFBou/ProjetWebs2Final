@@ -4,7 +4,9 @@ Ce projet final, réalisé dans le cadre du cours de web du second semestre de m
 
 ## Lien vers le projet hébergé
 Le projet est hébergé sur Render, vous pouvez le consulter à l'adresse suivante : [https://projetwebs2final-1.onrender.com](https://projetwebs2final-1.onrender.com)
+
 Le back-end est accessible à l'adresse : [https://projetwebs2final.onrender.com](https://projetwebs2final.onrender.com)
+
 Attention, le back-end peut prendre un peu de temps à démarrer la première fois que vous accédez au site. Vous pouvez le "réveiller" et voir son état en accédant à l'URL du Back-end.
 
 
